@@ -1,9 +1,17 @@
 import java.awt.event.KeyEvent;
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
-import patterns.IObserver;
-import patterns.ISubject;
+import patterns.command.ICommand;
+import patterns.command.Quit;
+import patterns.command.ChangeSlide;
+import patterns.observer.IObserver;
+import patterns.observer.ISubject;
 
 import java.awt.event.KeyAdapter;
 
@@ -15,69 +23,120 @@ import java.awt.event.KeyAdapter;
  * @version 1.4 2007/07/16 Sylvia Stuurman
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
+ * @version 1.7 2022/09/06 Updated input to make it rebindable Armando Gerard
+ * @version 1.8 2022/09/08 Added Command pattern to replace binding by Observer rebindable Armando Gerard
 */
 
 public class KeyController extends KeyAdapter {
 	private Presentation presentation; // Er worden commando's gegeven aan de presentatie
 
-	Map<Integer, KeySubject> keyMap;
+	private Map<Integer, ICommand> keyMap;
+	private List<Integer> nextButtons; 
+	private List<Integer> previousButtons; 
+	private List<Integer> quitButtons; 
+	ChangeSlide nextSlide;
+	ChangeSlide previousSlide;
 	
 	public KeyController(Presentation p) {
 		presentation = p;
-		
-		keyMap = new HashMap<Integer, KeySubject>();
-		
-		// Next slides
-		bindKey(KeyEvent.VK_PAGE_DOWN, ()->presentation.nextSlide());
-		bindKey(KeyEvent.VK_DOWN, ()->presentation.nextSlide());
-		bindKey(KeyEvent.VK_ENTER, ()->presentation.nextSlide());
-		bindKey('+', ()->presentation.nextSlide());
-		
-		// Previous Slides
-		bindKey(KeyEvent.VK_PAGE_UP, ()->presentation.prevSlide());
-		bindKey(KeyEvent.VK_UP, ()->presentation.prevSlide());
-		bindKey('-', ()->presentation.prevSlide());
+// Keymap used with Observer
+//		keyMap = new HashMap<Integer, KeySubject>();
 		
 		
-		bindKey('q', ()->System.exit(0));
-		bindKey('Q', ()->System.exit(0));
+		keyMap = new HashMap<Integer, ICommand>();
+		defaultKeySetup();
 	}
 	
-	public void bindKey(int key, IObserver o) {
-		// TODO: Switch to Factory
-		if(!keyMap.containsKey(key))
-			keyMap.put(key, new KeySubject());
+	private void defaultKeyBinding() {
+		nextButtons = Arrays.asList(
+			KeyEvent.VK_PAGE_DOWN,
+			KeyEvent.VK_DOWN,
+			KeyEvent.VK_ENTER,
+			KeyEvent.VK_PLUS
+		);
 		
-		keyMap.get(key).Attach(o);
+		previousButtons = Arrays.asList(
+			KeyEvent.VK_PAGE_UP,
+			KeyEvent.VK_UP,
+			KeyEvent.VK_MINUS
+		);
+		
+		quitButtons = Arrays.asList(
+				KeyEvent.VK_Q
+		);
 	}
-
-	public void keyPressed(KeyEvent keyEvent) {
-		ISubject subject = keyMap.get(keyEvent.getKeyCode());
+	
+	public void setupCommand(List<Integer> buttons, ICommand command)
+	{
+		for (int i = 0; i < buttons.size(); i++) 
+			keyMap.put(buttons.get(i), command);
+	}
+	
+	public void defaultKeySetup() {
+		defaultKeyBinding();
 		
-		if(subject == null)
+		// TODO: Factory
+		KeySubject next = new KeySubject();
+		next.attach(()->presentation.nextSlide());
+		nextSlide = new ChangeSlide(next);
+		
+		KeySubject previous = new KeySubject();
+		previous.attach(()->presentation.prevSlide());
+		previousSlide = new ChangeSlide(previous);
+		
+		setupCommand(nextButtons, nextSlide);
+		setupCommand(previousButtons, previousSlide);
+		setupCommand(quitButtons, new Quit());
+		
+// How the observer worked:
+		// Next slides
+//		bindKey(KeyEvent.VK_PAGE_DOWN, ()->presentation.nextSlide());
+//		bindKey(KeyEvent.VK_DOWN, ()->presentation.nextSlide());
+//		bindKey(KeyEvent.VK_ENTER, ()->presentation.nextSlide());
+//		bindKey('+', ()->presentation.nextSlide());
+//		
+//		// Previous Slides
+//		bindKey(KeyEvent.VK_PAGE_UP, ()->presentation.prevSlide());
+//		bindKey(KeyEvent.VK_UP, ()->presentation.prevSlide());
+//		bindKey('-', ()->presentation.prevSlide());
+//		
+//		// Exit presentation
+//		bindKey('q', ()->System.exit(0));
+//		bindKey('Q', ()->System.exit(0));
+	}
+	
+	public void bindKey(int key, ICommand command) {
+		if(keyMap.containsKey(key))
+		{
+			keyMap.replace(null, command);
+			return;
+		}
+		
+		keyMap.put(key, command);
+		
+		// Observer code
+		// TODO: Switch to Factory
+//		if(!keyMap.containsKey(key))
+//			keyMap.put(key, o);
+//		
+//		keyMap.get(key).attach(o);
+	}
+	
+	public void keyPressed(KeyEvent keyEvent) {
+		
+		ICommand command = keyMap.get(keyEvent.getKeyCode());
+		// Sigh, C# null propagation, where art thou?
+		if(command == null)
 			return;
 		
-		subject.Notify();
+		command.execute();
 		
-		// Previous Code
-//		switch(keyEvent.getKeyCode()) {
-//			case KeyEvent.VK_PAGE_DOWN:
-//			case KeyEvent.VK_DOWN:
-//			case KeyEvent.VK_ENTER:
-//			case '+':
-//				presentation.nextSlide();
-//				break;
-//			case KeyEvent.VK_PAGE_UP:
-//			case KeyEvent.VK_UP:
-//			case '-':
-//				presentation.prevSlide();
-//				break;
-//			case 'q':
-//			case 'Q':
-//				System.exit(0);
-//				break; // wordt nooit bereikt als het goed is
-//			default:
-//				break;
-//		}
+		// How the observer pattern worked:
+//		ISubject subject = keyMap.get(keyEvent.getKeyCode());
+//		
+//		if(subject == null)
+//			return;
+		
+//		subject.notification();
 	}
 }
