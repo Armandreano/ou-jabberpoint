@@ -9,6 +9,7 @@ import java.util.Map;
 
 import patterns.command.ICommand;
 import patterns.command.Quit;
+import patterns.CommandFactory;
 import patterns.command.ChangeSlide;
 import patterns.observer.IObserver;
 import patterns.observer.ISubject;
@@ -25,9 +26,10 @@ import java.awt.event.KeyAdapter;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  * @version 1.7 2022/09/06 Updated input to make it rebindable Armando Gerard
  * @version 1.8 2022/09/08 Added Command pattern to replace binding by Observer rebindable Armando Gerard
+ * @version 1.9 2022/09/09 Added Command Factory
 */
 
-public class KeyController extends KeyAdapter {
+public class Presenter extends KeyAdapter {
 	private Presentation presentation; // Er worden commando's gegeven aan de presentatie
 
 	private Map<Integer, ICommand> keyMap;
@@ -36,15 +38,27 @@ public class KeyController extends KeyAdapter {
 	private List<Integer> quitButtons; 
 	ChangeSlide nextSlide;
 	ChangeSlide previousSlide;
+	Quit quit;
 	
-	public KeyController(Presentation p) {
+	public Presenter(Presentation p) {
 		presentation = p;
 // Keymap used with Observer
 //		keyMap = new HashMap<Integer, KeySubject>();
 		
 		
 		keyMap = new HashMap<Integer, ICommand>();
-		defaultKeySetup();
+		
+		CommandFactory factory = CommandFactory.getFactory();
+		
+		nextSlide = factory.createChangeSlideCommand();
+		nextSlide.attach(()->presentation.nextSlide());
+		
+		previousSlide = factory.createChangeSlideCommand();
+		previousSlide.attach(()->presentation.prevSlide());
+		
+		quit = factory.createQuitCommand();
+		
+		defaultControlSetup();
 	}
 	
 	private void defaultKeyBinding() {
@@ -72,21 +86,12 @@ public class KeyController extends KeyAdapter {
 			keyMap.put(buttons.get(i), command);
 	}
 	
-	public void defaultKeySetup() {
+	public void defaultControlSetup() {
 		defaultKeyBinding();
-		
-		// TODO: Factory
-		KeySubject next = new KeySubject();
-		next.attach(()->presentation.nextSlide());
-		nextSlide = new ChangeSlide(next);
-		
-		KeySubject previous = new KeySubject();
-		previous.attach(()->presentation.prevSlide());
-		previousSlide = new ChangeSlide(previous);
 		
 		setupCommand(nextButtons, nextSlide);
 		setupCommand(previousButtons, previousSlide);
-		setupCommand(quitButtons, new Quit());
+		setupCommand(quitButtons, quit);
 		
 // How the observer worked:
 		// Next slides
