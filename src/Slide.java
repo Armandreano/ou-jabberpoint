@@ -3,6 +3,9 @@ import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 import java.util.Vector;
 
+import patterns.component.Composite;
+import patterns.factory.Prototype;
+
 /** <p>Een slide. Deze klasse heeft tekenfunctionaliteit.</p>
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
  * @version 1.1 2002/12/17 Gert Florijn
@@ -13,7 +16,38 @@ import java.util.Vector;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class Slide {
+public class Slide extends Composite implements Prototype<Slide> {
+	// Slide should always be copied to prevent references from the domain
+	private static Slide slide;
+	Rectangle slideArea;
+	
+	@Override
+	public Slide copy() {
+		return new Slide();
+	}
+	
+	public static Slide createSlide() {
+		if(slide == null)
+			slide = new Slide();
+		
+		return slide.copy();
+	}
+	
+	public void SetDimensions(Rectangle slideArea) {
+		this.slideArea = slideArea;
+	}
+	
+	public int getWidth() {
+		return slideArea.width;
+	}
+	
+	public int getHeight() {
+		return slideArea.height;
+	}
+	
+	
+	
+	// OLD CODE
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	protected String title; // de titel wordt apart bewaard
@@ -66,7 +100,9 @@ public class Slide {
 	    SlideItem slideItem = new TextItem(0, getTitle());
 	    Style style = Style.getStyle(slideItem.getLevel());
 	    slideItem.draw(area.x, y, scale, g, style, view);
+	    
 	    y += slideItem.getBoundingBox(g, view, scale, style).height;
+	    
 	    for (int number=0; number<getSize(); number++) {
 	      slideItem = (SlideItem)getSlideItems().elementAt(number);
 	      style = Style.getStyle(slideItem.getLevel());

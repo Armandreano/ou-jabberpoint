@@ -7,8 +7,7 @@ package patterns.observer;
  * @version 1.1 2022-09-08 Updated to match Java naming Convention Armando Gerard
  * Comment Ends */
 
-public interface ISubject {
-	void attach(IObserver o);
-	void detach(IObserver o);
-	void notification();
+@FunctionalInterface
+public interface Observer {
+	void update();
 }

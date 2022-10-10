@@ -1,8 +1,8 @@
 package patterns.command;
-import patterns.factory.IFactory;
-import patterns.observer.IObserver;
-import patterns.observer.ISubject;
-import patterns.observer.KeySubject;
+
+import patterns.factory.Prototype;
+import patterns.observer.Observer;
+import patterns.observer.Subject;
 
 /** <p>This is the KeyController (KeyListener)</p>
  * @author Armando Gerard
@@ -10,14 +10,14 @@ import patterns.observer.KeySubject;
  * @version 1.1 2022/09/09 Added the attach method and Factory Armando Gerard
 */
 
-public class ChangeSlide implements ICommand, IFactory<ChangeSlide>{
-	ISubject subject;
+public class ChangeSlide implements Command, Prototype<ChangeSlide>{
+	Subject subject;
 
-	public ChangeSlide(ISubject subject) {
+	public ChangeSlide(Subject subject) {
 		this.subject = subject;
 	}
 	
-	public void attach(IObserver o) {
+	public void attach(Observer o) {
 		subject.attach(o);
 	}
 
@@ -28,7 +28,7 @@ public class ChangeSlide implements ICommand, IFactory<ChangeSlide>{
 
 	@Override
 	public ChangeSlide copy() {
-		return new ChangeSlide(new KeySubject());
+		return new ChangeSlide(new Subject());
 	}
 
 }

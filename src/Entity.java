@@ -1,4 +1,4 @@
-import patterns.factory.IFactory;
+import patterns.factory.Prototype;
 
 /** Comment Start
  * 
@@ -7,7 +7,7 @@ import patterns.factory.IFactory;
  * TODO: Add Composite Pattern
  * Comment Ends */
 
-public class Entity implements IFactory<Entity> {
+public class Entity implements Prototype<Entity> {
 	private static Entity entity;
 	
 	public Entity copy() {
