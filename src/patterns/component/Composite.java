@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Composite implements Component {
+public class Composite extends Component {
 	protected ArrayList<Component> children = new ArrayList<Component>();
 	
 	public <T extends Component> T addComponent(T t){
@@ -15,7 +15,6 @@ public class Composite implements Component {
 		return t;
 	}
 	
-	@Override
 	public void remove() {
 		for (Iterator<Component> iterator = children.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();

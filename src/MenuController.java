@@ -54,9 +54,9 @@ public class MenuController extends MenuBar {
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				presentation.clear();
-				Accessor xmlAccessor = new XMLAccessor();
+				XMLAdapter adapter = new XMLAdapter();
 				try {
-					xmlAccessor.loadFile(presentation, TESTFILE);
+					adapter.createPresentation(presentation, TESTFILE);
 					presentation.setSlideNumber(0);
 				} catch (IOException exc) {
 					JOptionPane.showMessageDialog(parent, IOEX + exc, 

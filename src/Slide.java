@@ -1,9 +1,20 @@
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.font.TextLayout;
 import java.awt.image.ImageObserver;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
+import patterns.component.Component;
 import patterns.component.Composite;
+import patterns.component.ContentLeaf;
+import patterns.component.LinearStrategy;
+import patterns.component.TextStyle;
+import patterns.component.content.TextContent;
 import patterns.factory.Prototype;
 
 /** <p>Een slide. Deze klasse heeft tekenfunctionaliteit.</p>
@@ -51,14 +62,14 @@ public class Slide extends Composite implements Prototype<Slide> {
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	protected String title; // de titel wordt apart bewaard
-	protected Vector<SlideItem> items; // de slide-items worden in een Vector bewaard
+	protected Vector<Component> items; // de slide-items worden in een Vector bewaard
 
-	public Slide() {
-		items = new Vector<SlideItem>();
-	}
+	
+	 public Slide() { items = new Vector<Component>(); }
+	 
 
 	// Voeg een SlideItem toe
-	public void append(SlideItem anItem) {
+	public void append(Component anItem) {
 		items.addElement(anItem);
 	}
 
@@ -73,17 +84,17 @@ public class Slide extends Composite implements Prototype<Slide> {
 	}
 
 	// Maak een TextItem van String, en voeg het TextItem toe
-	public void append(int level, String message) {
-		append(new TextItem(level, message));
+	public void append(String message, TextStyle style) {
+		append(new TextContent(message, style));
 	}
 
 	// geef het betreffende SlideItem
-	public SlideItem getSlideItem(int number) {
-		return (SlideItem)items.elementAt(number);
+	public Component getSlideItem(int number) {
+		return (Component)items.elementAt(number);
 	}
 
 	// geef alle SlideItems in een Vector
-	public Vector<SlideItem> getSlideItems() {
+	public Vector<Component> getSlideItems() {
 		return items;
 	}
 
@@ -96,23 +107,43 @@ public class Slide extends Composite implements Prototype<Slide> {
 	public void draw(Graphics g, Rectangle area, ImageObserver view) {
 		float scale = getScale(area);
 	    int y = area.y;
-	// De titel wordt apart behandeld
-	    SlideItem slideItem = new TextItem(0, getTitle());
-	    Style style = Style.getStyle(slideItem.getLevel());
-	    slideItem.draw(area.x, y, scale, g, style, view);
+	    TextStyle style = new TextStyle(Color.black, "",  20, "Helvetica", 40, 0);
+	    TextContent text = new TextContent(getTitle(), style);
+	    LinearStrategy.draw(area.x, y, scale, g, view, text);
 	    
-	    y += slideItem.getBoundingBox(g, view, scale, style).height;
+	   y += text.getExtent(g, view, scale, style).height;
 	    
-	    for (int number=0; number<getSize(); number++) {
-	      slideItem = (SlideItem)getSlideItems().elementAt(number);
-	      style = Style.getStyle(slideItem.getLevel());
-	      slideItem.draw(area.x, y, scale, g, style, view);
-	      y += slideItem.getBoundingBox(g, view, scale, style).height;
-	    }
+		 for (int number=0; number<getSize(); number++) { 
+			 LinearStrategy.draw(area.x, y, scale, g, view, (ContentLeaf)getSlideItems().elementAt(number)); 
+			 y += text.getExtent(g, view, scale, style).height; 
+		 }
 	  }
 
 	// geef de schaal om de slide te kunnen tekenen
 	private float getScale(Rectangle area) {
 		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));
 	}
+	
+	private class ContentIterator implements Iterator {
+		private int position;
+		
+		@Override
+		public boolean hasNext() {
+			if(position < items.size()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		@Override
+		public Object next() {
+			if(this.hasNext()) {
+				
+			}
+			return null;
+		}
+		
+	}
+
 }
