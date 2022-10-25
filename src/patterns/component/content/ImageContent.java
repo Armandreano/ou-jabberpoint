@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import patterns.component.Component;
 import patterns.component.ContentLeaf;
+import patterns.component.ImageStyle;
 import patterns.component.Style;
 import patterns.component.TextStyle;
 
@@ -26,7 +27,7 @@ public class ImageContent extends ContentLeaf {
 	  protected static final String FILE = "Bestand ";
 	  protected static final String NOTFOUND = " niet gevonden";
 	
-	public ImageContent(String imageName , TextStyle style) {
+	public ImageContent(String imageName , ImageStyle style) {
 		try {
 			bufferedImage = ImageIO.read(new File(imageName));
 		}

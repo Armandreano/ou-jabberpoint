@@ -10,11 +10,10 @@ public class TextStyle extends Style {
 		private String fontName;
 		
 		
-		public TextStyle(Color color, String opacity, int leading, 
-						String fontName, int fontSize, int indent) {
+		public TextStyle(Color color, int leading, String fontName, 
+						int fontSize, int indent) {
 			super.setLeading(leading);
 			super.setColor(color);
-			super.setOpacity(opacity);
 			super.setIndent(indent);
 			this.fontSize = fontSize;
 			this.setFontName(fontName);

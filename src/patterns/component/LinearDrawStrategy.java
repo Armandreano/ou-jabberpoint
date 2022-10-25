@@ -1,6 +1,5 @@
 package patterns.component;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -12,15 +11,15 @@ import java.util.List;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
 
-public class LinearStrategy {
+public class LinearDrawStrategy implements DrawStrategy {
 	
-	public static void draw(int x, int y, float scale, Graphics g,  ImageObserver o, ContentLeaf textContent) {
+	@Override
+	public void draw(int x, int y, float scale, Graphics g,  ImageObserver o, ContentLeaf textContent) {
 		if(textContent.getClass().equals(TextContent.class)) {
-		 TextContent test = (TextContent) textContent;
-		if (test.getText() == null || test.getText().length() == 0) {
-			return;
-		}
-
+			TextContent test = (TextContent) textContent;
+			if (test.getText() == null || test.getText().length() == 0) {
+				return;
+			}
 		List<TextLayout> layouts = test.getLayouts(g, textContent.getStyle(), scale);
 		Point pen = new Point(x + (int)(textContent.getStyle().getIndent() * scale), 
 				y + (int) (textContent.getStyle().getLeading() * scale));

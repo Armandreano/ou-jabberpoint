@@ -11,7 +11,6 @@ import java.awt.Color;
 public abstract class Style {
 	
 	private Color color;
-	private String opacity;
 	private int leading; 
 	private int indent;
 	
@@ -20,12 +19,6 @@ public abstract class Style {
 	}
 	public void setColor(Color color) {
 		this.color = color;
-	}
-	public String getOpacity() {
-		return opacity;
-	}
-	public void setOpacity(String opacity) {
-		this.opacity = opacity;
 	}
 	public int getLeading() {
 		return leading;

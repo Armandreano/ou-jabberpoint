@@ -5,6 +5,7 @@ import java.awt.MenuItem;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
@@ -56,7 +57,8 @@ public class MenuController extends MenuBar {
 				presentation.clear();
 				XMLAdapter adapter = new XMLAdapter();
 				try {
-					adapter.createPresentation(presentation, TESTFILE);
+					File file = new File(TESTFILE);
+					adapter.createPresentation(presentation, file);
 					presentation.setSlideNumber(0);
 				} catch (IOException exc) {
 					JOptionPane.showMessageDialog(parent, IOEX + exc, 

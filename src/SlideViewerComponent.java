@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 
 public class SlideViewerComponent extends JComponent {
 
-	private Slide slide; // de huidige slide
+	private SlideComposite slide; // de huidige slide
 	private Font labelFont = null; // het font voor labels
 	private Presentation presentation = null; // de presentatie
 	private JFrame frame = null;
@@ -45,10 +45,10 @@ public class SlideViewerComponent extends JComponent {
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(Slide.WIDTH, Slide.HEIGHT);
+		return new Dimension(SlideComposite.WIDTH, SlideComposite.HEIGHT);
 	}
 
-	public void update(Presentation presentation, Slide data) {
+	public void update(Presentation presentation, SlideComposite data) {
 		if (data == null) {
 			repaint();
 			return;

@@ -12,7 +12,7 @@ import java.util.Vector;
 import patterns.component.Component;
 import patterns.component.Composite;
 import patterns.component.ContentLeaf;
-import patterns.component.LinearStrategy;
+import patterns.component.LinearDrawStrategy;
 import patterns.component.TextStyle;
 import patterns.component.content.TextContent;
 import patterns.factory.Prototype;
@@ -27,19 +27,19 @@ import patterns.factory.Prototype;
  * @version 1.6 2014/05/16 Sylvia Stuurman
  */
 
-public class Slide extends Composite implements Prototype<Slide> {
+public class SlideComposite extends Composite implements Prototype<SlideComposite> {
 	// Slide should always be copied to prevent references from the domain
-	private static Slide slide;
+	private static SlideComposite slide;
 	Rectangle slideArea;
 	
 	@Override
-	public Slide copy() {
-		return new Slide();
+	public SlideComposite copy() {
+		return new SlideComposite();
 	}
 	
-	public static Slide createSlide() {
+	public static SlideComposite createSlide() {
 		if(slide == null)
-			slide = new Slide();
+			slide = new SlideComposite();
 		
 		return slide.copy();
 	}
@@ -65,7 +65,7 @@ public class Slide extends Composite implements Prototype<Slide> {
 	protected Vector<Component> items; // de slide-items worden in een Vector bewaard
 
 	
-	 public Slide() { items = new Vector<Component>(); }
+	 public SlideComposite() { items = new Vector<Component>(); }
 	 
 
 	// Voeg een SlideItem toe
@@ -107,14 +107,15 @@ public class Slide extends Composite implements Prototype<Slide> {
 	public void draw(Graphics g, Rectangle area, ImageObserver view) {
 		float scale = getScale(area);
 	    int y = area.y;
-	    TextStyle style = new TextStyle(Color.black, "",  20, "Helvetica", 40, 0);
+	    TextStyle style = new TextStyle(Color.black,  20, "Helvetica", 40, 0);
 	    TextContent text = new TextContent(getTitle(), style);
-	    LinearStrategy.draw(area.x, y, scale, g, view, text);
+	    LinearDrawStrategy strategy = new LinearDrawStrategy();
+	    strategy.draw(area.x, y, scale, g, view, text);
 	    
 	   y += text.getExtent(g, view, scale, style).height;
 	    
 		 for (int number=0; number<getSize(); number++) { 
-			 LinearStrategy.draw(area.x, y, scale, g, view, (ContentLeaf)getSlideItems().elementAt(number)); 
+			 strategy.draw(area.x, y, scale, g, view, (ContentLeaf)getSlideItems().elementAt(number)); 
 			 y += text.getExtent(g, view, scale, style).height; 
 		 }
 	  }
@@ -123,27 +124,4 @@ public class Slide extends Composite implements Prototype<Slide> {
 	private float getScale(Rectangle area) {
 		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));
 	}
-	
-	private class ContentIterator implements Iterator {
-		private int position;
-		
-		@Override
-		public boolean hasNext() {
-			if(position < items.size()) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		@Override
-		public Object next() {
-			if(this.hasNext()) {
-				
-			}
-			return null;
-		}
-		
-	}
-
 }

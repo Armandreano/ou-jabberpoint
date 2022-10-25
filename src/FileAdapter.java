@@ -1,6 +1,5 @@
+import java.io.File;
 import java.io.IOException;
-
-import org.w3c.dom.Element;
 
 /**
  * 
@@ -11,8 +10,9 @@ import org.w3c.dom.Element;
  */
 public interface FileAdapter {
 	
-	public void createPresentation(Presentation presentation, String filename) throws IOException;
+	public boolean isSupported(String fileName);
 	
-	private void getTitle(Element element, String tagName);
-
+	public File readFile(String fileName);
+	
+	public void createPresentation(Presentation presentation, File file) throws IOException;
 }
