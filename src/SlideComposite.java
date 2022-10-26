@@ -62,7 +62,7 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	protected String title; // de titel wordt apart bewaard
-	protected Vector<Component> items; // de slide-items worden in een Vector bewaard
+	protected Vector<Component> items; // de slide-items worden in een Vector bewaard //gebruik van composite
 
 	
 	 public SlideComposite() { items = new Vector<Component>(); }
@@ -85,7 +85,7 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 
 	// Maak een TextItem van String, en voeg het TextItem toe
 	public void append(String message, TextStyle style) {
-		append(new TextContent(message, style));
+		append(new TextContent(message, style, 0));
 	}
 
 	// geef het betreffende SlideItem
@@ -107,8 +107,8 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 	public void draw(Graphics g, Rectangle area, ImageObserver view) {
 		float scale = getScale(area);
 	    int y = area.y;
-	    TextStyle style = new TextStyle(Color.black,  20, "Helvetica", 40, 0);
-	    TextContent text = new TextContent(getTitle(), style);
+	    TextStyle style = new TextStyle(Color.black,  20, "Helvetica", 40);
+	    TextContent text = new TextContent(getTitle(), style, 0);
 	    LinearDrawStrategy strategy = new LinearDrawStrategy();
 	    strategy.draw(area.x, y, scale, g, view, text);
 	    

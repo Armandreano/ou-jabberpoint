@@ -30,9 +30,10 @@ import patterns.component.TextStyle;
 public class TextContent extends ContentLeaf {
 	private String text;
 	
-	public TextContent(String text, Style style) {
+	public TextContent(String text, Style style, int indent) {
 		this.text = text;
 		super.setStyle(style);
+		super.setIndent(indent);
 	}
 	
 	public String getText() {
@@ -67,7 +68,7 @@ public class TextContent extends ContentLeaf {
 			}
 			ysize += layout.getLeading() + layout.getDescent();
 		}
-		return new Rectangle((int) (style.getIndent()*scale), 0, xsize, ysize );
+		return new Rectangle((int) (this.getIndent()*scale), 0, xsize, ysize );
 	}
 	
 	public List<TextLayout> getLayouts(Graphics g, Style s, float scale) {
@@ -76,7 +77,7 @@ public class TextContent extends ContentLeaf {
     	Graphics2D g2d = (Graphics2D) g;
     	FontRenderContext frc = g2d.getFontRenderContext();
     	LineBreakMeasurer measurer = new LineBreakMeasurer(attrStr.getIterator(), frc);
-    	float wrappingWidth = (1200 - s.getIndent()) * scale;
+    	float wrappingWidth = (1200 - this.getIndent()) * scale;
     	while (measurer.getPosition() < getText().length()) {
     		TextLayout layout = measurer.nextLayout(wrappingWidth);
     		layouts.add(layout);

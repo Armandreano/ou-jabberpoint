@@ -23,4 +23,8 @@ import java.util.List;
 public interface Content {
 	
 	public Rectangle getExtent(Graphics g, ImageObserver observer, float scale, Style style);
+	
+	public int getIndent();
+	
+	public void setIndent(int indent);
 }

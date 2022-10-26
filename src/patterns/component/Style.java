@@ -12,7 +12,7 @@ public abstract class Style {
 	
 	private Color color;
 	private int leading; 
-	private int indent;
+	private String opacity;
 	
 	public Color getColor() {
 		return color;
@@ -26,10 +26,11 @@ public abstract class Style {
 	public void setLeading(int leading) {
 		this.leading = leading; 
 	}
-	public int getIndent() {
-		return indent;
+	
+	public String getOpacity() {
+		return opacity;
 	}
-	public void setIndent(int indent) {
-		this.indent = indent;
+	public void setOpacity(String opacity) {
+		this.opacity = opacity;
 	}
 }

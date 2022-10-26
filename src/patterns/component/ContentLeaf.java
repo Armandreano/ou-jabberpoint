@@ -7,4 +7,17 @@ package patterns.component;
  *
  */
 public abstract class ContentLeaf extends Leaf implements Content {
+	
+	private int indent;
+	
+	@Override
+	public int getIndent() {
+		return this.indent;
+	}
+	
+	@Override
+	public void setIndent(int indent) {
+		this.indent = indent;
+	}
+
 }

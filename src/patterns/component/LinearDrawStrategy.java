@@ -11,6 +11,7 @@ import java.util.List;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
 
+//LinearStrategy is ook abstract
 public class LinearDrawStrategy implements DrawStrategy {
 	
 	@Override
@@ -21,7 +22,7 @@ public class LinearDrawStrategy implements DrawStrategy {
 				return;
 			}
 		List<TextLayout> layouts = test.getLayouts(g, textContent.getStyle(), scale);
-		Point pen = new Point(x + (int)(textContent.getStyle().getIndent() * scale), 
+		Point pen = new Point(x + (int)(textContent.getIndent() * scale), 
 				y + (int) (textContent.getStyle().getLeading() * scale));
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setColor(textContent.getStyle().getColor());
@@ -34,7 +35,7 @@ public class LinearDrawStrategy implements DrawStrategy {
 		}
 	  } else {
 		  ImageContent imageContent = (ImageContent) textContent;
-			int width = x + (int) (imageContent.getStyle().getIndent() * scale);
+			int width = x + (int) (imageContent.getIndent() * scale);
 			int height = y + (int) (imageContent.getStyle().getLeading() * scale);
 			g.drawImage(imageContent.getBufferedImage(), width, height,(int) (imageContent.getBufferedImage().getWidth(o)*scale),
 	                (int) (imageContent.getBufferedImage().getHeight(o)*scale), o);

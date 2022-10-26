@@ -27,7 +27,7 @@ public class ImageContent extends ContentLeaf {
 	  protected static final String FILE = "Bestand ";
 	  protected static final String NOTFOUND = " niet gevonden";
 	
-	public ImageContent(String imageName , ImageStyle style) {
+	public ImageContent(String imageName , TextStyle style, int indent) {
 		try {
 			bufferedImage = ImageIO.read(new File(imageName));
 		}
@@ -35,7 +35,7 @@ public class ImageContent extends ContentLeaf {
 			System.err.println(FILE + imageName + NOTFOUND) ;
 		}
 		super.setStyle(style);
-		
+		super.setIndent(indent);
 	}
 	
 	public BufferedImage getBufferedImage( ) {
@@ -63,7 +63,7 @@ public class ImageContent extends ContentLeaf {
 	
 	@Override
 	public Rectangle getExtent(Graphics g, ImageObserver observer, float scale, Style myStyle) {
-		return new Rectangle((int) (myStyle.getIndent() * scale), 0,
+		return new Rectangle((int) (this.getIndent() * scale), 0,
 				(int) (bufferedImage.getWidth(observer) * scale),
 				((int) (myStyle.getLeading() * scale)) + 
 				(int) (bufferedImage.getHeight(observer) * scale));

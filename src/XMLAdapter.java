@@ -110,15 +110,14 @@ public class XMLAdapter implements FileAdapter {
 		}
 		String type = attributes.getNamedItem(KIND).getTextContent();
 
+		TextStyle style =  new TextStyle(Color.black, 20, "Helvetica", 40);
 		if (TEXT.equals(type)) {
-			TextStyle style =  new TextStyle(Color.black, 20, "Helvetica", 40, 0);
-			TextContent component = new TextContent(item.getTextContent(), style);
+			TextContent component = new TextContent(item.getTextContent(), style, 0);
 			slide.append(component);
 		}
 		else {
 			if (IMAGE.equals(type)) {
-				ImageStyle style = new ImageStyle(20, 0, "Opacity");
-				ImageContent content = new ImageContent(item.getTextContent(), style);
+				ImageContent content = new ImageContent(item.getTextContent(), style, 0);
 				slide.append(content);
 			}
 			else {

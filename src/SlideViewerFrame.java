@@ -14,6 +14,7 @@ import javax.swing.JFrame;
  * @version 1.6 2014/05/16 Sylvia Stuurman
 */
 
+//WindowFrame
 public class SlideViewerFrame extends JFrame {
 	private static final long serialVersionUID = 3227L;
 	
@@ -38,6 +39,7 @@ public class SlideViewerFrame extends JFrame {
 				}
 			});
 		getContentPane().add(slideViewerComponent);
+		addMouseListener(new MouseClickListener());
 		addKeyListener(new Presenter(presentation)); // een controller toevoegen
 		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
