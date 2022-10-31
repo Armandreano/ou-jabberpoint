@@ -24,6 +24,21 @@ public class Composite extends Component {
 		return t;
 	}
 	
+	public <T extends Component> T[] addComponents(T[] t){
+		if(t == null) // This object doesn't have creation rights
+			return null;
+		
+		int index = 0;
+		
+		for (int i = 0; i < t.length; i++) {
+			t[index] = addComponent(t[index]);
+			
+			index++;
+		}
+		
+		return t;
+	}
+	
 	public void remove() {
 		for (Iterator<Component> iterator = children.iterator(); iterator.hasNext();) {
 			Component component = (Component) iterator.next();

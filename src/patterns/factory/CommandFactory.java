@@ -12,7 +12,7 @@ import patterns.command.wrappers.CommandData;
  * Comment Ends */
 
 public abstract class CommandFactory {
-	private static Vector<CommandFactory> factories;
+	private static Vector<CommandFactory> factories = new Vector<>();
 	
 	public static void addFactory(CommandFactory newCommandFactory) {
 		if(factories == null)
@@ -28,6 +28,15 @@ public abstract class CommandFactory {
 		}
 		
 		factories.add(newCommandFactory);
+	}
+	
+	public static void addFactories(CommandFactory[] factories)
+	{
+		for (Iterator<?> iterator = CommandFactory.factories.iterator(); iterator.hasNext();) {
+			CommandFactory commandFactory = (CommandFactory) iterator.next();
+			addFactory(commandFactory);
+			
+		}
 	}
 	
 	public static <T extends CommandFactory> T getFactory(Class<T> classType) {

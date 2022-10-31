@@ -1,3 +1,4 @@
+package presentation;
 //import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -8,6 +9,7 @@ import javax.security.auth.Subject;
 
 import patterns.command.Select;
 import patterns.command.wrappers.ClickData;
+import patterns.component.ControlService;
 import patterns.factory.AbortCommandFactory;
 import patterns.factory.ChangeCommandFactory;
 import patterns.factory.CommandFactory;
@@ -18,9 +20,11 @@ public class GUI implements MouseListener{
 	private Map<Integer, Subject> keyMap;
 	private static GUI gui;
 	Select currentSelect;
+	ControlService controlService;
 	
-	
-	public GUI() {
+	public GUI(ControlService controlService) {
+		this.controlService = controlService;
+		
 		keyMap = new HashMap<Integer, Subject>();
 		gui = this;
 

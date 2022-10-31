@@ -1,5 +1,7 @@
-import java.io.File;
+package patterns.adapter.copy;
 import java.io.IOException;
+
+import org.w3c.dom.Element;
 
 /**
  * 
@@ -12,7 +14,7 @@ public interface FileAdapter {
 	
 	public boolean isSupported(String fileName);
 	
-	public File readFile(String fileName);
+	public String readFile(String fileName) throws IOException;
 	
-	public void createPresentation(Presentation presentation, File file) throws IOException;
+	public Element adapt(String file) throws Exception;
 }

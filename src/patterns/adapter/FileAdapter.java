@@ -1,4 +1,4 @@
-package patterns;
+package patterns.adapter;
 import java.io.IOException;
 
 import org.w3c.dom.Element;

@@ -10,6 +10,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
+import patterns.adapter.FileAdapter;
+
 /**
  * 
  * @author ajainandunsing The XMLAdapter class that implements the FileAdapter

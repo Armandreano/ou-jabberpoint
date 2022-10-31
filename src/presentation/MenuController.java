@@ -1,3 +1,4 @@
+package presentation;
 import java.awt.MenuBar;
 import java.awt.Frame;
 import java.awt.Menu;
@@ -52,21 +53,24 @@ public class MenuController extends MenuBar {
 		MenuItem menuItem;
 		Menu fileMenu = new Menu(FILE);
 		fileMenu.add(menuItem = mkMenuItem(OPEN));
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent actionEvent) {
-				presentation.clear();
-				XMLAdapter adapter = new XMLAdapter();
-				try {
-					File file = new File(TESTFILE);
-					adapter.createPresentation(presentation, file);
-					presentation.setSlideNumber(0);
-				} catch (IOException exc) {
-					JOptionPane.showMessageDialog(parent, IOEX + exc, 
-         			LOADERR, JOptionPane.ERROR_MESSAGE);
-				}
-				parent.repaint();
-			}
-		} );
+		
+		// TODO: Move to GUI
+//		menuItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent actionEvent) {
+//				presentation.clear();
+//				XMLAdapter adapter = new XMLAdapter();
+//				try {
+//					File file = new File(TESTFILE);
+//					adapter.createPresentation(presentation, file);
+//					presentation.setSlideNumber(0);
+//				} catch (IOException exc) {
+//					JOptionPane.showMessageDialog(parent, IOEX + exc, 
+//         			LOADERR, JOptionPane.ERROR_MESSAGE);
+//				}
+//				parent.repaint();
+//			}
+//		} );
+		
 		fileMenu.add(menuItem = mkMenuItem(NEW));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -74,18 +78,21 @@ public class MenuController extends MenuBar {
 				parent.repaint();
 			}
 		});
+		
 		fileMenu.add(menuItem = mkMenuItem(SAVE));
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Accessor xmlAccessor = new XMLAccessor();
-				try {
-					xmlAccessor.saveFile(presentation, SAVEFILE);
-				} catch (IOException exc) {
-					JOptionPane.showMessageDialog(parent, IOEX + exc, 
-							SAVEERR, JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
+		// TODO: Move to GUI
+//		menuItem.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				Accessor xmlAccessor = new XMLAccessor();
+//				try {
+//					xmlAccessor.saveFile(presentation, SAVEFILE);
+//				} catch (IOException exc) {
+//					JOptionPane.showMessageDialog(parent, IOEX + exc, 
+//							SAVEERR, JOptionPane.ERROR_MESSAGE);
+//				}
+//			}
+//		});
+		
 		fileMenu.addSeparator();
 		fileMenu.add(menuItem = mkMenuItem(EXIT));
 		menuItem.addActionListener(new ActionListener() {
@@ -93,6 +100,7 @@ public class MenuController extends MenuBar {
 				presentation.exit(0);
 			}
 		});
+		
 		add(fileMenu);
 		Menu viewMenu = new Menu(VIEW);
 		viewMenu.add(menuItem = mkMenuItem(NEXT));
@@ -101,12 +109,14 @@ public class MenuController extends MenuBar {
 				presentation.nextSlide();
 			}
 		});
+		
 		viewMenu.add(menuItem = mkMenuItem(PREV));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				presentation.prevSlide();
 			}
 		});
+		
 		viewMenu.add(menuItem = mkMenuItem(GOTO));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -115,6 +125,7 @@ public class MenuController extends MenuBar {
 				presentation.setSlideNumber(pageNumber - 1);
 			}
 		});
+		
 		add(viewMenu);
 		Menu helpMenu = new Menu(HELP);
 		helpMenu.add(menuItem = mkMenuItem(ABOUT));
@@ -123,6 +134,7 @@ public class MenuController extends MenuBar {
 				AboutBox.show(parent);
 			}
 		});
+		
 		setHelpMenu(helpMenu);		// nodig for portability (Motif, etc.).
 	}
 

@@ -1,5 +1,4 @@
-import patterns.component.Composite;
-import patterns.component.DrawStrategy;
+package patterns.component;
 import patterns.factory.Prototype;
 
 public class SlideshowComposite extends Composite implements Prototype<SlideshowComposite> {

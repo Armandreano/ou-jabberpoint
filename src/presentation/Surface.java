@@ -1,3 +1,4 @@
+package presentation;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
@@ -5,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+
+import patterns.component.SlideComposite;
 
 /**
  * <p>
@@ -21,7 +24,7 @@ import javax.swing.JFrame;
  */
 //Service
 //static net als jframe
-public class SlideViewerComponent extends JComponent {
+public class Surface extends JComponent {
 
 	private SlideComposite slide; // de huidige slide
 	private Font labelFont = null; // het font voor labels
@@ -38,7 +41,7 @@ public class SlideViewerComponent extends JComponent {
 	private static final int XPOS = 1100;
 	private static final int YPOS = 20;
 
-	public SlideViewerComponent(Presentation pres, JFrame frame) {
+	public Surface(Presentation pres, JFrame frame) {
 		setBackground(BGCOLOR);
 		presentation = pres;
 		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);

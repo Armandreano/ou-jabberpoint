@@ -1,5 +1,7 @@
-import java.util.ArrayList;
+package presentation;
 
+import java.util.ArrayList;
+import patterns.component.SlideComposite; 
 
 /**
  * <p>Presentation houdt de slides in de presentatie bij.</p>
@@ -17,14 +19,14 @@ public class Presentation {
 	private String showTitle; // de titel van de presentatie
 	private ArrayList<SlideComposite> showList = null; // een ArrayList met de Slides
 	private int currentSlideNumber = 0; // het slidenummer van de huidige Slide
-	private SlideViewerComponent slideViewComponent = null; // de viewcomponent voor de Slides
+	private Surface slideViewComponent = null; // de viewcomponent voor de Slides
 
 	public Presentation() {
-		slideViewComponent = null;
+		slideViewComponent = null; 
 		clear();
 	}
 
-	public Presentation(SlideViewerComponent slideViewerComponent) {
+	public Presentation(Surface slideViewerComponent) {
 		this.slideViewComponent = slideViewerComponent;
 		clear();
 	}
@@ -41,7 +43,7 @@ public class Presentation {
 		showTitle = nt;
 	}
 
-	public void setShowView(SlideViewerComponent slideViewerComponent) {
+	public void setShowView(Surface slideViewerComponent) {
 		this.slideViewComponent = slideViewerComponent;
 	}
 

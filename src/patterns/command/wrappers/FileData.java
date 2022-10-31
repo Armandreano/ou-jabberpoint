@@ -4,7 +4,7 @@ public class FileData extends CommandData {
 	String fileString;
 	String pathString;
 	
-	FileData(String fileString, String pathString){
+	public FileData(String fileString, String pathString){
 		this.fileString = fileString; 
 		this.pathString = pathString;
 	}

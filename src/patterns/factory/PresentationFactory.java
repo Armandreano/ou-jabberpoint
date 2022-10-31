@@ -1,4 +1,4 @@
-package patterns;
+package patterns.factory;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -6,23 +6,23 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
+import patterns.adapter.FileAdapter;
 import patterns.component.TextStyle;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
+import presentation.Presentation;
+import patterns.component.SlideComposite;
 
 public class PresentationFactory {
 	
-	private List<FileAdapter> adapters = new ArrayList();
+	private List<FileAdapter> adapters = new ArrayList<>();
 	private FileAdapter adapter;
-
+	
 	/*    *//** Default API to use. */
 	/*
 	 * protected static final String DEFAULT_API_TO_USE = "dom";
@@ -49,7 +49,7 @@ public class PresentationFactory {
 	  protected static final String CE = "Color Exception";
 								
 	  
-	  public String open(String fileName) throws IOException {
+	  private String open(String fileName) throws IOException {
 		  String file = "";
 		  for(FileAdapter adapter : adapters) {
 			  if(adapter.isSupported(fileName)) {
@@ -66,7 +66,7 @@ public class PresentationFactory {
 		  Element element = this.adapter.adapt(file);
 		  Presentation presentation = new Presentation();
 		  presentation.setTitle(getTitle(element, SHOWTITLE));
-		  NodeList slides = element.getElementsByTagName(SLIDE); 
+		  createPresentation(element, presentation);
 		  return presentation;	  
 	  }
 	  
@@ -74,7 +74,7 @@ public class PresentationFactory {
 		  this.adapters.add(adapter);
 	  }
 	
-	  public void createPresentation(Element element, Presentation presentation) throws IOException { 
+	  private void createPresentation(Element element, Presentation presentation) throws IOException { 
 		  
 		 int slideNumber, itemNumber, max = 0, maxItems = 0; 
 		 
@@ -91,7 +91,7 @@ public class PresentationFactory {
 				maxItems = slideItems.getLength(); 
 				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) { 
 					Element item = (Element) slideItems.item(itemNumber);
-					loadSlideItem(slide, item); } 
+					loadSlideContent(slide, item); } 
 				} 
 	  }
 	  
@@ -179,5 +179,4 @@ public class PresentationFactory {
 				  } 
 			  }
 	  }
-	 
 }

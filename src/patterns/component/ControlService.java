@@ -3,13 +3,14 @@ import java.util.Iterator;
 
 import patterns.command.Command;
 import patterns.component.Composite;
+import presentation.Presentation;
 import presentation.SimplePresentation;
 
 public class ControlService extends Composite {
-	SimplePresentation currentPresentation;
+	Presentation presentation;
 	
 	public void receiveCommand(Command command) {
-		System.out.println("test");
+//		System.out.println("test");
 		
 		for (Iterator<?> iterator = children.iterator(); iterator.hasNext();) {
 			ControlComponent component = (ControlComponent) iterator.next();
@@ -22,7 +23,11 @@ public class ControlService extends Composite {
 		}
 	}
 	
-	public SimplePresentation getPresentation() {
-		return currentPresentation;
+	public Presentation getPresentation() {
+		return presentation;
+	}
+	
+	public void setPresentation(Presentation presentation) {
+		this.presentation = presentation;
 	}
 }

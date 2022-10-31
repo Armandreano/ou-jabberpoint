@@ -1,3 +1,4 @@
+package presentation;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -24,13 +25,13 @@ public class Window extends JFrame {
 	
 	public Window(String title, Presentation presentation) {
 		super(title);
-		SlideViewerComponent slideViewerComponent = new SlideViewerComponent(presentation, this);
+		Surface slideViewerComponent = new Surface(presentation, this);
 		presentation.setShowView(slideViewerComponent);
 		setupWindow(slideViewerComponent, presentation);
 	}
 
 // De GUI opzetten
-	public void setupWindow(SlideViewerComponent 
+	public void setupWindow(Surface 
 			slideViewerComponent, Presentation presentation) {
 		setTitle(JABTITLE);
 		addWindowListener(new WindowAdapter() {
@@ -40,7 +41,8 @@ public class Window extends JFrame {
 			});
 		getContentPane().add(slideViewerComponent);
 		addMouseListener(GUI.getGui());
-		addKeyListener(new Presenter()); // een controller toevoegen
+		// TODO: Presenter shouldn't set, but should be added
+//		addKeyListener(new Presenter()); // een controller toevoegen
 		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
 		setVisible(true);
