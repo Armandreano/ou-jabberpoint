@@ -4,8 +4,12 @@
  -->
 <!ELEMENT showtitle (#PCDATA)>
 <!ELEMENT presentation (showtitle,slide+)>
-<!ELEMENT title (#PCDATA)>
-<!ELEMENT slide (title, item*)>
+<!ELEMENT slide (item*)>
 <!ELEMENT item (#PCDATA)>
 <!ATTLIST item kind CDATA #REQUIRED>
-<!ATTLIST item level CDATA #REQUIRED>
+<!ATTLIST item color CDATA #IMPLIED>
+<!ATTLIST item fontname CDATA #IMPLIED>
+<!ATTLIST item fontsize CDATA #IMPLIED>
+<!ATTLIST item indent CDATA #REQUIRED>
+<!ATTLIST item leading CDATA #REQUIRED>
+<!ATTLIST item actions CDATA #IMPLIED>
