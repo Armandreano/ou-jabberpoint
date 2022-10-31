@@ -8,9 +8,19 @@ package patterns.component;
  */
 public abstract class Component {
 	private Style style;
+	private Component parentComponent;
 	
 	public abstract void update();
 	public abstract void remove();
+	
+	public Component getParentComponent() {
+		return parentComponent;
+	}
+	
+	public void setParentComponent(Component parentComponent) {
+		this.parentComponent = parentComponent;
+	}
+	
 	
 	public Style getStyle() {
 		return style;

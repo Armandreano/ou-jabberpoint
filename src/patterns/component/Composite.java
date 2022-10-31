@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/** XMLAccessor, reads and writes XML files
+ * @author Armando Gerard
+ * @version 1.1 2022/09/09 Applied design based on experience in Game Development
+ * @version 1.2 2022/10/31 Added setting the parent of the leaf component
+*/
+
 public class Composite extends Component {
 	protected ArrayList<Component> children = new ArrayList<Component>();
 	
@@ -12,6 +18,9 @@ public class Composite extends Component {
 			return null;
 		
 		children.add(t);
+		
+		t.setParentComponent(this);
+		
 		return t;
 	}
 	

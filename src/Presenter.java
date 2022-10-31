@@ -4,10 +4,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.midi.Soundbank;
+
+import patterns.observer.Subject;
 import patterns.command.Command;
-import patterns.command.Quit;
-import patterns.CommandFactory;
-import patterns.command.ChangeSlide;
+import patterns.command.wrappers.SlideChangeData;
+import patterns.command.wrappers.SwitchToSlideData;
+import patterns.component.SlideControl;
+import patterns.factory.AbortCommandFactory;
+import patterns.factory.ChangeCommandFactory;
+import patterns.factory.CommandFactory;
+import patterns.observer.Observer;
+import patterns.command.Abort;
+import patterns.command.Change;
 
 import java.awt.event.KeyAdapter;
 
@@ -22,34 +31,49 @@ import java.awt.event.KeyAdapter;
  * @version 1.7 2022/09/06 Updated input to make it rebindable Armando Gerard
  * @version 1.8 2022/09/08 Added Command pattern to replace binding by Observer rebindable Armando Gerard
  * @version 1.9 2022/09/09 Added Command Factory
+ * @version 1.9 2022/09/09 Optimized
 */
 
 public class Presenter extends KeyAdapter {
-	private Presentation presentation; // Er worden commando's gegeven aan de presentatie
 
-	private Map<Integer, Command> keyMap;
+	private Map<Integer, Subject> keyMap;
 	private List<Integer> nextButtons; 
 	private List<Integer> previousButtons; 
 	private List<Integer> quitButtons; 
-	ChangeSlide nextSlide;
-	ChangeSlide previousSlide;
-	Quit quit;
+	Change nextSlide;
+	Change previousSlide;
+	private Observer nextSlideObserver;
+	private Observer previousSlideObserver;
+	private ControlService control;
 	
-	public Presenter(Presentation p) {
-		// TODO: Add abstraction
-		presentation = p;
+	public Presenter() {
+		keyMap = new HashMap<Integer, Subject>();
 		
-		keyMap = new HashMap<Integer, Command>();
+//		CommandFactory factory = CommandFactory.getFactory();
+		// Depending on the context, either GUI or Presenter will apply the setting first
 		
-		CommandFactory factory = CommandFactory.getFactory();
+		// TODO: Move this to Settings
+		CommandFactory.addFactory(new AbortCommandFactory());
+		CommandFactory.addFactory(new ChangeCommandFactory());
+		// TODO Remove, place in Settings!
+		control = new ControlService();
+		control.addComponent(new SlideControl());
 		
-		nextSlide = factory.createChangeSlideCommand();
-		nextSlide.attach(()->presentation.nextSlide());
+		ChangeCommandFactory changeCommandFactory = CommandFactory.getFactory(ChangeCommandFactory.class);
+		nextSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(1));
+		previousSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(-1));
+		// TODO implement Quit with Abort
 		
-		previousSlide = factory.createChangeSlideCommand();
-		previousSlide.attach(()->presentation.prevSlide());
 		
-		quit = factory.createQuitCommand();
+		nextSlideObserver =()->{ control.receiveCommand(previousSlide); };
+		previousSlideObserver =()->{ control.receiveCommand(previousSlide); };
+//		nextSlide = factory.createChangeSlideCommand();
+//		nextSlide.attach(()->presentation.nextSlide());
+//		
+//		previousSlide = factory.createChangeSlideCommand();
+//		previousSlide.attach(()->presentation.prevSlide());
+//		
+//		quit = factory.createQuitCommand();
 		
 		defaultControlSetup();
 	}
@@ -73,37 +97,38 @@ public class Presenter extends KeyAdapter {
 		);
 	}
 	
-	public void setupCommand(List<Integer> buttons, Command command)
+	public void setupSubject(List<Integer> buttons, Observer observer)
 	{
-		for (int i = 0; i < buttons.size(); i++) 
-			keyMap.put(buttons.get(i), command);
+		for (int i = 0; i < buttons.size(); i++)
+		{
+			Subject subject = Subject.createSubject();
+			keyMap.put(buttons.get(i), subject);
+			bindKey(buttons.get(i), observer);
+		}
 	}
 	
 	public void defaultControlSetup() {
 		defaultKeyBinding();
 		
-		setupCommand(nextButtons, nextSlide);
-		setupCommand(previousButtons, previousSlide);
-		setupCommand(quitButtons, quit);
+		setupSubject(nextButtons, nextSlideObserver);
+		setupSubject(previousButtons, previousSlideObserver);
+//		setupCommand(quitButtons, quit);
 	}
 	
-	public void bindKey(int key, Command command) {
-		if(keyMap.containsKey(key))
-		{
-			keyMap.replace(null, command);
+	public void bindKey(int key, Observer observer) {
+		if(!keyMap.containsKey(key))
 			return;
-		}
 		
-		keyMap.put(key, command);
+		keyMap.get(key).attach(observer);
 	}
 	
 	public void keyPressed(KeyEvent keyEvent) {
 		
-		Command command = keyMap.get(keyEvent.getKeyCode());
+		Subject subject = keyMap.get(keyEvent.getKeyCode());
 
-		if(command == null)
+		if(subject == null)
 			return;
 		
-		command.execute();
+		subject.notification();
 	}
 }

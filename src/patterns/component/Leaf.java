@@ -7,4 +7,5 @@ package patterns.component;
  *
  */
 public abstract class Leaf extends Component {
+	
 }

@@ -7,10 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
-import patterns.component.Component;
 import patterns.component.ContentLeaf;
-import patterns.component.ImageStyle;
 import patterns.component.Style;
 import patterns.component.TextStyle;
 

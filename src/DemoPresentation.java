@@ -1,6 +1,5 @@
 import java.awt.Color;
 
-import patterns.component.ImageStyle;
 import patterns.component.TextStyle;
 import patterns.component.content.ImageContent;
 

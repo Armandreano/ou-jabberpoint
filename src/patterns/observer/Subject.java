@@ -2,6 +2,8 @@ package patterns.observer;
 
 import java.util.ArrayList;
 
+import patterns.factory.Prototype;
+
 /** Comment Start
  * 
  * @author Armando Gerard
@@ -10,7 +12,10 @@ import java.util.ArrayList;
  * @version 1.2 2022-09-26 Removed interface
  * Comment Ends */
 
-public class Subject {
+public class Subject implements Prototype<Subject> {
+	
+	public static Subject subject;
+	
 	ArrayList<Observer> observers = new ArrayList<Observer>();
 	
 	public void Clear()
@@ -30,5 +35,17 @@ public class Subject {
 		for(Observer o : observers){
 			o.update();
 		}
+	}
+
+	@Override
+	public Subject copy() {
+		return new Subject();
+	}
+	
+	public static Subject createSubject() {
+		if(subject == null)
+			subject = new Subject();
+		
+		return subject.copy();
 	}
 }
