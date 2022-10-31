@@ -1,6 +1,5 @@
 package patterns.adapter;
 
-import patterns.XMLAdapter;
 import patterns.command.Change;
 import patterns.command.wrappers.FileData;
 import patterns.component.ControlComponent;

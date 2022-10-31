@@ -1,4 +1,4 @@
-package patterns;
+package patterns.adapter;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -9,8 +9,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
-
-import patterns.adapter.FileAdapter;
 
 /**
  * 
