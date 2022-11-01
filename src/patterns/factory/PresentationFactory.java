@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -15,6 +14,7 @@ import patterns.adapter.FileAdapter;
 import patterns.component.TextStyle;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
+import patterns.strategy.LinearDrawStrategy;
 import presentation.Presentation;
 import patterns.component.SlideComposite;
 
@@ -31,6 +31,7 @@ public class PresentationFactory {
 	
 	  protected static final String SHOWTITLE = "showtitle"; 
 	  protected static final String SLIDE = "slide"; 
+	  protected static final String STRATEGY = "strategy"; 
 	  protected static final String ITEM = "item";
 	  protected static final String COLOR = "color"; 
 	  protected static final String FONTNAME = "fontname"; 
@@ -82,16 +83,24 @@ public class PresentationFactory {
 	  
 		NodeList slides = element.getElementsByTagName(SLIDE); 
 		max = slides.getLength();
+		System.out.println(max + "Aantal slides");
 		for (slideNumber = 0; slideNumber < max; slideNumber++) { 
 				Element xmlSlide = (Element) slides.item(slideNumber); 
+				Node strategy = slides.item(slideNumber).getAttributes().getNamedItem(STRATEGY);
+				String typeOfStrategy = strategy.getTextContent();
 				SlideComposite slide = new SlideComposite(); 
 				presentation.append(slide);
+				if(typeOfStrategy.equals("linear")) {
+					LinearDrawStrategy linearDrawStrategy = new LinearDrawStrategy(slide);
+					slide.setStrategy(linearDrawStrategy);
+				}
 	  
 				NodeList slideItems = xmlSlide.getElementsByTagName(ITEM); 
 				maxItems = slideItems.getLength(); 
 				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) { 
 					Element item = (Element) slideItems.item(itemNumber);
-					loadSlideContent(slide, item); } 
+					loadSlideContent(slide, item); 
+					} 
 				} 
 	  }
 	  
@@ -148,7 +157,8 @@ public class PresentationFactory {
 		  NamedNodeMap attributes = item.getAttributes(); 
 		  Node action = attributes.getNamedItem(ACTIONS);
 	  
-		  String[] actions = new String[0]; 
+		  //TODO: Should be overriden
+		  String[] actions = null; 
 		  if (action != null) { 
 			  actions = action.getTextContent().split("\\,"); 
 		  }
@@ -165,18 +175,26 @@ public class PresentationFactory {
 	  
 		  String type = attributes.getNamedItem(KIND).getTextContent();
 	  
-		  TextStyle style = createStyle(attributes, item); 
+		  TextStyle style = createStyle(attributes, item);
 		  if (TEXT.equals(type)) {
-			  TextContent component = new TextContent(item.getTextContent(), style,indent); 
-			  slide.append(component); 
+			  TextContent content = new TextContent(item.getTextContent(), style,indent); 
+			  slide.append(content); 
+			  //loadClickableContent(slide, content, actions);
 		  } else { 
 			  if (IMAGE.equals(type)) {
 				  	ImageContent content = new ImageContent(item.getTextContent(), style, indent); 
 				  	slide.append(content); 
+					//loadClickableContent(slide, content, actions);
 				  	} 
 			  else { 
 				  System.err.println(UNKNOWNTYPE); 
 				  } 
 			  }
 	  }
+	  
+		/*
+		 * private void loadClickableContent(SlideComposite slide, ContentLeaf leaf,
+		 * String[] actions) { if(actions != null) { slide.append(new
+		 * ClickableContent(leaf)); } }
+		 */
 }
