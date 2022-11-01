@@ -1,5 +1,5 @@
 <!--
- Document Type Definition voor JabberPoint presentatties
+ Document Type Definition for JabberPoint presentations
  $Id$
  -->
 <!ELEMENT showtitle (#PCDATA)>

@@ -1,0 +1,24 @@
+<!--
+ Document Type Definition for Settings.xml
+ $Id$
+ -->
+ <!ELEMENT settings (factories+, adapters+, presentationfactory, controlservices+, presenter, gui, startcommands+)>
+ <!ELEMENT factories (factory*)>
+ <!ELEMENT presentationfactory (factory)>
+ <!ELEMENT factory (#PCDATA)>
+ <!ELEMENT adapters (adapter*)>
+ <!ELEMENT adapter (#PCDATA)>
+ <!ELEMENT controlservices (controlservice*)>
+ <!ELEMENT controlservice (#PCDATA)>
+ <!ELEMENT presenter (#PCDATA)>
+ <!ELEMENT gui (#PCDATA)>
+ <!ELEMENT startcommands (command*)>
+ <!ELEMENT startcommand (command)>
+ <!ATTLIST startcommand type CDATA #REQUIRED>
+ <!ATTLIST startcommand data CDATA #REQUIRED>
+ <!ATTLIST startcommand constructor1 CDATA #IMPLIED>
+ <!ATTLIST startcommand constructor2 CDATA #IMPLIED>
+ <!ATTLIST startcommand constructor3 CDATA #IMPLIED>
+ <!ATTLIST startcommand constructor4 CDATA #IMPLIED>
+ <!ATTLIST startcommand constructor5 CDATA #IMPLIED>
+ 
