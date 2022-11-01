@@ -6,4 +6,17 @@
 		<factory>AbortCommandFactory</factory>
 		<factory>SelectCommandFactory</factory>
 	</factories>
+	<adapters>
+		
+	</adapters>
+	<controlservices>
+		<controlservice>SlideControl</controlservice>
+		<controlservice>FileControl</controlservice>
+		<controlservice>ClickControl</controlservice>
+	</controlservices>
+	<gui>GUI</gui>
+	<presenter>Presenter</presenter>
+	<startcommands>
+		<command type="" data=""></command>
+	</startcommands>
 </settings>

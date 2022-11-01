@@ -13,12 +13,12 @@
  <!ELEMENT presenter (#PCDATA)>
  <!ELEMENT gui (#PCDATA)>
  <!ELEMENT startcommands (command*)>
- <!ELEMENT startcommand (command)>
- <!ATTLIST startcommand type CDATA #REQUIRED>
- <!ATTLIST startcommand data CDATA #REQUIRED>
- <!ATTLIST startcommand constructor1 CDATA #IMPLIED>
- <!ATTLIST startcommand constructor2 CDATA #IMPLIED>
- <!ATTLIST startcommand constructor3 CDATA #IMPLIED>
- <!ATTLIST startcommand constructor4 CDATA #IMPLIED>
- <!ATTLIST startcommand constructor5 CDATA #IMPLIED>
+ <!ELEMENT command (#PCDATA)>
+ <!ATTLIST command type CDATA #REQUIRED>
+ <!ATTLIST command data CDATA #REQUIRED>
+ <!ATTLIST command constructor1 CDATA #IMPLIED>
+ <!ATTLIST command constructor2 CDATA #IMPLIED>
+ <!ATTLIST command constructor3 CDATA #IMPLIED>
+ <!ATTLIST command constructor4 CDATA #IMPLIED>
+ <!ATTLIST command constructor5 CDATA #IMPLIED>
  

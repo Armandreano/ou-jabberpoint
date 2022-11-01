@@ -59,10 +59,16 @@ public class ImageContent extends ContentLeaf {
 	}
 	
 	@Override
-	public Rectangle getExtent(Graphics g, ImageObserver observer, float scale, Style myStyle) {
-		return new Rectangle((int) (this.getIndent() * scale), 0,
+	public Rectangle calculateExtent(Graphics g, ImageObserver observer, float scale, Style myStyle) {
+		this.extent = new Rectangle((int) (this.getIndent() * scale), 0,
 				(int) (bufferedImage.getWidth(observer) * scale),
 				((int) (myStyle.getLeading() * scale)) + 
 				(int) (bufferedImage.getHeight(observer) * scale));
+		return extent;
+	}
+
+	@Override
+	public Rectangle getExtent() {
+		return this.extent;
 	}
 }
