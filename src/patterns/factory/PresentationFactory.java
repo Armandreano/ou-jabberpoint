@@ -90,7 +90,7 @@ public class PresentationFactory {
 				String typeOfStrategy = strategy.getTextContent();
 				SlideComposite slide = new SlideComposite(); 
 				presentation.append(slide);
-				if(typeOfStrategy.equals(STRATEGY)) {
+				if(typeOfStrategy.equals("linear")) {
 					LinearDrawStrategy linearDrawStrategy = new LinearDrawStrategy(slide);
 					slide.setStrategy(linearDrawStrategy);
 				}
