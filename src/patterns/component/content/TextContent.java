@@ -53,7 +53,7 @@ public class TextContent extends ContentLeaf {
 	}
 	
 	@Override
-	public Rectangle getExtent(Graphics g, ImageObserver observer, float scale, Style style) {
+	public Rectangle calculateExtent(Graphics g, ImageObserver observer, float scale, Style style) {
 		List<TextLayout> layouts = getLayouts(g, style, scale);
 		int xsize = 0, ysize = (int) (style.getLeading() * scale);
 		Iterator<TextLayout> iterator = layouts.iterator();
@@ -68,7 +68,8 @@ public class TextContent extends ContentLeaf {
 			}
 			ysize += layout.getLeading() + layout.getDescent();
 		}
-		return new Rectangle((int) (this.getIndent()*scale), 0, xsize, ysize );
+		this.extent = new Rectangle((int) (this.getIndent()*scale), 0, xsize, ysize );
+		return extent;
 	}
 	
 	public List<TextLayout> getLayouts(Graphics g, Style s, float scale) {
@@ -89,5 +90,10 @@ public class TextContent extends ContentLeaf {
 		AttributedString attrStr = new AttributedString(getText());
 		attrStr.addAttribute(TextAttribute.FONT, ((TextStyle) super.getStyle()).getFont(scale), 0, text.length());
 		return attrStr;
+	}
+
+	@Override
+	public Rectangle getExtent() {
+		return this.extent;
 	}
 }

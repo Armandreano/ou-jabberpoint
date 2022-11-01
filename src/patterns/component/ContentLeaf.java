@@ -1,5 +1,7 @@
 package patterns.component;
 
+import java.awt.Rectangle;
+
 /**
  * 
  * @author ajainandunsing
@@ -9,6 +11,7 @@ package patterns.component;
 public abstract class ContentLeaf extends Leaf implements Content {
 	
 	private int indent;
+	protected Rectangle extent;
 	
 	@Override
 	public int getIndent() {
@@ -19,5 +22,4 @@ public abstract class ContentLeaf extends Leaf implements Content {
 	public void setIndent(int indent) {
 		this.indent = indent;
 	}
-
 }
