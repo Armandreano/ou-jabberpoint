@@ -1,9 +1,6 @@
 package patterns.component;
 import java.awt.Rectangle;
 import java.util.Iterator;
-import java.util.Vector;
-
-import patterns.component.content.TextContent;
 import patterns.factory.Prototype;
 import patterns.strategy.Strategy;
 
@@ -63,52 +60,17 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 	// OLD CODE
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
-	protected String title; // de titel wordt apart bewaard
-	protected Vector<Component> items; // de slide-items worden in een Vector bewaard //gebruik van composite
 
-	
-	 public SlideComposite() { items = new Vector<Component>(); }
-	 
-
-	// Voeg een SlideItem toe
-	public void append(Component anItem) {
-		items.addElement(anItem);
-	}
-
-	// geef de titel van de slide
-	public String getTitle() {
-		return title;
-	}
-
-	// verander de titel van de slide
-	public void setTitle(String newTitle) {
-		title = newTitle;
-	}
-
-	// Maak een TextItem van String, en voeg het TextItem toe
-	public void append(String message, TextStyle style) {
-		append(new TextContent(message, style, 0));
-	}
 
 	// geef het betreffende SlideItem
 	public Component getSlideItem(int number) {
-		return (Component)items.elementAt(number);
-	}
-
-	// geef alle SlideItems in een Vector
-	public Vector<Component> getSlideItems() {
-		return items;
+		return (Component)this.children.get(number);
 	}
 
 	// geef de afmeting van de Slide
 	public int getSize() {
-		return items.size();
+		return this.children.size();
 	}
-
-	// teken de slide
-//	public void draw(Graphics g, Rectangle area, ImageObserver view) {
-//
-//	}
 
 	public float getScale(Rectangle area) {
 		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));

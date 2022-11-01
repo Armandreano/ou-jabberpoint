@@ -12,10 +12,12 @@ import org.w3c.dom.NodeList;
 
 import patterns.adapter.FileAdapter;
 import patterns.component.TextStyle;
+import patterns.component.content.ClickableContent;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
 import patterns.strategy.LinearDrawStrategy;
 import presentation.Presentation;
+import patterns.component.ContentLeaf;
 import patterns.component.SlideComposite;
 
 public class PresentationFactory {
@@ -178,13 +180,13 @@ public class PresentationFactory {
 		  TextStyle style = createStyle(attributes, item);
 		  if (TEXT.equals(type)) {
 			  TextContent content = new TextContent(item.getTextContent(), style,indent); 
-			  slide.append(content); 
-			  //loadClickableContent(slide, content, actions);
+			  slide.addComponent(content); 
+			  loadClickableContent(slide, content, actions);
 		  } else { 
 			  if (IMAGE.equals(type)) {
 				  	ImageContent content = new ImageContent(item.getTextContent(), style, indent); 
-				  	slide.append(content); 
-					//loadClickableContent(slide, content, actions);
+				  	slide.addComponent(content); 
+					loadClickableContent(slide, content, actions);
 				  	} 
 			  else { 
 				  System.err.println(UNKNOWNTYPE); 
@@ -192,9 +194,10 @@ public class PresentationFactory {
 			  }
 	  }
 	  
-		/*
-		 * private void loadClickableContent(SlideComposite slide, ContentLeaf leaf,
-		 * String[] actions) { if(actions != null) { slide.append(new
-		 * ClickableContent(leaf)); } }
-		 */
+		
+	private void loadClickableContent(SlideComposite slide, ContentLeaf leaf, String[] actions) {
+		if(actions != null) {
+			slide.addComponent(new ClickableContent(leaf)); 
+			} 
+		} 
 }

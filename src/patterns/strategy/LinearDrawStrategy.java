@@ -5,15 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.font.TextLayout;
-import java.awt.image.ImageObserver;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.DebugGraphics;
 
 import patterns.component.Composite;
 import patterns.component.ContentLeaf;
 import patterns.component.SlideComposite;
+import patterns.component.content.ClickableContent;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
 import presentation.Surface;
@@ -61,7 +59,7 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
         for (int number = 0; number < slideComposite.getSize(); number++) { 
         	ContentLeaf leaf = (ContentLeaf)slideComposite.getSlideItem(number);
         	
-        	
+        	if(!leaf.getClass().equals(ClickableContent.class)) {
     		if(leaf.getClass().equals(TextContent.class)) {
     			TextContent test = (TextContent) leaf;
     			if (test.getText() == null || test.getText().length() == 0) {
@@ -87,6 +85,8 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
     	                (int) (imageContent.getBufferedImage().getHeight(surface)*scale), surface);
     	  }
     		y += leaf.calculateExtent(graphics, surface, scale, leaf.getStyle()).height; 
+
+        	}
     	}
 	  }
 
