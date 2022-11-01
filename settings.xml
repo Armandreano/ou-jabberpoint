@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE presentation SYSTEM "jabberpoint.dtd">
+<!DOCTYPE settings SYSTEM "settings.dtd">
 <settings>
-	<factories type="PresentationFactory">
+	<factories presentationfactory="PresentationFactory">
 		<factory>ChangeCommandFactory</factory>
 		<factory>AbortCommandFactory</factory>
 		<factory>SelectCommandFactory</factory>

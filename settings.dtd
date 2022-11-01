@@ -4,7 +4,7 @@
  -->
  <!ELEMENT settings (factories+, adapters+, presentationfactory, controlservices+, presenter, gui, startcommands+)>
  <!ELEMENT factories (factory*)>
- <!ELEMENT presentationfactory (factory)>
+ <!ATTLIST factories presentationfactory CDATA #REQUIRED>
  <!ELEMENT factory (#PCDATA)>
  <!ELEMENT adapters (adapter*)>
  <!ELEMENT adapter (#PCDATA)>
