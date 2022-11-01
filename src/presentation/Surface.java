@@ -81,6 +81,7 @@ public class Surface extends JComponent {
 	}
 	
 	public static void registerDraw(Drawable drawable) {
+		surface.getSubject().clear();
 		surface.getSubject().attach(()->{ drawable.draw(graphics, area, surface); });
 	}
 

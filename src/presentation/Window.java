@@ -25,9 +25,9 @@ public class Window extends JFrame {
 	
 	public Window(String title, Presentation presentation, GUI gui, Presenter presenter) {
 		super(title);
-		Surface slideViewerComponent = new Surface(presentation, this);
-		presentation.setShowView(slideViewerComponent);
-		setupWindow(slideViewerComponent, presentation, gui, presenter);
+		Surface surface = new Surface(presentation, this);
+		presentation.setShowView(surface);
+		setupWindow(surface, presentation, gui, presenter);
 	}
 
 // De GUI opzetten
