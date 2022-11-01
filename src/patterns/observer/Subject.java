@@ -18,7 +18,7 @@ public class Subject implements Prototype<Subject> {
 	
 	ArrayList<Observer> observers = new ArrayList<Observer>();
 	
-	public void Clear()
+	public void clear()
 	{
 		observers.clear();
 	}

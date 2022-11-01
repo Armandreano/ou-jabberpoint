@@ -5,6 +5,7 @@
 <!ELEMENT showtitle (#PCDATA)>
 <!ELEMENT presentation (showtitle,slide+)>
 <!ELEMENT slide (item*)>
+<!ATTLIST slide strategy CDATA #REQUIRED>
 <!ELEMENT item (#PCDATA)>
 <!ATTLIST item kind CDATA #REQUIRED>
 <!ATTLIST item color CDATA #IMPLIED>

@@ -53,11 +53,10 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
 	public void draw(Graphics graphics, Rectangle rectangle, Surface surface) {
 		if(slideComposite == null)
 			return;
-		
-		int x = 0;
+		float scale = slideComposite.getScale(rectangle);
+		int x = rectangle.x;
 		int y = rectangle.y;
 		
-		float scale = slideComposite.getScale(rectangle);
 
         for (int number = 0; number < slideComposite.getSize(); number++) { 
         	ContentLeaf leaf = (ContentLeaf)slideComposite.getSlideItem(number);
@@ -84,10 +83,10 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
     		  ImageContent imageContent = (ImageContent) leaf;
     			int width = x + (int) (imageContent.getIndent() * scale);
     			int height = y + (int) (imageContent.getStyle().getLeading() * scale);
-    			graphics.drawImage(imageContent.getBufferedImage(), width, height,(int) (imageContent.getBufferedImage().getWidth(o)*scale),
+    			graphics.drawImage(imageContent.getBufferedImage(), width, height,(int) (imageContent.getBufferedImage().getWidth(surface)*scale),
     	                (int) (imageContent.getBufferedImage().getHeight(surface)*scale), surface);
-            y += leaf.getExtent(graphics, surface, scale, leaf.getStyle()).height; 
     	  }
+    		y += leaf.calculateExtent(graphics, surface, scale, leaf.getStyle()).height; 
     	}
 	  }
 

@@ -1,22 +1,11 @@
 package patterns.component;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.font.TextLayout;
-import java.awt.image.ImageObserver;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
-import patterns.component.Component;
-import patterns.component.Composite;
-import patterns.component.ContentLeaf;
-import patterns.component.TextStyle;
 import patterns.component.content.TextContent;
 import patterns.factory.Prototype;
-import patterns.strategy.LinearDrawStrategy;
+import patterns.strategy.Strategy;
 
 /** <p>Een slide. Deze klasse heeft tekenfunctionaliteit.</p>
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
@@ -31,6 +20,8 @@ import patterns.strategy.LinearDrawStrategy;
 public class SlideComposite extends Composite implements Prototype<SlideComposite> {
 	// Slide should always be copied to prevent references from the domain
 	private static SlideComposite slide;
+	private Strategy strategy;
+	private boolean isActive = false;
 	Rectangle slideArea;
 	
 	@Override
@@ -57,6 +48,16 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 		return slideArea.height;
 	}
 	
+	public void setActive(boolean active) {
+		this.isActive = active;
+		if(isActive) {
+			strategy.initialize();
+		}
+	}
+	
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
 	
 	
 	// OLD CODE
