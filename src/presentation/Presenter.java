@@ -31,13 +31,11 @@ import java.awt.event.KeyAdapter;
  * @version 1.7 2022/09/06 Updated input to make it rebindable Armando Gerard
  * @version 1.8 2022/09/08 Added Command pattern to replace binding by Observer rebindable Armando Gerard
  * @version 1.9 2022/09/09 Added Command Factory
- * @version 1.9 2022/09/09 Optimized
+ * @version 1.10 2022/10/30 Optimized
+ * @version 1.11 2022/10/30 Applied design (loading from Settings)
 */
 
 public class Presenter extends KeyAdapter {
-	
-	private static Presenter presenter;
-
 	private Map<Integer, Subject> keyMap;
 	private List<Integer> nextButtons; 
 	private List<Integer> previousButtons; 
@@ -51,18 +49,8 @@ public class Presenter extends KeyAdapter {
 	public Presenter(ControlService controlService) {
 		this.controlService = controlService;
 		keyMap = new HashMap<Integer, Subject>();
-		presenter = this;
 		
-		
-//		CommandFactory factory = CommandFactory.getFactory();
 		// Depending on the context, either GUI or Presenter will apply the setting first
-		
-		// TODO: Move this to Settings
-		CommandFactory.addFactory(new AbortCommandFactory());
-		CommandFactory.addFactory(new ChangeCommandFactory());
-		// TODO Remove, place in Settings!
-//		control = new ControlService();
-//		control.addComponent(new SlideControl());
 		
 		ChangeCommandFactory changeCommandFactory = CommandFactory.getFactory(ChangeCommandFactory.class);
 		nextSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(1));
@@ -71,11 +59,6 @@ public class Presenter extends KeyAdapter {
 		
 		nextSlideObserver =()->{ controlService.receiveCommand(nextSlide); };
 		previousSlideObserver =()->{ controlService.receiveCommand(previousSlide); };
-//		nextSlide = factory.createChangeSlideCommand();
-//		nextSlide.attach(()->presentation.nextSlide());
-//		
-//		previousSlide = factory.createChangeSlideCommand();
-//		previousSlide.attach(()->presentation.prevSlide());
 //		
 //		quit = factory.createQuitCommand();
 		

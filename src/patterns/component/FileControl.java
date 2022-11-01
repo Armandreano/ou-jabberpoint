@@ -7,11 +7,16 @@ import patterns.command.wrappers.FileData;
 import patterns.factory.PresentationFactory;
 import presentation.Presentation;
 
+/** <p>This is the KeyController (KeyListener)</p>
+ * @author Armando Gerard
+ * @version 1.1 2022/10/30 Applied design (loading from Settings) @Armando Gerard
+*/
+
 public class FileControl extends ControlComponent {
 	FileAdapter[] adapters;
 	PresentationFactory factory;
 	
-	public FileControl(FileAdapter[] adapters, PresentationFactory factory) {
+	public void Initialize(FileAdapter[] adapters, PresentationFactory factory) {
 		this.adapters = adapters;
 		this.factory = factory;
 	}

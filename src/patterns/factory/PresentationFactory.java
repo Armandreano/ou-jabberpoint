@@ -20,6 +20,10 @@ import presentation.Presentation;
 import patterns.component.ContentLeaf;
 import patterns.component.SlideComposite;
 
+/** <p>Done</p>
+ * @author Amriet Jainandunsing
+ * @version 1.1 2022/10/?? Applied design  @Amriet Jainandunsing
+*/
 public class PresentationFactory {
 	
 	private List<FileAdapter> adapters = new ArrayList<>();

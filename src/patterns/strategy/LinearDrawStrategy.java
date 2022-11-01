@@ -21,13 +21,9 @@ import presentation.Surface;
  * SlideViewerComponent is een grafische component die Slides kan laten zien.
  * </p>
  * 
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.1 2002/12/17 Gert Florijn
- * @version 1.2 2003/11/19 Sylvia Stuurman
- * @version 1.3 2004/08/17 Sylvia Stuurman
- * @version 1.4 2007/07/16 Sylvia Stuurman
- * @version 1.5 2010/03/03 Sylvia Stuurman
- * @version 1.6 2014/05/16 Sylvia Stuurman
+ * @author Amriet Jainandunsing, Armando Gerard
+ * @version 1.1 2022/10/?? Amriet Jainandunsing
+ * @version 1.2 2022/11/01 Applied design Armando Gerard
  */
 public class LinearDrawStrategy extends Strategy implements Drawable {
 	public LinearDrawStrategy(Composite composite) {

@@ -10,6 +10,7 @@ import patterns.factory.Prototype;
  * @version 1.0 2022-09-06 Created to have listeners Armando Gerard
  * @version 1.1 2022-09-08 Updated to match Java naming Convention Armando Gerard
  * @version 1.2 2022-09-26 Removed interface
+ * @version 1.2 2022-10-16 Applied prototype
  * Comment Ends */
 
 public class Subject implements Prototype<Subject> {

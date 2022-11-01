@@ -14,6 +14,11 @@ import patterns.factory.SelectCommandFactory;
 import patterns.observer.Observer;
 import patterns.observer.Subject;
 
+/** <p>This is the KeyController (KeyListener)</p>
+ * @author Armando Gerard
+ * @version 1.1 2022/10/30 Applied design (loading from Settings) @Armando Gerard
+*/
+
 public class GUI implements MouseListener{
 	private Map<Integer, Subject> keyMap;
 	private static GUI gui;
@@ -35,7 +40,7 @@ public class GUI implements MouseListener{
 	
 	private void Click() {
 		SelectCommandFactory selectCommandFactory = CommandFactory.getFactory(SelectCommandFactory.class);
-		Select select = (Select)selectCommandFactory.createCommand(null);
+		Select select = (Select)selectCommandFactory.createCommand(clickData);
 		controlService.receiveCommand(select);
 	}
 	

@@ -9,6 +9,7 @@
  <!ELEMENT adapters (adapter*)>
  <!ELEMENT adapter (#PCDATA)>
  <!ELEMENT controlservices (controlservice*)>
+ <!ATTLIST controlservices controlService CDATA #REQUIRED>
  <!ELEMENT controlservice (#PCDATA)>
  <!ELEMENT presenter (#PCDATA)>
  <!ELEMENT gui (#PCDATA)>
@@ -21,4 +22,9 @@
  <!ATTLIST command constructor3 CDATA #IMPLIED>
  <!ATTLIST command constructor4 CDATA #IMPLIED>
  <!ATTLIST command constructor5 CDATA #IMPLIED>
+ <!ATTLIST command constructor1type CDATA #IMPLIED>
+ <!ATTLIST command constructor2type CDATA #IMPLIED>
+ <!ATTLIST command constructor3type CDATA #IMPLIED>
+ <!ATTLIST command constructor4type CDATA #IMPLIED>
+ <!ATTLIST command constructor5type CDATA #IMPLIED>
  

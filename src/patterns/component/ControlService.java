@@ -6,12 +6,14 @@ import patterns.component.Composite;
 import presentation.Presentation;
 import presentation.SimplePresentation;
 
+/** <p>This is the KeyController (KeyListener)</p>
+ * @author Armando Gerard
+ * @version 1.1 2022/10/30 Applied design (loading from Settings) @Armando Gerard
+*/
 public class ControlService extends Composite {
 	Presentation presentation;
 	
 	public void receiveCommand(Command command) {
-//		System.out.println("test");
-		
 		for (Iterator<?> iterator = children.iterator(); iterator.hasNext();) {
 			ControlComponent component = (ControlComponent) iterator.next();
 			

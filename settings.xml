@@ -9,14 +9,15 @@
 	<adapters>
 		<adapter>patterns.adapter.XMLAdapter</adapter>
 	</adapters>
-	<controlservices>
-		<controlservice>SlideControl</controlservice>
-		<controlservice>FileControl</controlservice>
-		<controlservice>ClickControl</controlservice>
+	<controlservices controlService="patterns.component.ControlService">
+		<controlservice>patterns.component.SlideControl</controlservice>
+		<controlservice>patterns.component.FileControl</controlservice>
+		<controlservice>patterns.component.ClickControl</controlservice>
 	</controlservices>
-	<gui>GUI</gui>
-	<presenter>Presenter</presenter>
+	<gui>presentation.GUI</gui>
+	<presenter>presentation.Presenter</presenter>
 	<startcommands>
-		<command type="Change" data="FileData" constructor1="test.xml" constructor2=""></command>
+		<command type="patterns.command.Change" 
+			data="patterns.command.wrappers.FileData" constructor1="test.xml" constructor1type="java.lang.String" constructor2="" constructor2type="java.lang.String" ></command>
 	</startcommands>
 </settings>
