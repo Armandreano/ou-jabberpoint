@@ -56,7 +56,11 @@ public class Presentation {
 
 	// verander het huidige-slide-nummer en laat het aan het window weten.
 	public void setSlideNumber(int number) {
+		if(showList.size() == 0) 
+			return;
+		showList.get(currentSlideNumber).setActive(false);
 		currentSlideNumber = number;
+		showList.get(currentSlideNumber).setActive(true);
 		if (slideViewComponent != null) {
 			slideViewComponent.update(this, getCurrentSlide());
 		}
