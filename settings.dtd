@@ -2,7 +2,7 @@
  Document Type Definition for Settings.xml
  $Id$
  -->
- <!ELEMENT settings (factories+, adapters+, presentationfactory, controlservices+, presenter, gui, startcommands+)>
+ <!ELEMENT settings (factories, adapters, controlservices, gui, presenter, startcommands)>
  <!ELEMENT factories (factory*)>
  <!ATTLIST factories presentationfactory CDATA #REQUIRED>
  <!ELEMENT factory (#PCDATA)>

@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!DOCTYPE settings SYSTEM "settings.dtd">
 <settings>
-	<factories presentationfactory="PresentationFactory">
-		<factory>ChangeCommandFactory</factory>
-		<factory>AbortCommandFactory</factory>
-		<factory>SelectCommandFactory</factory>
+	<factories presentationfactory="patterns.factory.PresentationFactory">
+		<factory>patterns.factory.ChangeCommandFactory</factory>
+		<factory>patterns.factory.AbortCommandFactory</factory>
+		<factory>patterns.factory.SelectCommandFactory</factory>
 	</factories>
 	<adapters>
-		
+		<adapter>patterns.adapter.XMLAdapter</adapter>
 	</adapters>
 	<controlservices>
 		<controlservice>SlideControl</controlservice>
@@ -17,6 +17,6 @@
 	<gui>GUI</gui>
 	<presenter>Presenter</presenter>
 	<startcommands>
-		<command type="" data=""></command>
+		<command type="Change" data="FileData" constructor1="test.xml" constructor2=""></command>
 	</startcommands>
 </settings>

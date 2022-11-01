@@ -2,6 +2,7 @@ package presentation;
 //import javax.swing.JOptionPane;
 
 import patterns.adapter.Settings;
+import patterns.adapter.XMLAdapter;
 
 //import java.io.IOException;
 
@@ -25,7 +26,7 @@ public class JabberPoint {
 		
 //		Presentation presentation = new Presentation();
 //		new Window(JABVERSION, presentation);
-		Settings settings = new Settings();
+		Settings settings = new Settings(new XMLAdapter());
 		
 //		try {
 //			if (argv.length == 0) { // een demo presentatie
