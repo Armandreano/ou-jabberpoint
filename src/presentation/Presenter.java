@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.PrintJobAttributeSet;
+
 import patterns.observer.Subject;
 import patterns.command.wrappers.SlideChangeData;
 import patterns.component.ControlService;
@@ -33,6 +35,8 @@ import java.awt.event.KeyAdapter;
 */
 
 public class Presenter extends KeyAdapter {
+	
+	private static Presenter presenter;
 
 	private Map<Integer, Subject> keyMap;
 	private List<Integer> nextButtons; 
@@ -47,6 +51,8 @@ public class Presenter extends KeyAdapter {
 	public Presenter(ControlService controlService) {
 		this.controlService = controlService;
 		keyMap = new HashMap<Integer, Subject>();
+		presenter = this;
+		
 		
 //		CommandFactory factory = CommandFactory.getFactory();
 		// Depending on the context, either GUI or Presenter will apply the setting first
@@ -63,8 +69,7 @@ public class Presenter extends KeyAdapter {
 		previousSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(-1));
 		// TODO implement Quit with Abort
 		
-		
-		nextSlideObserver =()->{ controlService.receiveCommand(previousSlide); };
+		nextSlideObserver =()->{ controlService.receiveCommand(nextSlide); };
 		previousSlideObserver =()->{ controlService.receiveCommand(previousSlide); };
 //		nextSlide = factory.createChangeSlideCommand();
 //		nextSlide.attach(()->presentation.nextSlide());
@@ -75,7 +80,13 @@ public class Presenter extends KeyAdapter {
 //		quit = factory.createQuitCommand();
 		
 		defaultControlSetup();
+		System.out.println("Set up default controls");
 	}
+	
+	protected void finalize() {
+		System.out.println("Destructing");
+	}
+	
 	
 	private void defaultKeyBinding() {
 		nextButtons = Arrays.asList(
@@ -124,10 +135,11 @@ public class Presenter extends KeyAdapter {
 	public void keyPressed(KeyEvent keyEvent) {
 		
 		Subject subject = keyMap.get(keyEvent.getKeyCode());
-
+		System.out.println("Key pressed");
 		if(subject == null)
 			return;
 		
+		System.out.println("Notify presenter");
 		subject.notification();
 	}
 }

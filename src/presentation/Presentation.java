@@ -1,6 +1,8 @@
 package presentation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import patterns.component.SlideComposite; 
 
 /**
@@ -100,5 +102,9 @@ public class Presentation {
 
 	public void exit(int n) {
 		System.exit(n);
+	}
+	
+	public Iterator<?> getIterator(){
+		return showList.iterator();
 	}
 }

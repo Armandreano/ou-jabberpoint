@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE presentation SYSTEM "jabberpoint.dtd">
+<settings>
+	<factories type="PresentationFactory">
+		<factory>ChangeCommandFactory</factory>
+		<factory>AbortCommandFactory</factory>
+		<factory>SelectCommandFactory</factory>
+	</factories>
+</settings>

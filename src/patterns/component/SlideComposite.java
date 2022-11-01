@@ -13,10 +13,10 @@ import java.util.Vector;
 import patterns.component.Component;
 import patterns.component.Composite;
 import patterns.component.ContentLeaf;
-import patterns.component.LinearDrawStrategy;
 import patterns.component.TextStyle;
 import patterns.component.content.TextContent;
 import patterns.factory.Prototype;
+import patterns.strategy.LinearDrawStrategy;
 
 /** <p>Een slide. Deze klasse heeft tekenfunctionaliteit.</p>
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
@@ -105,24 +105,15 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 	}
 
 	// teken de slide
-	public void draw(Graphics g, Rectangle area, ImageObserver view) {
-		float scale = getScale(area);
-	    int y = area.y;
-	    TextStyle style = new TextStyle(Color.black,  20, "Helvetica", 40);
-	    TextContent text = new TextContent(getTitle(), style, 0);
-	    LinearDrawStrategy strategy = new LinearDrawStrategy();
-	    strategy.draw(area.x, y, scale, g, view, text);
-	    
-	   y += text.getExtent(g, view, scale, style).height;
-	    
-		 for (int number=0; number<getSize(); number++) { 
-			 strategy.draw(area.x, y, scale, g, view, (ContentLeaf)getSlideItems().elementAt(number)); 
-			 y += text.getExtent(g, view, scale, style).height; 
-		 }
-	  }
+//	public void draw(Graphics g, Rectangle area, ImageObserver view) {
+//
+//	}
 
-	// geef de schaal om de slide te kunnen tekenen
-	private float getScale(Rectangle area) {
+	public float getScale(Rectangle area) {
 		return Math.min(((float)area.width) / ((float)WIDTH), ((float)area.height) / ((float)HEIGHT));
+	}
+
+	public Iterator<?> getIterator() {
+		return children.iterator();
 	}
 }

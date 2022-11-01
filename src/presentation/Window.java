@@ -23,26 +23,25 @@ public class Window extends JFrame {
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	
-	public Window(String title, Presentation presentation) {
+	public Window(String title, Presentation presentation, GUI gui, Presenter presenter) {
 		super(title);
 		Surface slideViewerComponent = new Surface(presentation, this);
 		presentation.setShowView(slideViewerComponent);
-		setupWindow(slideViewerComponent, presentation);
+		setupWindow(slideViewerComponent, presentation, gui, presenter);
 	}
 
 // De GUI opzetten
 	public void setupWindow(Surface 
-			slideViewerComponent, Presentation presentation) {
+			surface, Presentation presentation, GUI gui, Presenter presenter) {
 		setTitle(JABTITLE);
 		addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					System.exit(0);
 				}
 			});
-		getContentPane().add(slideViewerComponent);
-		addMouseListener(GUI.getGui());
-		// TODO: Presenter shouldn't set, but should be added
-//		addKeyListener(new Presenter()); // een controller toevoegen
+		getContentPane().add(surface);
+		addMouseListener(gui);
+		addKeyListener(presenter); // een controller toevoegen
 		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
 		setVisible(true);

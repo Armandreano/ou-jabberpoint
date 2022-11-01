@@ -17,7 +17,8 @@ public class FileControl extends ControlComponent {
 	}
 	
 	public void ReceiveCommand(Command command) {
-		if(!command.getClass().equals(Change.class))
+		if(!command.getClass().equals(Change.class) || 
+				!command.getData().getClass().equals(FileData.class))
 			return;
 		
 		FileData fileData = (FileData)command.getData();

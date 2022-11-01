@@ -4,10 +4,16 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
+
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import patterns.component.SlideComposite;
+import patterns.observer.Observer;
+import patterns.observer.Subject;
+import patterns.strategy.Drawable;
 
 /**
  * <p>
@@ -25,6 +31,10 @@ import patterns.component.SlideComposite;
 //Service
 //static net als jframe
 public class Surface extends JComponent {
+	private static Surface surface;
+	private Subject subject;
+	private static Graphics graphics;
+	private static Rectangle area;
 
 	private SlideComposite slide; // de huidige slide
 	private Font labelFont = null; // het font voor labels
@@ -42,14 +52,21 @@ public class Surface extends JComponent {
 	private static final int YPOS = 20;
 
 	public Surface(Presentation pres, JFrame frame) {
+		surface = this;
 		setBackground(BGCOLOR);
 		presentation = pres;
 		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
 		this.frame = frame;
+		
+		subject = Subject.createSubject();
 	}
 
 	public Dimension getPreferredSize() {
 		return new Dimension(SlideComposite.WIDTH, SlideComposite.HEIGHT);
+	}
+	
+	public Subject getSubject() {
+		return subject;
 	}
 
 	public void update(Presentation presentation, SlideComposite data) {
@@ -62,6 +79,10 @@ public class Surface extends JComponent {
 		repaint();
 		frame.setTitle(presentation.getTitle());
 	}
+	
+	public static void registerDraw(Drawable drawable) {
+		surface.getSubject().attach(()->{ drawable.draw(graphics, area, surface); });
+	}
 
 // teken de slide
 	public void paintComponent(Graphics g) {
@@ -73,7 +94,8 @@ public class Surface extends JComponent {
 		g.setFont(labelFont);
 		g.setColor(COLOR);
 		g.drawString("Slide " + (1 + presentation.getSlideNumber()) + " of " + presentation.getSize(), XPOS, YPOS);
-		Rectangle area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
-		slide.draw(g, area, this);
+		area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
+		graphics = g;
+		subject.notification();
 	}
 }
