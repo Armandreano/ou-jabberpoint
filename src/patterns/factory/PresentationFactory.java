@@ -19,6 +19,7 @@ import patterns.strategy.LinearDrawStrategy;
 import presentation.Presentation;
 import patterns.component.ContentLeaf;
 import patterns.component.SlideComposite;
+import patterns.component.SlideshowComposite;
 
 /** <p>Done</p>
  * @author Amriet Jainandunsing
@@ -89,13 +90,13 @@ public class PresentationFactory {
 	  
 		NodeList slides = element.getElementsByTagName(SLIDE); 
 		max = slides.getLength();
-		System.out.println(max + "Aantal slides");
+		SlideshowComposite slideshowComposite = new SlideshowComposite();
 		for (slideNumber = 0; slideNumber < max; slideNumber++) { 
 				Element xmlSlide = (Element) slides.item(slideNumber); 
 				Node strategy = slides.item(slideNumber).getAttributes().getNamedItem(STRATEGY);
 				String typeOfStrategy = strategy.getTextContent();
 				SlideComposite slide = new SlideComposite(); 
-				presentation.append(slide);
+				slideshowComposite.addComponent(slide);
 				if(typeOfStrategy.equals("linear")) {
 					LinearDrawStrategy linearDrawStrategy = new LinearDrawStrategy(slide);
 					slide.setStrategy(linearDrawStrategy);
@@ -108,6 +109,7 @@ public class PresentationFactory {
 					loadSlideContent(slide, item); 
 					} 
 				} 
+		presentation.setSlideshowComposite(slideshowComposite);
 	  }
 	  
 	  private String getTitle(Element element, String tagName) { 

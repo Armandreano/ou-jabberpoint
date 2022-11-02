@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 
-import patterns.command.wrappers.ClickData;
 import patterns.component.Component;
 import patterns.component.ContentLeaf;
 import patterns.component.Style;
@@ -12,11 +11,11 @@ import patterns.observer.Subject;
 
 public class ClickableContent extends ContentLeaf {
 
-	private Component clickableContent;
+	private Component content;
 	private Subject subject;
 	
 	public ClickableContent(Component component) {
-		this.clickableContent = component;
+		this.content = component;
 		this.subject = Subject.createSubject();
 	}
 	
@@ -41,10 +40,6 @@ public class ClickableContent extends ContentLeaf {
 	public void remove() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	public void processClick(int x, int y){
-		System.out.println(String.format("Clicked on position X: %s, Y: %s", x, y));
 	}
 
 }

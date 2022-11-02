@@ -4,14 +4,10 @@ import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
-
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import patterns.component.SlideComposite;
-import patterns.observer.Observer;
 import patterns.observer.Subject;
 import patterns.strategy.Drawable;
 
@@ -37,7 +33,6 @@ public class Surface extends JComponent {
 	private static Graphics graphics;
 	private static Rectangle area;
 
-	private SlideComposite slide; // de huidige slide
 	private Font labelFont = null; // het font voor labels
 	private Presentation presentation = null; // de presentatie
 	private JFrame frame = null;
@@ -58,7 +53,7 @@ public class Surface extends JComponent {
 		presentation = pres;
 		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
 		this.frame = frame;
-		
+		frame.setTitle(presentation.getTitle());
 		subject = Subject.createSubject();
 	}
 
@@ -69,33 +64,23 @@ public class Surface extends JComponent {
 	public Subject getSubject() {
 		return subject;
 	}
-
-	public void update(Presentation presentation, SlideComposite data) {
-		if (data == null) {
-			repaint();
-			return;
-		}
-		this.presentation = presentation;
-		this.slide = data;
-		repaint();
-		frame.setTitle(presentation.getTitle());
-	}
 	
 	public static void registerDraw(Drawable drawable) {
 		surface.getSubject().clear();
 		surface.getSubject().attach(()->{ drawable.draw(graphics, area, surface); });
+		surface.repaint();
 	}
 
 // teken de slide
 	public void paintComponent(Graphics g) {
 		g.setColor(BGCOLOR);
 		g.fillRect(0, 0, getSize().width, getSize().height);
-		if (presentation.getSlideNumber() < 0 || slide == null) {
+		if (presentation.getSlideshowComposite().getCurrentSlideNumber() < 0 || presentation.getSlideshowComposite().getCurrentSlide() == null) {
 			return;
 		}
 		g.setFont(labelFont);
 		g.setColor(COLOR);
-		g.drawString("Slide " + (1 + presentation.getSlideNumber()) + " of " + presentation.getSize(), XPOS, YPOS);
+		g.drawString("Slide " + (1 + presentation.getSlideshowComposite().getCurrentSlideNumber() + " of " + presentation.getSlideshowComposite().getSize()), XPOS, YPOS);
 		area = new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
 		graphics = g;
 		subject.notification();

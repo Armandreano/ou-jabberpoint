@@ -32,10 +32,10 @@ public class SlideControl extends ControlComponent {
 		
 		int newSlide = switchToSlideData.getNewSlide();
 		int slideNumber = 0;
-		int currentSlide = presentation.getSlideNumber();
+		int currentSlide = presentation.getSlideshowComposite().getCurrentSlideNumber();
 		
 
-		for (Iterator<?> iterator = presentation.getIterator(); iterator.hasNext();) {
+		for (Iterator<?> iterator = presentation.getSlideshowComposite().getIterator(); iterator.hasNext();) {
 			if(switchToSlideData.getClass() == SlideChangeData.class && slideNumber == newSlide) {
 				// Switch to the new slide
 				// TODO: Implement
@@ -45,7 +45,7 @@ public class SlideControl extends ControlComponent {
 			}
 			else {
 				// Prevent overflow
-				if(currentSlide + newSlide >= presentation.getSize() 
+				if(currentSlide + newSlide >= presentation.getSlideshowComposite().getSize()
 						|| currentSlide + newSlide < 0)
 					return;
 				else if(newSlide == -1 && slideNumber == currentSlide - 1)
