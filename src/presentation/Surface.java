@@ -1,5 +1,6 @@
 package presentation;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -65,8 +66,8 @@ public class Surface extends JComponent {
 		return subject;
 	}
 	
-	public static void setCursor(int cursor) {
-		Surface.setCursor(cursor);
+	public static void applyCursor(Cursor cursor) {
+		surface.setCursor(cursor);
 	}
 	
 	public static void registerDraw(Drawable drawable) {

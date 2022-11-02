@@ -22,6 +22,14 @@ import presentation.Surface;
 */
 
 public class MouseControl extends ControlComponent {
+	Cursor hoverCursor;
+	Cursor defaultCursor;
+	
+	public MouseControl() {
+		hoverCursor = new Cursor(Cursor.HAND_CURSOR);
+		defaultCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+	}
+	
 	@Override
 	public void receiveCommand(Command command) {
 		if(!command.getClass().equals(Select.class))
@@ -32,7 +40,7 @@ public class MouseControl extends ControlComponent {
 		if(ClickData.class.equals(data.getClass()))
 			processClick(command);
 		else if (MousePositionData.class.isAssignableFrom(data.getClass())) {
-			
+			processMousePosition(command);
 		}
 	}
 	
@@ -44,7 +52,7 @@ public class MouseControl extends ControlComponent {
 		return currentSlide.getIterator();
 	}
 	
-	void processClick(Command command) {
+	private void processClick(Command command) {
 		ClickData clickData = (ClickData)command.getData();
 		
 		Iterator<?> iterator = createIterator();
@@ -60,8 +68,9 @@ public class MouseControl extends ControlComponent {
 		}
 	}
 	
-	void processMousePosition(Command command) {
+	private void processMousePosition(Command command) {
 		MousePositionData mousePositionData = (MousePositionData)command.getData();
+		boolean isHovering = false;
 		
 		Iterator<?> iterator = createIterator();
 		while (iterator.hasNext()) {
@@ -71,14 +80,22 @@ public class MouseControl extends ControlComponent {
 				ClickableContent clickableContent = (ClickableContent)component;
 				
 				if(clickableContent.contains(mousePositionData.getX(), mousePositionData.getY())) {
-					// Set hand cursor
-					Surface.setCursor(Cursor.HAND_CURSOR);
-					return;
+					isHovering = true;
+					break;
 				}
 			}
-			
-			// Set default cursor
-			Surface.setCursor(Cursor.DEFAULT_CURSOR);
 		}
+		
+		// Set hand cursor
+		if(isHovering)
+			Surface.applyCursor(hoverCursor);
+		else
+		// Set default cursor
+			Surface.applyCursor(defaultCursor);
+	}
+	
+	public void SetCursors(Cursor defaultCursor, Cursor hoverCursor){
+		this.defaultCursor = defaultCursor;
+		this.hoverCursor = hoverCursor;
 	}
 }

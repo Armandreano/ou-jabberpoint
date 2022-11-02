@@ -3,8 +3,6 @@ package patterns.component.content;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
-import patterns.component.Component;
-import patterns.component.Content;
 import patterns.component.ContentLeaf;
 import patterns.component.Style;
 import patterns.observer.Subject;
@@ -51,8 +49,8 @@ public class ClickableContent extends ContentLeaf {
 			subject.notification();
 		}
 		
-//		System.out.println(String.format("Content %s has X:%d, Y:%d, width: %d and height %d. XPos: %d, YPos: %d bool: %s",
-//				content.toString(), content.getExtent().x, content.getExtent().y, content.getExtent().width, 
-//				content.getExtent().height, x, y, content.getExtent().contains(x, y) ? "True" : "False"));
+		System.out.println(String.format("Content %s has X:%d, Y:%d, width: %d and height %d. XPos: %d, YPos: %d bool: %s",
+				content.toString(), content.getExtent().x, content.getExtent().y, content.getExtent().width, 
+				content.getExtent().height, x, y, content.getExtent().contains(x, y) ? "True" : "False"));
 	}
 }
