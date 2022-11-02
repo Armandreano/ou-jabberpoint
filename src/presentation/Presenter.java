@@ -10,7 +10,7 @@ import javax.print.attribute.PrintJobAttributeSet;
 import patterns.observer.Subject;
 import patterns.command.wrappers.SlideChangeData;
 import patterns.component.ControlService;
-import patterns.component.SlideControl;
+import patterns.component.control.SlideControl;
 import patterns.factory.AbortCommandFactory;
 import patterns.factory.ChangeCommandFactory;
 import patterns.factory.CommandFactory;

@@ -1,4 +1,4 @@
-package patterns.component;
+package patterns.component.control;
 
 import java.util.Iterator;
 
@@ -8,11 +8,12 @@ import patterns.command.wrappers.CommandData;
 import patterns.command.wrappers.SlideChangeData;
 import patterns.command.wrappers.SwitchToSlideData;
 import presentation.Presentation;
+import patterns.component.ControlService;
 
 public class SlideControl extends ControlComponent {
 	
 	@Override
-	public void ReceiveCommand(Command command) {
+	public void receiveCommand(Command command) {
 		if(command.getClass() == Change.class) 
 			changeSlide(command);
 	}

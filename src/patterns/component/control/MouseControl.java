@@ -1,5 +1,6 @@
-package patterns.component;
+package patterns.component.control;
 
+import java.awt.Cursor;
 import java.util.Iterator;
 import patterns.command.Command;
 import patterns.command.Select;
@@ -8,6 +9,9 @@ import patterns.command.wrappers.CommandData;
 import patterns.command.wrappers.MousePositionData;
 import patterns.component.content.ClickableContent;
 import presentation.Presentation;
+import patterns.component.ControlService;
+import patterns.component.SlideComposite;
+import patterns.component.Component;
 import presentation.Surface;
 
 /** <p>This is the KeyController (KeyListener)</p>
@@ -17,16 +21,16 @@ import presentation.Surface;
  * @version 1.1 2022/11/02 Addedmouse position update @Armando Gerard
 */
 
-public class ClickControl extends ControlComponent {
+public class MouseControl extends ControlComponent {
 	@Override
-	public void ReceiveCommand(Command command) {
+	public void receiveCommand(Command command) {
 		if(!command.getClass().equals(Select.class))
 			return;
 		
 		CommandData data = command.getData();
 		
 		if(ClickData.class.equals(data.getClass()))
-			ProcessClick(command);
+			processClick(command);
 		else if (MousePositionData.class.isAssignableFrom(data.getClass())) {
 			
 		}
@@ -36,11 +40,11 @@ public class ClickControl extends ControlComponent {
 		Presentation presentation = 
 				((ControlService)getParentComponent()).getPresentation();
 		
-		SlideComposite currentSlide = presentation.getCurrentSlide();
+		SlideComposite currentSlide = presentation.getSlideshowComposite().getCurrentSlide();
 		return currentSlide.getIterator();
 	}
 	
-	void ProcessClick(Command command) {
+	void processClick(Command command) {
 		ClickData clickData = (ClickData)command.getData();
 		
 		Iterator<?> iterator = createIterator();
@@ -50,12 +54,13 @@ public class ClickControl extends ControlComponent {
 			
 			if(ClickableContent.class.isAssignableFrom(component.getClass())) {
 				ClickableContent clickableContent = (ClickableContent)component;
+				
 				clickableContent.processClick(clickData.getX(), clickData.getY());
 			}
 		}
 	}
 	
-	void ProcessMousePosition(Command command) {
+	void processMousePosition(Command command) {
 		MousePositionData mousePositionData = (MousePositionData)command.getData();
 		
 		Iterator<?> iterator = createIterator();
@@ -65,13 +70,15 @@ public class ClickControl extends ControlComponent {
 			if(ClickableContent.class.isAssignableFrom(component.getClass())) {
 				ClickableContent clickableContent = (ClickableContent)component;
 				
-//				if(clickableContent.isInExtent(mousePositionData.getX(), mousePositionData.apply())) {
-//					mousePositionData.handleSubject(true);
-//				}
-				// TODO: set hand cursor
+				if(clickableContent.contains(mousePositionData.getX(), mousePositionData.getY())) {
+					// Set hand cursor
+					Surface.setCursor(Cursor.HAND_CURSOR);
+					return;
+				}
 			}
 			
-			// TODO: set default cursor
+			// Set default cursor
+			Surface.setCursor(Cursor.DEFAULT_CURSOR);
 		}
 	}
 }

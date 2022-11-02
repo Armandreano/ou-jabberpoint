@@ -65,6 +65,10 @@ public class Surface extends JComponent {
 		return subject;
 	}
 	
+	public static void setCursor(int cursor) {
+		Surface.setCursor(cursor);
+	}
+	
 	public static void registerDraw(Drawable drawable) {
 		surface.getSubject().clear();
 		surface.getSubject().attach(()->{ drawable.draw(graphics, area, surface); });

@@ -3,6 +3,7 @@ import java.util.Iterator;
 
 import patterns.command.Command;
 import patterns.component.Composite;
+import patterns.component.control.ControlComponent;
 import presentation.Presentation;
 import presentation.SimplePresentation;
 
@@ -18,7 +19,7 @@ public class ControlService extends Composite {
 		for (Iterator<?> iterator = children.iterator(); iterator.hasNext();) {
 			ControlComponent component = (ControlComponent) iterator.next();
 			
-			component.ReceiveCommand(command);
+			component.receiveCommand(command);
 		}
 	}
 	

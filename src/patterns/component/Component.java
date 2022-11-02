@@ -21,7 +21,6 @@ public abstract class Component {
 		this.parentComponent = parentComponent;
 	}
 	
-	
 	public Style getStyle() {
 		return style;
 	}

@@ -11,7 +11,7 @@ import patterns.observer.Subject;
 import patterns.command.Command;
 import patterns.command.wrappers.SlideChangeData;
 import patterns.command.wrappers.SwitchToSlideData;
-import patterns.component.SlideControl;
+import patterns.component.control.SlideControl;
 import patterns.factory.AbortCommandFactory;
 import patterns.factory.ChangeCommandFactory;
 import patterns.factory.CommandFactory;

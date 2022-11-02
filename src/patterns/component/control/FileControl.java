@@ -1,9 +1,10 @@
-package patterns.component;
+package patterns.component.control;
 
 import patterns.adapter.FileAdapter;
 import patterns.command.Change;
 import patterns.command.Command;
 import patterns.command.wrappers.FileData;
+import patterns.component.ControlService;
 import patterns.factory.PresentationFactory;
 import presentation.Presentation;
 
@@ -21,7 +22,7 @@ public class FileControl extends ControlComponent {
 		this.factory = factory;
 	}
 	
-	public void ReceiveCommand(Command command) {
+	public void receiveCommand(Command command) {
 		if(!command.getClass().equals(Change.class) || 
 				!command.getData().getClass().equals(FileData.class))
 			return;

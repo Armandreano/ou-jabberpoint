@@ -10,9 +10,9 @@
 		<adapter>patterns.adapter.XMLAdapter</adapter>
 	</adapters>
 	<controlservices controlService="patterns.component.ControlService">
-		<controlservice>patterns.component.SlideControl</controlservice>
-		<controlservice>patterns.component.FileControl</controlservice>
-		<controlservice>patterns.component.ClickControl</controlservice>
+		<controlservice>patterns.component.control.SlideControl</controlservice>
+		<controlservice>patterns.component.control.FileControl</controlservice>
+		<controlservice>patterns.component.control.MouseControl</controlservice>
 	</controlservices>
 	<gui>presentation.GUI</gui>
 	<presenter>presentation.Presenter</presenter>

@@ -10,13 +10,14 @@ import org.w3c.dom.NodeList;
 import patterns.command.Command;
 import patterns.command.wrappers.CommandData;
 import patterns.command.wrappers.FileData;
-import patterns.component.ControlComponent;
+import patterns.component.control.ControlComponent;
+import patterns.component.control.FileControl;
 import patterns.component.ControlService;
-import patterns.component.FileControl;
 import patterns.factory.CommandFactory;
 import patterns.factory.PresentationFactory;
 import patterns.adapter.FileAdapter;
 import presentation.GUI;
+import presentation.Presentation;
 import presentation.Presenter;
 import presentation.Window;
 
@@ -78,8 +79,9 @@ public class Settings {
 			
 			sendCommands(element.getElementsByTagName("command"), controlService);
 			
-			new Window(JABVERSION, controlService.getPresentation(), gui, presenter);
-			controlService.getPresentation().setSlideNumber(0);
+			Presentation presentation = controlService.getPresentation();
+			new Window(JABVERSION, presentation, gui, presenter);
+			presentation.setSlideNumber(0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -78,10 +78,8 @@ public class GUI implements MouseListener, MouseMotionListener{
 	public void mouseAction(int button) {
 		Subject subject = keyMap.get(button);
 		
-		if(subject != null) {
-			System.out.println(String.format("Clicked button: %d", button));
+		if(subject != null) 
 			subject.notification();
-		}
 	}
 
 	@Override
