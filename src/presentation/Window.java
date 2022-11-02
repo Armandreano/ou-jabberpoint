@@ -42,6 +42,7 @@ public class Window extends JFrame {
 			});
 		getContentPane().add(surface);
 		addMouseListener(gui);
+		addMouseMotionListener(gui);
 		addKeyListener(presenter); // een controller toevoegen
 		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.

@@ -47,64 +47,23 @@ public class Settings {
 	}
 	
 	public void apply(Element element) {
-		
 		try {
 			NodeList presentationFactoryList = element.getElementsByTagName("factories");
 			String presentationfactoryString = presentationFactoryList.item(0).getAttributes().item(0).getNodeValue();
 			NodeList controlServiceList = element.getElementsByTagName("controlservices");
 			String controlServiceString = controlServiceList.item(0).getAttributes().item(0).getNodeValue();
 			
-			NodeList factories = element.getElementsByTagName("factory");
-			NodeList adapters = element.getElementsByTagName("adapter");
-			NodeList controlComponents = element.getElementsByTagName("controlservice");
 			
 			Class<?> factoryClass = Class.forName(presentationfactoryString);
 			PresentationFactory presentationFactory = (PresentationFactory)factoryClass.getConstructor().newInstance();
 			
-			for (int i = 0; i < factories.getLength(); i++) {
-				String factoryTypeString = factories.item(i).getTextContent();
-				Class<?> commandfactoryClass = Class.forName(factoryTypeString);
-				CommandFactory commandFactory =  (CommandFactory)commandfactoryClass.getConstructor().newInstance();
-				if(commandFactory != null)
-					CommandFactory.addFactory(commandFactory);
-			}
+			createCommandFactories(element.getElementsByTagName("factory"));
+			FileAdapter[] fileAdapters = createFileAdapters(presentationFactory, element.getElementsByTagName("adapter"));
 			
-			ArrayList<FileAdapter> fileAdapters = new ArrayList<FileAdapter>();
-			
-			for (int i = 0; i < adapters.getLength(); i++) {
-				String adapterTypeString = adapters.item(i).getTextContent();
-				Class<?> adapterClass = Class.forName(adapterTypeString);
-				FileAdapter adapter =  (FileAdapter)adapterClass.getConstructor().newInstance();
-				
-				if(adapter != null)
-				{
-					presentationFactory.addAdapter(adapter);
-					fileAdapters.add(adapter);
-				}
-			}
 			
 			Class<?> controlServiceClass = Class.forName(controlServiceString);
 			ControlService controlService = (ControlService)controlServiceClass.getConstructor().newInstance();
-
-			for (int i = 0; i < controlComponents.getLength(); i++) {
-				String controlComponentTypeString = controlComponents.item(i).getTextContent();
-				Class<?> controlComponentClass = Class.forName(controlComponentTypeString);
-
-				ControlComponent controlComponent =  
-						(ControlComponent)controlComponentClass.getConstructor().newInstance();
-						
-				if(controlComponent != null){
-					controlService.addComponent(controlComponent);
-					
-					if(FileControl.class.isInstance(controlComponent)) {
-						FileAdapter[] fileAdapterArray = new FileAdapter[fileAdapters.size()];
-						fileAdapters.toArray(fileAdapterArray);
-						
-						((FileControl)controlComponent).Initialize(fileAdapterArray, presentationFactory);
-					}
-				}
-			}
-			
+			createControlComponents(element.getElementsByTagName("controlservice"), controlService, presentationFactory, fileAdapters);
 			
 			NodeList guiList = element.getElementsByTagName("gui");
 			String guiString = guiList.item(0).getTextContent();
@@ -117,51 +76,124 @@ public class Settings {
 			Class<?> presenterClass = Class.forName(presenterString);
 			Presenter presenter = (Presenter)presenterClass.getConstructor(ControlService.class).newInstance(controlService);
 			
-			System.out.println(String.class);
-
-			NodeList commandList = element.getElementsByTagName("command");
+			sendCommands(element.getElementsByTagName("command"), controlService);
 			
-			for (int i = 0; i < commandList.getLength(); i++) {
-				NamedNodeMap namedNodeMap = commandList.item(i).getAttributes();
-				String commandTypeString = "";
-				String commandDataString = "";
-				String constructor1Value = "";
-				String constructor2Value = "";
-				String constructor1Type = "";
-				String constructor2Type = "";
+			new Window(JABVERSION, controlService.getPresentation(), gui, presenter);
+			controlService.getPresentation().setSlideNumber(0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void createCommandFactories(NodeList factories) {
+		for (int i = 0; i < factories.getLength(); i++) {
+			try {
+				String factoryTypeString = factories.item(i).getTextContent();
+				Class<?> commandfactoryClass = Class.forName(factoryTypeString);
+				CommandFactory commandFactory =  (CommandFactory)commandfactoryClass.getConstructor().newInstance();
+				if(commandFactory != null)
+					CommandFactory.addFactory(commandFactory);
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
+	
+	public FileAdapter[] createFileAdapters(PresentationFactory presentationFactory, NodeList adapters) {
+		try {
+			ArrayList<FileAdapter> fileAdapterList = new ArrayList<FileAdapter>();
+			
+			for (int i = 0; i < adapters.getLength(); i++) {
+				String adapterTypeString = adapters.item(i).getTextContent();
+				Class<?> adapterClass = Class.forName(adapterTypeString);
+				FileAdapter adapter =  (FileAdapter)adapterClass.getConstructor().newInstance();
 				
-				for (int j = 0; j < namedNodeMap.getLength(); j++) {
-					switch (namedNodeMap.item(j).getNodeName()) {
-					case "type": {
-						commandTypeString = namedNodeMap.item(j).getNodeValue();
-						break;
-					}
-					case "data": {
-						commandDataString = namedNodeMap.item(j).getNodeValue();
-						break;
-					}
-					case "constructor1": {
-						constructor1Value = namedNodeMap.item(j).getNodeValue();
-						break;
-					}
-					case "constructor2": {
-						constructor2Value = namedNodeMap.item(j).getNodeValue();
-						break;
-					} 
-					case "constructor1type": {
-						constructor1Type = namedNodeMap.item(j).getNodeValue();
-						break;
-					}
-					case "constructor2type": {
-						constructor2Type = namedNodeMap.item(j).getNodeValue();
-						break;
-					} // Can continue with constructor 3, 4 etc. not necessary for assignment
-					default:
-						throw new IllegalArgumentException("Unexpected value: " + namedNodeMap.item(j).getNodeName());
-					}
+				if(adapter != null)
+				{
+					presentationFactory.addAdapter(adapter);
+					fileAdapterList.add(adapter);
+				}
+			}
+			
+			FileAdapter[] fileAdapters = new FileAdapter[fileAdapterList.size()];
+			fileAdapterList.toArray(fileAdapters);
+			
+			return fileAdapters;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
+	}
+	
+	public void createControlComponents(NodeList controlComponents, ControlService controlService, PresentationFactory presentationFactory, FileAdapter[] fileAdapters) {
+		try {
+			for (int i = 0; i < controlComponents.getLength(); i++) {
+				String controlComponentTypeString = controlComponents.item(i).getTextContent();
+				Class<?> controlComponentClass = Class.forName(controlComponentTypeString);
+	
+				ControlComponent controlComponent =  
+						(ControlComponent)controlComponentClass.getConstructor().newInstance();
+						
+				if(controlComponent != null){
+					controlService.addComponent(controlComponent);
 					
+					if(FileControl.class.isInstance(controlComponent)) {
+						((FileControl)controlComponent).Initialize(fileAdapters, presentationFactory);
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void sendCommands(NodeList commandList, ControlService controlService) {		
+		for (int i = 0; i < commandList.getLength(); i++) {
+			NamedNodeMap namedNodeMap = commandList.item(i).getAttributes();
+			String commandTypeString = "";
+			String commandDataString = "";
+			String constructor1Value = "";
+			String constructor2Value = "";
+			String constructor1Type = "";
+			String constructor2Type = "";
+			
+			for (int j = 0; j < namedNodeMap.getLength(); j++) {
+				switch (namedNodeMap.item(j).getNodeName()) {
+				case "type": {
+					commandTypeString = namedNodeMap.item(j).getNodeValue();
+					break;
+				}
+				case "data": {
+					commandDataString = namedNodeMap.item(j).getNodeValue();
+					break;
+				}
+				case "constructor1": {
+					constructor1Value = namedNodeMap.item(j).getNodeValue();
+					break;
+				}
+				case "constructor2": {
+					constructor2Value = namedNodeMap.item(j).getNodeValue();
+					break;
+				} 
+				case "constructor1type": {
+					constructor1Type = namedNodeMap.item(j).getNodeValue();
+					break;
+				}
+				case "constructor2type": {
+					constructor2Type = namedNodeMap.item(j).getNodeValue();
+					break;
+				} // Can continue with constructor 3, 4 etc. not necessary for assignment
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + namedNodeMap.item(j).getNodeName());
 				}
 				
+			}
+			
+			try {
 				switch (namedNodeMap.getLength() - 2) {
 				case 0: {
 					
@@ -189,13 +221,9 @@ public class Settings {
 				default:
 					break;
 				}
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-			
-			new Window(JABVERSION, controlService.getPresentation(), gui, presenter);
-			controlService.getPresentation().setSlideNumber(0);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

@@ -9,6 +9,7 @@ import presentation.SimplePresentation;
 /** <p>This is the KeyController (KeyListener)</p>
  * @author Armando Gerard
  * @version 1.1 2022/10/30 Applied design (loading from Settings) @Armando Gerard
+ * @version 1.2 2022/11/02 Removed debug spam @Armando Gerard
 */
 public class ControlService extends Composite {
 	Presentation presentation;
@@ -18,10 +19,6 @@ public class ControlService extends Composite {
 			ControlComponent component = (ControlComponent) iterator.next();
 			
 			component.ReceiveCommand(command);
-			
-			System.out.println(String.format("Sending %s command to %s",
-					command.getClass().toString(),
-					component.getClass().toString()));
 		}
 	}
 	
