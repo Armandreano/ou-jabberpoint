@@ -1,6 +1,7 @@
 package patterns.factory;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -95,7 +96,7 @@ public class PresentationFactory {
 				Element xmlSlide = (Element) slides.item(slideNumber); 
 				Node strategy = slides.item(slideNumber).getAttributes().getNamedItem(STRATEGY);
 				String typeOfStrategy = strategy.getTextContent();
-				SlideComposite slide = new SlideComposite(); 
+				SlideComposite slide = SlideComposite.createSlide();
 				slideshowComposite.addComponent(slide);
 				if(typeOfStrategy.equals("linear")) {
 					LinearDrawStrategy linearDrawStrategy = new LinearDrawStrategy(slide);
@@ -106,7 +107,7 @@ public class PresentationFactory {
 				maxItems = slideItems.getLength(); 
 				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) { 
 					Element item = (Element) slideItems.item(itemNumber);
-					loadSlideContent(slide, item); 
+					loadSlideContent(slide, item, presentation); 
 					} 
 				} 
 		presentation.setSlideshowComposite(slideshowComposite);
@@ -161,7 +162,7 @@ public class PresentationFactory {
 		  return new TextStyle(color, leading, fontName, fontSize); 
 	}
 	  
-	  private void loadSlideContent(SlideComposite slide, Element item) { 
+	  private void loadSlideContent(SlideComposite slide, Element item, Presentation presentation) { 
 		  NamedNodeMap attributes = item.getAttributes(); 
 		  Node action = attributes.getNamedItem(ACTIONS);
 	  
@@ -187,12 +188,12 @@ public class PresentationFactory {
 		  if (TEXT.equals(type)) {
 			  TextContent content = new TextContent(item.getTextContent(), style,indent); 
 			  slide.addComponent(content); 
-			  loadClickableContent(slide, content, actions);
+			  loadClickableContent(slide, content, actions, presentation);
 		  } else { 
 			  if (IMAGE.equals(type)) {
 				  	ImageContent content = new ImageContent(item.getTextContent(), style, indent); 
 				  	slide.addComponent(content); 
-					loadClickableContent(slide, content, actions);
+					loadClickableContent(slide, content, actions, presentation);
 				  	} 
 			  else { 
 				  System.err.println(UNKNOWNTYPE); 
@@ -201,9 +202,38 @@ public class PresentationFactory {
 	  }
 	  
 		
-	private void loadClickableContent(SlideComposite slide, ContentLeaf leaf, String[] actions) {
+	private void loadClickableContent(SlideComposite slide, ContentLeaf leaf, String[] actions, Presentation presentation) {
 		if(actions != null) {
-			slide.addComponent(new ClickableContent(leaf)); 
+			ClickableContent clickableContent = new ClickableContent(leaf);
+			for (int i = 0; i < actions.length; i++) {
+				switch (actions[i]) {
+				case "next": {
+					clickableContent.attachObserver(()->{presentation.setSlideNumber(
+							presentation.getSlideshowComposite().getCurrentSlideNumber() + 1);} );
+					break;
+				}
+				case "previous": {
+					clickableContent.attachObserver(()->{presentation.setSlideNumber(
+							presentation.getSlideshowComposite().getCurrentSlideNumber() - 1);} );
+					break;
+				}
+				case "beep": {
+					clickableContent.attachObserver(()->{Toolkit.getDefaultToolkit().beep();;} );
+					break;
+				}
+				case "open": {
+					clickableContent.attachObserver(()->{Toolkit.getDefaultToolkit().beep();;} );
+					break;
+				}
+				case "goto": {
+					clickableContent.attachObserver(()->{Toolkit.getDefaultToolkit().beep();;} );
+					break;
+				}
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + actions[i]);
+				} 
+			}
+			slide.addComponent(clickableContent); 
 			} 
 		} 
 }

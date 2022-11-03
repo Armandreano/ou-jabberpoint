@@ -49,7 +49,7 @@ public class SlideshowComposite extends Composite implements Prototype<Slideshow
 	}
 	
 	public void setSlideNumber(int number) {
-		if(this.getSize() == 0) 
+		if(this.getSize() == 0 || number < 0 || number >= this.getSize()) 
 			return;
 		this.getSlide(currentSlideNumber).setActive(false);
 		currentSlideNumber = number;

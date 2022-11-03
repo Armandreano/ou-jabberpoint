@@ -1,9 +1,5 @@
 package presentation;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import patterns.component.SlideComposite;
 import patterns.component.SlideshowComposite; 
 
 /**

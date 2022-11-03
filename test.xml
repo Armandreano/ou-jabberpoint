@@ -3,13 +3,13 @@
 <presentation>
 	<showtitle>XML-Based Presentation for Jabberpoint</showtitle>
 	<slide strategy="linear">
-		<item kind="text"  color="red" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next, beep">JabberPoint XML-Demo</item>
-		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next, beep">Welkom bij Jabberpoint</item>
+		<item kind="text"  color="red" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next,beep">JabberPoint XML-Demo</item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next">Welkom bij Jabberpoint</item>
 		<item kind="image" indent="0" leading="40">serclogo_fc.jpg</item>
 	</slide>
 	<slide strategy="linear">
-		<item kind="text"  color="red" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next, beep">Bla</item>
-		<item kind="text"  color="black" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next, beep">Bla</item>
+		<item kind="text"  color="red" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next">Bla</item>
+		<item kind="text"  color="black" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next">Bla</item>
 		<item kind="image" indent="0" leading="40">JabberPoint.gif</item>
 	</slide>
 </presentation>

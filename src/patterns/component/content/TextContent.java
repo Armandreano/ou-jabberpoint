@@ -2,7 +2,6 @@ package patterns.component.content;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
@@ -15,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import patterns.component.Component;
-import patterns.component.Content;
 import patterns.component.ContentLeaf;
 import patterns.component.Style;
 import patterns.component.TextStyle;
@@ -61,14 +58,14 @@ public class TextContent extends ContentLeaf {
 			TextLayout layout = iterator.next();
 			Rectangle2D bounds = layout.getBounds();
 			if (bounds.getWidth() > xsize) {
-				xsize = (int) bounds.getWidth();
+				xsize = (int)Math.round(bounds.getWidth());
 			}
 			if (bounds.getHeight() > 0) {
-				ysize += bounds.getHeight();
+				ysize += Math.round(bounds.getHeight());
 			}
 			ysize += layout.getLeading() + layout.getDescent();
 		}
-		this.extent = new Rectangle((int) (this.getIndent()*scale), 0, xsize, ysize );
+		this.extent = new Rectangle( Math.round((this.getIndent()*scale)), 0, xsize, ysize );
 		return extent;
 	}
 	

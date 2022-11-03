@@ -7,8 +7,6 @@ import java.awt.MenuShortcut;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.io.IOException;
-
 import javax.swing.JOptionPane;
 
 /** <p>De controller voor het menu</p>
@@ -78,20 +76,7 @@ public class MenuController extends MenuBar {
 				parent.repaint();
 			}
 		});
-		
-		fileMenu.add(menuItem = mkMenuItem(SAVE));
-		// TODO: Move to GUI
-//		menuItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				Accessor xmlAccessor = new XMLAccessor();
-//				try {
-//					xmlAccessor.saveFile(presentation, SAVEFILE);
-//				} catch (IOException exc) {
-//					JOptionPane.showMessageDialog(parent, IOEX + exc, 
-//							SAVEERR, JOptionPane.ERROR_MESSAGE);
-//				}
-//			}
-//		});
+
 		
 		fileMenu.addSeparator();
 		fileMenu.add(menuItem = mkMenuItem(EXIT));

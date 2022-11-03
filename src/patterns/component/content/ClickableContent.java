@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 import patterns.component.ContentLeaf;
 import patterns.component.Style;
+import patterns.observer.Observer;
 import patterns.observer.Subject;
 
 public class ClickableContent extends ContentLeaf {
@@ -15,6 +16,10 @@ public class ClickableContent extends ContentLeaf {
 	public ClickableContent(ContentLeaf component) {
 		this.content = component;
 		this.subject = Subject.createSubject();
+	}
+	
+	public void attachObserver(Observer o) {
+		this.subject.attach(o);
 	}
 	
 	@Override
@@ -40,17 +45,23 @@ public class ClickableContent extends ContentLeaf {
 		
 	}
 	
+	public ContentLeaf getContent() {
+		return this.content;
+	}
+	
 	public boolean contains(int x, int y) {
-		return content.getExtent().contains(x, y);
+		Rectangle contentRectangleCopy = content.getExtent().getBounds();
+		contentRectangleCopy.setLocation((content.getExtent().x + content.getX()), (content.getExtent().y + content.getY()));
+		return contentRectangleCopy.contains(x, y);
 	}
 
 	public void processClick(int x, int y) {
-		if(content.getExtent().contains(x, y)) {
+		Rectangle contentRectangleCopy = content.getExtent().getBounds();
+		contentRectangleCopy.setLocation((content.getExtent().x + content.getX()), (content.getExtent().y + content.getY()));
+
+		if(contentRectangleCopy.contains(x, y)) {
+			System.out.println("Wordt geklikt");
 			subject.notification();
 		}
-		
-		System.out.println(String.format("Content %s has X:%d, Y:%d, width: %d and height %d. XPos: %d, YPos: %d bool: %s",
-				content.toString(), content.getExtent().x, content.getExtent().y, content.getExtent().width, 
-				content.getExtent().height, x, y, content.getExtent().contains(x, y) ? "True" : "False"));
 	}
 }
