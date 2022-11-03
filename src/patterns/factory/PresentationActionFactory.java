@@ -20,7 +20,6 @@ public class PresentationActionFactory extends PresentationFactory {
 		Component component = super.createComponent(node, slide, presentation);
 
 		ContentLeaf leaf = (ContentLeaf) component;
-		ClickableContent clickableContent = new ClickableContent(leaf);
 		
 		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
 			Node actionNode = node.getChildNodes().item(i);
@@ -32,13 +31,14 @@ public class PresentationActionFactory extends PresentationFactory {
 				
 				if(valueNode != null)
 					value = valueNode.getTextContent();
-				
+				ClickableContent clickableContent = new ClickableContent(leaf);
 				loadClickableContent(slide, clickableContent, action, value, presentation);
+				slide.addComponent(clickableContent);
 			}
 
 		}
 		
-		slide.addComponent(clickableContent);
+		
 
 		return component;
 	}
@@ -88,6 +88,18 @@ public class PresentationActionFactory extends PresentationFactory {
 					// TODO: handle exception
 				}
 				;
+			});
+			break;
+		}
+		case "end": {
+			clickableContent.attachObserver(() -> {
+				presentation.setSlideNumber(presentation.getSlideshowComposite().getSize() - 1);
+			});
+			break;
+		}
+		case "start": {
+			clickableContent.attachObserver(() -> {
+				presentation.setSlideNumber(0);
 			});
 			break;
 		}

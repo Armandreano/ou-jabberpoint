@@ -1,7 +1,6 @@
 package patterns.factory;
 
 import java.awt.Color;
-import java.awt.Toolkit;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,14 +12,11 @@ import org.w3c.dom.NodeList;
 
 import patterns.adapter.FileAdapter;
 import patterns.component.TextStyle;
-import patterns.component.content.ClickableContent;
 import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
 import patterns.strategy.LinearDrawStrategy;
 import presentation.Presentation;
 import patterns.component.Component;
-import patterns.component.Content;
-import patterns.component.ContentLeaf;
 import patterns.component.SlideComposite;
 import patterns.component.SlideshowComposite;
 
@@ -136,12 +132,6 @@ public class PresentationFactory {
 			String[] actions) {
 		Component content = null;
 		NamedNodeMap attributes = item.getAttributes();
-		/*
-		 * Node action = attributes.getNamedItem(ACTIONS);
-		 * 
-		 * //TODO: Should be overriden String[] actions = null; if (action != null) {
-		 * actions = action.getTextContent().split("\\,"); }
-		 */
 
 		int indent = 0;
 		Node indentNode = attributes.getNamedItem(INDENT);
@@ -161,12 +151,10 @@ public class PresentationFactory {
 		if (TEXT.equals(type)) {
 			content = new TextContent(value, style, indent);
 			slide.addComponent(content);
-			// loadClickableContent(slide, (ContentLeaf)content, actions, presentation);
 		} else {
 			if (IMAGE.equals(type)) {
 				content = new ImageContent(value, style, indent);
 				slide.addComponent(content);
-				// loadClickableContent(slide, (ContentLeaf)content, actions, presentation);
 			} else {
 				System.err.println(UNKNOWNTYPE);
 			}
@@ -174,12 +162,6 @@ public class PresentationFactory {
 		return content;
 	}
 	
-	/*
-	 * private String[] readActions(Node node, String[] actions) {
-	 * 
-	 * }
-	 */
-
 	private String getTitle(Element element, String tagName) {
 		NodeList titles = element.getElementsByTagName(tagName);
 		return titles.item(0).getTextContent();

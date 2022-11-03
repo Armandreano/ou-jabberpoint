@@ -3,26 +3,43 @@
 <presentation>
 	<showtitle>XML-Based Presentation for Jabberpoint</showtitle>
 	<slide strategy="linear">
-		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Ga naar het einde van de presentatie">
+			<action name="end"></action>
+		</item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Ga naar slide 3">
+			<action name="goto" value="3"></action>
+		</item>
+		<item kind="image" indent="0" leading="40" value="serclogo_fc.jpg"></item>
+	</slide>
+	<slide strategy="linear">
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Open een nieuwe presentatie">
 			<action name="open" value="showcase.xml"></action>
 		</item>
-		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
+		<item kind="text"  color="black" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Slide 2"></item>
 		<item kind="image" indent="0" leading="40" value="serclogo_fc.jpg"></item>
 	</slide>
 	<slide strategy="linear">
-		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Ga naar de volgende slide en maak geluid!">
 			<action name="next"></action>
 			<action name="beep"></action>
 		</item>
-		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
+		<item kind="text"  color="black" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Slide 3"></item>
 		<item kind="image" indent="0" leading="40" value="serclogo_fc.jpg"></item>
 	</slide>
 	<slide strategy="linear">
-		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
-			<action name="next"></action>
+		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Maak geluid!">
 			<action name="beep"></action>
 		</item>
-		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
+		<item kind="text" color="black" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Slide 4"></item>
+		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Ga naar de vorige slide">
+			<action name="previous"></action>
+		</item>
+	</slide>
+	<slide strategy="linear">
+		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Ga naar het begin van de presentatie">
+			<action name="start"></action>
+		</item>
+		<item kind="text" color="black" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Slide 5"></item>
 		<item kind="image" indent="0" leading="40" value="Jabberpoint.jpg"></item>
 	</slide>
 </presentation>
