@@ -14,8 +14,8 @@ public class ClickableContent extends ContentLeaf {
 	private Subject subject;
 	
 	public ClickableContent(ContentLeaf component) {
-		this.content = component;
 		this.subject = Subject.createSubject();
+		this.content = component;
 	}
 	
 	public void attachObserver(Observer o) {

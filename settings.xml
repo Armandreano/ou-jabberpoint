@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE settings SYSTEM "settings.dtd">
 <settings>
-	<factories presentationfactory="patterns.factory.PresentationFactory">
+	<factories presentationfactory="patterns.factory.PresentationActionFactory">
 		<factory>patterns.factory.ChangeCommandFactory</factory>
 		<factory>patterns.factory.AbortCommandFactory</factory>
 		<factory>patterns.factory.SelectCommandFactory</factory>

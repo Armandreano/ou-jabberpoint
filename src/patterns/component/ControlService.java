@@ -2,10 +2,8 @@ package patterns.component;
 import java.util.Iterator;
 
 import patterns.command.Command;
-import patterns.component.Composite;
 import patterns.component.control.ControlComponent;
 import presentation.Presentation;
-import presentation.SimplePresentation;
 import presentation.Surface;
 
 /** <p>This is the KeyController (KeyListener)</p>

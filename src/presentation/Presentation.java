@@ -20,12 +20,7 @@ public class Presentation {
 	private String showTitle; // de titel van de presentatie
 //	private Surface slideViewComponent = null; // de viewcomponent voor de Slides
 	private SlideshowComposite slideshowComposite;
-
-//	public Presentation() {
-////		slideViewComponent = null; 
-////		clear();
-//	}
-
+	
 //	public Presentation(Surface slideViewerComponent) {
 //		this.slideViewComponent = slideViewerComponent;
 //		clear();

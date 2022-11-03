@@ -10,6 +10,7 @@ import patterns.command.wrappers.MousePositionData;
 import patterns.component.content.ClickableContent;
 import presentation.Presentation;
 import patterns.component.SlideComposite;
+import patterns.component.SlideshowComposite;
 import patterns.component.Component;
 import presentation.Surface;
 
@@ -47,10 +48,16 @@ public class MouseControl extends ControlComponent {
 	private Iterator<?> createIterator(){
 		Presentation presentation = getControlService().getPresentation();
 		
-		SlideComposite currentSlide = presentation.getSlideshowComposite().getCurrentSlide();
+		SlideshowComposite slideshowComposite = presentation.getSlideshowComposite();
+		
+		if(slideshowComposite == null )
+			return null;
+		
+		SlideComposite currentSlide = slideshowComposite.getCurrentSlide();
 		
 		if(currentSlide == null)
 			return null;
+		
 		
 		return currentSlide.getIterator();
 	}
@@ -59,6 +66,9 @@ public class MouseControl extends ControlComponent {
 		ClickData clickData = (ClickData)command.getData();
 		
 		Iterator<?> iterator = createIterator();
+		
+		if(iterator == null)
+			return;
 		
 		while (iterator.hasNext()) {
 			Component component = (Component)iterator.next();

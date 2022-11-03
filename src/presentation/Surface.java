@@ -61,6 +61,7 @@ public class Surface extends JComponent {
 		this.presentation = presentation;
 		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
 		frame.setTitle(presentation.getTitle());
+		surface.repaint();
 	}
 	
 	public static void setPresentation(Presentation presentation) {

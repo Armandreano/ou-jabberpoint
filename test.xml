@@ -3,11 +3,26 @@
 <presentation>
 	<showtitle>XML-Based Presentation for Jabberpoint</showtitle>
 	<slide strategy="linear">
-			<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
-							<action name="next"></action>
-							<action name="beep"></action>
-			</item>
-			<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
-			<item kind="image" indent="0" leading="40" value="serclogo_fc.jpg"></item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
+			<action name="open" value="showcase.xml"></action>
+		</item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
+		<item kind="image" indent="0" leading="40" value="serclogo_fc.jpg"></item>
+	</slide>
+	<slide strategy="linear">
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
+			<action name="next"></action>
+			<action name="beep"></action>
+		</item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
+		<item kind="image" indent="0" leading="40" value="serclogo_fc.jpg"></item>
+	</slide>
+	<slide strategy="linear">
+		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint">
+			<action name="next"></action>
+			<action name="beep"></action>
+		</item>
+		<item kind="text" color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Welkom bij Jabberpoint"></item>
+		<item kind="image" indent="0" leading="40" value="Jabberpoint.jpg"></item>
 	</slide>
 </presentation>
