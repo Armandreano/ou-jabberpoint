@@ -18,6 +18,8 @@ import patterns.component.content.ImageContent;
 import patterns.component.content.TextContent;
 import patterns.strategy.LinearDrawStrategy;
 import presentation.Presentation;
+import patterns.component.Component;
+import patterns.component.Content;
 import patterns.component.ContentLeaf;
 import patterns.component.SlideComposite;
 import patterns.component.SlideshowComposite;
@@ -40,6 +42,8 @@ public class PresentationFactory {
 	  protected static final String SHOWTITLE = "showtitle"; 
 	  protected static final String SLIDE = "slide"; 
 	  protected static final String STRATEGY = "strategy"; 
+	  protected static final String ACTION = "action"; 
+	  protected static final String NAME = "name"; 
 	  protected static final String ITEM = "item";
 	  protected static final String COLOR = "color"; 
 	  protected static final String FONTNAME = "fontname"; 
@@ -51,6 +55,7 @@ public class PresentationFactory {
 	  protected static final String KIND = "kind"; 
 	  protected static final String TEXT = "text"; 
 	  protected static final String IMAGE = "image";
+	  protected static final String VALUE = "value";
 	  
 	  protected static final String PCE = "Parser Configuration Exception";
 	  protected static final String UNKNOWNTYPE = "Unknown Element type"; 
@@ -102,23 +107,49 @@ public class PresentationFactory {
 					LinearDrawStrategy linearDrawStrategy = new LinearDrawStrategy(slide);
 					slide.setStrategy(linearDrawStrategy);
 				}
-	  
-				NodeList slideItems = xmlSlide.getElementsByTagName(ITEM); 
+	            
+				NodeList xmlItems = xmlSlide.getElementsByTagName(ITEM);
+				System.out.println("Items: " + xmlItems.getLength());
+				for(itemNumber = 0; itemNumber < xmlItems.getLength(); itemNumber++) {
+					//Node node = xmlItems.item(itemNumber);
+
+					createComponent(xmlItems, itemNumber, slide, presentation);
+						 
+				}
+	
+			
+/*				NodeList slideItems = xmlSlide.getElementsByTagName(ITEM); 
 				maxItems = slideItems.getLength(); 
 				for (itemNumber = 0; itemNumber < maxItems; itemNumber++) { 
 					Element item = (Element) slideItems.item(itemNumber);
 					loadSlideContent(slide, item, presentation); 
 					} 
-				} 
+				} */
 		presentation.setSlideshowComposite(slideshowComposite);
+		}
 	  }
+	  
+	  protected Component createComponent(NodeList node, int index, SlideComposite slide, Presentation presentation) {
+		  Component component = null;
+
+			System.out.println("Komt keertje hier");
+			Element test1 = (Element) node.item(index);
+			component = loadSlideContent(slide, test1, presentation, null);
+
+			return component;
+	  }
+		/*
+		 * private String[] readActions(Node node, String[] actions) {
+		 * 
+		 * }
+		 */
 	  
 	  private String getTitle(Element element, String tagName) { 
 		  NodeList titles = element.getElementsByTagName(tagName); 
 	  	return titles.item(0).getTextContent();
 	  }
 	  
-	  private TextStyle createStyle(NamedNodeMap attributes, Element item) { 
+	  private TextStyle createStyle(NamedNodeMap attributes, Node item) { 
 		  int fontSize = 40; 
 		  int leading = 20; 
 		  String fontName = "Helvetica"; 
@@ -162,17 +193,18 @@ public class PresentationFactory {
 		  return new TextStyle(color, leading, fontName, fontSize); 
 	}
 	  
-	  private void loadSlideContent(SlideComposite slide, Element item, Presentation presentation) { 
+	  protected Component loadSlideContent(SlideComposite slide, Element item, Presentation presentation, String[] actions) {
+		  Component content = null;
 		  NamedNodeMap attributes = item.getAttributes(); 
-		  Node action = attributes.getNamedItem(ACTIONS);
+			/*
+			 * Node action = attributes.getNamedItem(ACTIONS);
+			 * 
+			 * //TODO: Should be overriden String[] actions = null; if (action != null) {
+			 * actions = action.getTextContent().split("\\,"); }
+			 */
 	  
-		  //TODO: Should be overriden
-		  String[] actions = null; 
-		  if (action != null) { 
-			  actions = action.getTextContent().split("\\,"); 
-		  }
-	  
-		  int indent = 0; Node indentNode = attributes.getNamedItem(INDENT);
+		  int indent = 0; 
+		  Node indentNode = attributes.getNamedItem(INDENT);
 	  
 		  if (indentNode != null) { 
 			  try { 
@@ -183,57 +215,23 @@ public class PresentationFactory {
 		  }
 	  
 		  String type = attributes.getNamedItem(KIND).getTextContent();
+		  String value = attributes.getNamedItem(VALUE).getTextContent(); 
 	  
 		  TextStyle style = createStyle(attributes, item);
 		  if (TEXT.equals(type)) {
-			  TextContent content = new TextContent(item.getTextContent(), style,indent); 
+			  content = new TextContent(value, style,indent); 
 			  slide.addComponent(content); 
-			  loadClickableContent(slide, content, actions, presentation);
+			  //loadClickableContent(slide, (ContentLeaf)content, actions, presentation);
 		  } else { 
 			  if (IMAGE.equals(type)) {
-				  	ImageContent content = new ImageContent(item.getTextContent(), style, indent); 
+				  	content = new ImageContent(value, style, indent); 
 				  	slide.addComponent(content); 
-					loadClickableContent(slide, content, actions, presentation);
+					//loadClickableContent(slide, (ContentLeaf)content, actions, presentation);
 				  	} 
 			  else { 
 				  System.err.println(UNKNOWNTYPE); 
 				  } 
 			  }
+		  return content;
 	  }
-	  
-		
-	private void loadClickableContent(SlideComposite slide, ContentLeaf leaf, String[] actions, Presentation presentation) {
-		if(actions != null) {
-			ClickableContent clickableContent = new ClickableContent(leaf);
-			for (int i = 0; i < actions.length; i++) {
-				switch (actions[i]) {
-				case "next": {
-					clickableContent.attachObserver(()->{presentation.setSlideNumber(
-							presentation.getSlideshowComposite().getCurrentSlideNumber() + 1);} );
-					break;
-				}
-				case "previous": {
-					clickableContent.attachObserver(()->{presentation.setSlideNumber(
-							presentation.getSlideshowComposite().getCurrentSlideNumber() - 1);} );
-					break;
-				}
-				case "beep": {
-					clickableContent.attachObserver(()->{Toolkit.getDefaultToolkit().beep();;} );
-					break;
-				}
-				case "open": {
-					clickableContent.attachObserver(()->{Toolkit.getDefaultToolkit().beep();;} );
-					break;
-				}
-				case "goto": {
-					clickableContent.attachObserver(()->{Toolkit.getDefaultToolkit().beep();;} );
-					break;
-				}
-				default:
-					throw new IllegalArgumentException("Unexpected value: " + actions[i]);
-				} 
-			}
-			slide.addComponent(clickableContent); 
-			} 
-		} 
 }
