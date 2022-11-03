@@ -1,7 +1,9 @@
 package patterns.component;
-import java.util.Iterator;
 
+import java.util.Iterator;
 import patterns.factory.Prototype;
+
+// @version 1.? 2022/11/03 Fixed opening from files via file explorer @Armando Gerard
 
 public class SlideshowComposite extends Composite implements Prototype<SlideshowComposite> {
 	private int currentSlideNumber = 0;
@@ -58,5 +60,17 @@ public class SlideshowComposite extends Composite implements Prototype<Slideshow
 	
 	public Iterator<?> getIterator(){
 		return this.children.iterator();
+	}
+	
+	@Override
+	public void removeAll() {
+		for (Iterator iterator = children.iterator(); iterator.hasNext();) {
+			SlideComposite component = (SlideComposite) iterator.next();			
+			component.setActive(false);
+			component.removeAll();
+		}
+		
+		
+		super.removeAll();
 	}
 }

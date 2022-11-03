@@ -3,6 +3,9 @@ import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
+import javax.swing.plaf.metal.MetalIconFactory.TreeControlIcon;
+
+import patterns.component.ControlService;
 
 /**
  * <p>Het applicatiewindow voor een slideviewcomponent</p>
@@ -14,6 +17,7 @@ import javax.swing.JFrame;
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
  * @version 1.6 2022/10/31 Armando Gerard
+ * @version 1.7 2022/11/03 Fixed opening from files via file explorer @Armando Gerard
 */
 
 //WindowFrame
@@ -24,16 +28,16 @@ public class Window extends JFrame {
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	
-	public Window(String title, Presentation presentation, GUI gui, Presenter presenter) {
+	public Window(String title, Presentation presentation, GUI gui, Presenter presenter, ControlService controlService) {
 		super(title);
 		Surface surface = new Surface(presentation, this);
-		presentation.setShowView(surface);
-		setupWindow(surface, presentation, gui, presenter);
+//		presentation.setShowView(surface);
+		setupWindow(surface, presentation, gui, presenter, controlService);
 	}
 
 // De GUI opzetten
 	public void setupWindow(Surface 
-			surface, Presentation presentation, GUI gui, Presenter presenter) {
+			surface, Presentation presentation, GUI gui, Presenter presenter, ControlService controlService) {
 		setTitle(JABTITLE);
 		addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -44,7 +48,7 @@ public class Window extends JFrame {
 		addMouseListener(gui);
 		addMouseMotionListener(gui);
 		addKeyListener(presenter); // een controller toevoegen
-		setMenuBar(new MenuController(this, presentation));	// nog een controller toevoegen
+		setMenuBar(new MenuController(this, presentation, controlService));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
 		setVisible(true);
 	}

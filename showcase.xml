@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE presentation SYSTEM "jabberpoint.dtd">
+<presentation>
+	<showtitle>Showcase</showtitle>
+	<slide strategy="linear">
+		<item kind="text"  color="red" fontname="Helvetica" fontsize="40" indent="0" leading="40" actions="next,beep">Showcase presentation</item>
+		<item kind="image" indent="0" leading="40">logo-woordmerk_ou.gif</item>		
+	</slide>
+	<slide strategy="linear">
+		<item kind="image" indent="0" leading="40">JabberPoint.gif</item>
+	</slide>
+</presentation>

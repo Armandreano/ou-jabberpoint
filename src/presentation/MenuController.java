@@ -7,7 +7,17 @@ import java.awt.MenuShortcut;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import patterns.command.Change;
+import patterns.command.wrappers.CommandData;
+import patterns.command.wrappers.FileData;
+import patterns.component.ControlService;
+import patterns.factory.ChangeCommandFactory;
+import patterns.factory.CommandFactory;
 
 /** <p>De controller voor het menu</p>
  * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
@@ -17,6 +27,7 @@ import javax.swing.JOptionPane;
  * @version 1.4 2007/07/16 Sylvia Stuurman
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
+ * @version 1.7 2022/11/03 Fixed opening from files via file explorer @Armando Gerard
  */
 public class MenuController extends MenuBar {
 	
@@ -38,14 +49,14 @@ public class MenuController extends MenuBar {
 	protected static final String SAVE = "Save";
 	protected static final String VIEW = "View";
 	
-	protected static final String TESTFILE = "test.xml";
+	protected static final String TESTFILE = "testfile.xml";
 	protected static final String SAVEFILE = "dump.xml";
 	
 	protected static final String IOEX = "IO Exception: ";
 	protected static final String LOADERR = "Load Error";
 	protected static final String SAVEERR = "Save Error";
 
-	public MenuController(Frame frame, Presentation pres) {
+	public MenuController(Frame frame, Presentation pres, ControlService controlService) {
 		parent = frame;
 		presentation = pres;
 		MenuItem menuItem;
@@ -53,21 +64,24 @@ public class MenuController extends MenuBar {
 		fileMenu.add(menuItem = mkMenuItem(OPEN));
 		
 		// TODO: Move to GUI
-//		menuItem.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent actionEvent) {
-//				presentation.clear();
-//				XMLAdapter adapter = new XMLAdapter();
-//				try {
-//					File file = new File(TESTFILE);
-//					adapter.createPresentation(presentation, file);
-//					presentation.setSlideNumber(0);
-//				} catch (IOException exc) {
-//					JOptionPane.showMessageDialog(parent, IOEX + exc, 
-//         			LOADERR, JOptionPane.ERROR_MESSAGE);
-//				}
-//				parent.repaint();
-//			}
-//		} );
+		menuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+				int result = fileChooser.showOpenDialog(parent);
+				
+				if (result == JFileChooser.APPROVE_OPTION) {
+				    // user selects a file
+					File selectedFile = fileChooser.getSelectedFile();
+					
+					FileData fileData = new FileData(selectedFile.getName(), "");
+					
+					Change change = (Change)((ChangeCommandFactory)CommandFactory.getFactory(
+							ChangeCommandFactory.class)).createCommand(fileData);
+					controlService.receiveCommand(change);
+				}
+			}
+		} );
 		
 		fileMenu.add(menuItem = mkMenuItem(NEW));
 		menuItem.addActionListener(new ActionListener() {

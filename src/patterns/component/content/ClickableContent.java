@@ -50,12 +50,18 @@ public class ClickableContent extends ContentLeaf {
 	}
 	
 	public boolean contains(int x, int y) {
+		if(content == null || content.getExtent() == null)
+			return false;
+		
 		Rectangle contentRectangleCopy = content.getExtent().getBounds();
 		contentRectangleCopy.setLocation((content.getExtent().x + content.getX()), (content.getExtent().y + content.getY()));
 		return contentRectangleCopy.contains(x, y);
 	}
 
 	public void processClick(int x, int y) {
+		if(content == null || content.getExtent() == null)
+			return;
+		
 		Rectangle contentRectangleCopy = content.getExtent().getBounds();
 		contentRectangleCopy.setLocation((content.getExtent().x + content.getX()), (content.getExtent().y + content.getY()));
 

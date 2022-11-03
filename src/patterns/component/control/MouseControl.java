@@ -9,7 +9,6 @@ import patterns.command.wrappers.CommandData;
 import patterns.command.wrappers.MousePositionData;
 import patterns.component.content.ClickableContent;
 import presentation.Presentation;
-import patterns.component.ControlService;
 import patterns.component.SlideComposite;
 import patterns.component.Component;
 import presentation.Surface;
@@ -17,8 +16,9 @@ import presentation.Surface;
 /** <p>This is the KeyController (KeyListener)</p>
  * @author Armando Gerard
  * @version 1.1 2022/10/30 Applied design @Armando Gerard
- * @version 1.1 2022/11/01 Added click content iteration @Armando Gerard
- * @version 1.1 2022/11/02 Addedmouse position update @Armando Gerard
+ * @version 1.2 2022/11/01 Added click content iteration @Armando Gerard
+ * @version 1.3 2022/11/02 Addedmouse position update @Armando Gerard
+ * @version 1.4 2022/11/03 Fixed opening from files via file explorer (bugs) @Armando Gerard
 */
 
 public class MouseControl extends ControlComponent {
@@ -45,10 +45,13 @@ public class MouseControl extends ControlComponent {
 	}
 	
 	private Iterator<?> createIterator(){
-		Presentation presentation = 
-				((ControlService)getParentComponent()).getPresentation();
+		Presentation presentation = getControlService().getPresentation();
 		
 		SlideComposite currentSlide = presentation.getSlideshowComposite().getCurrentSlide();
+		
+		if(currentSlide == null)
+			return null;
+		
 		return currentSlide.getIterator();
 	}
 	
@@ -73,6 +76,10 @@ public class MouseControl extends ControlComponent {
 		boolean isHovering = false;
 		
 		Iterator<?> iterator = createIterator();
+		
+		if(iterator == null)
+			return;
+		
 		while (iterator.hasNext()) {
 			Component component = (Component)iterator.next();
 			

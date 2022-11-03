@@ -8,6 +8,7 @@ import java.util.List;
  * @author Armando Gerard
  * @version 1.1 2022/09/09 Applied design based on experience in Game Development
  * @version 1.2 2022/10/31 Added setting the parent of the leaf component
+ * @version 1.3 2022/11/03 Fixed opening from files via file explorer (added possibility of removal of children) @Armando Gerard
 */
 
 public class Composite extends Component {
@@ -116,5 +117,9 @@ public class Composite extends Component {
 			Component component = (Component) iterator.next();
 			component.update();
 		}
+	}
+	
+	public void removeAll() {
+		children.clear();
 	}
 }

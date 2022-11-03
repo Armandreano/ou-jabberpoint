@@ -79,4 +79,8 @@ public class SlideComposite extends Composite implements Prototype<SlideComposit
 	public Iterator<?> getIterator() {
 		return children.iterator();
 	}
+	
+	public boolean getActive() {
+		return isActive;
+	}
 }

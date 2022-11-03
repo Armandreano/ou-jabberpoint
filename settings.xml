@@ -13,6 +13,7 @@
 		<controlservice>patterns.component.control.SlideControl</controlservice>
 		<controlservice>patterns.component.control.FileControl</controlservice>
 		<controlservice>patterns.component.control.MouseControl</controlservice>
+		<controlservice>patterns.component.control.PresentationControl</controlservice>
 	</controlservices>
 	<gui>presentation.GUI</gui>
 	<presenter>presentation.Presenter</presenter>

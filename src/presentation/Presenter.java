@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.print.attribute.PrintJobAttributeSet;
 
 import patterns.observer.Subject;
+import patterns.command.wrappers.QuitCommandData;
 import patterns.command.wrappers.SlideChangeData;
 import patterns.component.ControlService;
 import patterns.component.control.SlideControl;
@@ -42,12 +43,14 @@ public class Presenter extends KeyAdapter {
 	private List<Integer> quitButtons; 
 	Change nextSlide;
 	Change previousSlide;
+	Abort quitPresentation;
+	
 	private Observer nextSlideObserver;
 	private Observer previousSlideObserver;
-	private ControlService controlService;
+	
+	private Observer quitPresentationObserver;
 	
 	public Presenter(ControlService controlService) {
-		this.controlService = controlService;
 		keyMap = new HashMap<Integer, Subject>();
 		
 		// Depending on the context, either GUI or Presenter will apply the setting first
@@ -55,12 +58,13 @@ public class Presenter extends KeyAdapter {
 		ChangeCommandFactory changeCommandFactory = CommandFactory.getFactory(ChangeCommandFactory.class);
 		nextSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(1));
 		previousSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(-1));
-		// TODO implement Quit with Abort
+		
+		AbortCommandFactory abortCommandFactory = CommandFactory.getFactory(AbortCommandFactory.class);
+		quitPresentation = (Abort)abortCommandFactory.createCommand(new QuitCommandData(true));
 		
 		nextSlideObserver =()->{ controlService.receiveCommand(nextSlide); };
 		previousSlideObserver =()->{ controlService.receiveCommand(previousSlide); };
-//		
-//		quit = factory.createQuitCommand();
+		quitPresentationObserver = ()->{ controlService.receiveCommand(quitPresentation); };
 		
 		defaultControlSetup();
 		System.out.println("Set up default controls");
@@ -105,7 +109,7 @@ public class Presenter extends KeyAdapter {
 		
 		setupSubject(nextButtons, nextSlideObserver);
 		setupSubject(previousButtons, previousSlideObserver);
-//		setupCommand(quitButtons, quit);
+		setupSubject(quitButtons, quitPresentationObserver);
 	}
 	
 	public void bindKey(int key, Observer observer) {

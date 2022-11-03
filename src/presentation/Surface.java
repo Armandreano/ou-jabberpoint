@@ -25,6 +25,7 @@ import patterns.strategy.Drawable;
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
  * @version 1.7 2022/10/31 Armando Gerard
+ * @version 1.8 2022/11/03 Fixed opening from files via file explorer @Armando Gerard
  */
 //Service
 //static net als jframe
@@ -48,14 +49,23 @@ public class Surface extends JComponent {
 	private static final int XPOS = 1100;
 	private static final int YPOS = 20;
 
-	public Surface(Presentation pres, JFrame frame) {
+	public Surface(Presentation presentation, JFrame frame) {
 		surface = this;
 		setBackground(BGCOLOR);
-		presentation = pres;
-		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
 		this.frame = frame;
-		frame.setTitle(presentation.getTitle());
+		applyPresentation(presentation);
 		subject = Subject.createSubject();
+	}
+	
+	public void applyPresentation(Presentation presentation) {
+		this.presentation = presentation;
+		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
+		frame.setTitle(presentation.getTitle());
+	}
+	
+	public static void setPresentation(Presentation presentation) {
+		if(surface != null)
+			surface.applyPresentation(presentation);
 	}
 
 	public Dimension getPreferredSize() {
@@ -71,6 +81,9 @@ public class Surface extends JComponent {
 	}
 	
 	public static void registerDraw(Drawable drawable) {
+		if(surface == null)
+			return;
+		
 		surface.getSubject().clear();
 		surface.getSubject().attach(()->{ drawable.draw(graphics, area, surface); });
 		surface.repaint();

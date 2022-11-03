@@ -6,6 +6,7 @@ import patterns.component.Composite;
 import patterns.component.control.ControlComponent;
 import presentation.Presentation;
 import presentation.SimplePresentation;
+import presentation.Surface;
 
 /** <p>This is the KeyController (KeyListener)</p>
  * @author Armando Gerard
@@ -28,6 +29,7 @@ public class ControlService extends Composite {
 	}
 	
 	public void setPresentation(Presentation presentation) {
+		Surface.setPresentation(presentation);
 		this.presentation = presentation;
 	}
 }

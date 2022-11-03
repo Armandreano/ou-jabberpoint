@@ -24,6 +24,7 @@ import presentation.Surface;
  * @author Amriet Jainandunsing, Armando Gerard
  * @version 1.1 2022/10/?? Amriet Jainandunsing
  * @version 1.2 2022/11/01 Applied design Armando Gerard
+ * @version 1.3 2022/11/03 Fixed opening from files via file explorer @Armando Gerard
  */
 public class LinearDrawStrategy extends Strategy implements Drawable {
 	public LinearDrawStrategy(Composite composite) {
@@ -43,8 +44,9 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
 
 	@Override
 	public void draw(Graphics graphics, Rectangle rectangle, Surface surface) {
-		if (slideComposite == null)
+		if (slideComposite == null || !((SlideComposite)slideComposite).getActive())
 			return;
+		
 		float scale = slideComposite.getScale(rectangle);
 		int x = rectangle.x;
 		int y = rectangle.y;

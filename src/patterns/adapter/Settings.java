@@ -80,7 +80,7 @@ public class Settings {
 			sendCommands(element.getElementsByTagName("command"), controlService);
 			
 			Presentation presentation = controlService.getPresentation();
-			new Window(JABVERSION, presentation, gui, presenter);
+			new Window(JABVERSION, presentation, gui, presenter, controlService);
 			presentation.setSlideNumber(0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

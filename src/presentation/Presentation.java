@@ -12,22 +12,24 @@ import patterns.component.SlideshowComposite;
  * @version 1.4 2007/07/16 Sylvia Stuurman
  * @version 1.5 2010/03/03 Sylvia Stuurman
  * @version 1.6 2014/05/16 Sylvia Stuurman
+ * @version 1.7 - ?? Applied design @Amriet Jainandunsing
+ * @version 1.? 2022/11/03 Fixed opening from files via file explorer @Armando Gerard
  */
 
 public class Presentation {
 	private String showTitle; // de titel van de presentatie
-	private Surface slideViewComponent = null; // de viewcomponent voor de Slides
+//	private Surface slideViewComponent = null; // de viewcomponent voor de Slides
 	private SlideshowComposite slideshowComposite;
 
-	public Presentation() {
-		slideViewComponent = null; 
-		clear();
-	}
+//	public Presentation() {
+////		slideViewComponent = null; 
+////		clear();
+//	}
 
-	public Presentation(Surface slideViewerComponent) {
-		this.slideViewComponent = slideViewerComponent;
-		clear();
-	}
+//	public Presentation(Surface slideViewerComponent) {
+//		this.slideViewComponent = slideViewerComponent;
+//		clear();
+//	}
 	
 	public void setSlideshowComposite(SlideshowComposite slideshowComposite) {
 		this.slideshowComposite = slideshowComposite;
@@ -41,9 +43,9 @@ public class Presentation {
 		showTitle = nt;
 	}
 
-	public void setShowView(Surface slideViewerComponent) {
-		this.slideViewComponent = slideViewerComponent;
-	}
+//	public void setShowView(Surface slideViewerComponent) {
+//		this.slideViewComponent = slideViewerComponent;
+//	}
 	
 	public SlideshowComposite getSlideshowComposite() {
 		return this.slideshowComposite;
@@ -54,12 +56,21 @@ public class Presentation {
 	}
 
 	// Verwijder de presentatie, om klaar te zijn voor de volgende
-	void clear() {
+	public void clear() {
+		if(slideshowComposite != null) {
+			slideshowComposite.removeAll();
+		}
 		//showList = new ArrayList<SlideComposite>();
 		//setSlideNumber(-1);
 	}
 
 	public void exit(int n) {
 		System.exit(n);
+	}
+	
+	public boolean canQuit() {
+		// This would have changed if saving was implemented, 
+		// it would check if there are processes active that need to be finished first
+		return true;
 	}
 }

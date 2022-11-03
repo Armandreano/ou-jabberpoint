@@ -8,7 +8,6 @@ import patterns.command.wrappers.CommandData;
 import patterns.command.wrappers.SlideChangeData;
 import patterns.command.wrappers.SwitchToSlideData;
 import presentation.Presentation;
-import patterns.component.ControlService;
 
 public class SlideControl extends ControlComponent {
 	
@@ -27,7 +26,7 @@ public class SlideControl extends ControlComponent {
 		if(!SwitchToSlideData.class.isAssignableFrom(rawData.getClass()))
 			return;
 		
-		Presentation presentation = ((ControlService)getParentComponent()).getPresentation();
+		Presentation presentation = getControlService().getPresentation();
 		
 		SwitchToSlideData switchToSlideData = (SwitchToSlideData)rawData;
 		
