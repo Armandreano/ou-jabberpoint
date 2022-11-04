@@ -9,7 +9,7 @@
 		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Ga naar slide 3">
 			<action name="goto" value="3"></action>
 		</item>
-		<item kind="image" indent="0" leading="40" value="JabberPoint.gif">
+		<item kind="text" indent="0" leading="40" value="Open a new presentation (with a link on the second slide)">
 			<action name="open" value="showcase.xml"></action>
 		</item>
 	</slide>

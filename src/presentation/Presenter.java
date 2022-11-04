@@ -77,16 +77,16 @@ public class Presenter extends KeyAdapter {
 	
 	private void defaultKeyBinding() {
 		nextButtons = Arrays.asList(
+			KeyEvent.VK_PAGE_UP,
+			KeyEvent.VK_UP,
+			KeyEvent.VK_MINUS
+		);
+		
+		previousButtons = Arrays.asList(
 			KeyEvent.VK_PAGE_DOWN,
 			KeyEvent.VK_DOWN,
 			KeyEvent.VK_ENTER,
 			KeyEvent.VK_PLUS
-		);
-		
-		previousButtons = Arrays.asList(
-			KeyEvent.VK_PAGE_UP,
-			KeyEvent.VK_UP,
-			KeyEvent.VK_MINUS
 		);
 		
 		quitButtons = Arrays.asList(
