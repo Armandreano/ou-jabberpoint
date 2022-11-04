@@ -78,10 +78,7 @@ public class MouseControl extends ControlComponent {
 		if(iterator == null)
 			return;
 		
-		while (iterator.hasNext()) {
-			if(!isActive())
-				return;
-			
+		while (iterator.hasNext() && isActive()) {
 			// We are aware that this leads to a concurrent error, it's because we are clearing the slides while this is iterating
 			
 			try {
@@ -111,7 +108,7 @@ public class MouseControl extends ControlComponent {
 		if(iterator == null)
 			return;
 		
-		while (iterator.hasNext() && !isActive()) {
+		while (iterator.hasNext() && isActive()) {
 			Component component = (Component)iterator.next();
 			
 			if(ClickableContent.class.isAssignableFrom(component.getClass())) {

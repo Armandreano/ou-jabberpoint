@@ -7,6 +7,9 @@
 		<item kind="image" indent="0" leading="40" value="logo-woordmerk_ou.gif"></item>		
 	</slide>
 	<slide strategy="linear">
+		<item kind="text" indent="0" leading="40" value="Click here to play audio">
+			<action name="audio" value="rickrollsoundeffect.wav"></action>
+		</item>		
 		<item kind="image" indent="0" leading="40" value="rick.png">
 			<action name="link" value="https://www.youtube.com/watch?v=dQw4w9WgXcQ"></action>
 		</item>

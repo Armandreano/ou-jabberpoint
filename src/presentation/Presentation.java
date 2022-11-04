@@ -28,6 +28,7 @@ public class Presentation {
 			presentation.clear(true);
 		
 		presentation = this;
+		isLocked = false;
 	}
 	
 	public static Presentation getPresentation() {

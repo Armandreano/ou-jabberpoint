@@ -2,10 +2,15 @@ package patterns.factory;
 
 import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,7 +30,7 @@ public class PresentationActionFactory extends PresentationFactory {
 		Component component = super.createComponent(node, slide, presentation);
 
 		ContentLeaf leaf = (ContentLeaf) component;
-		
+
 		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
 			Node actionNode = node.getChildNodes().item(i);
 
@@ -33,8 +38,8 @@ public class PresentationActionFactory extends PresentationFactory {
 				String action = actionNode.getAttributes().getNamedItem(NAME).getTextContent();
 				Node valueNode = actionNode.getAttributes().getNamedItem(VALUE);
 				String value = "";
-				
-				if(valueNode != null)
+
+				if (valueNode != null)
 					value = valueNode.getTextContent();
 				ClickableContent clickableContent = new ClickableContent(leaf);
 				loadClickableContent(slide, clickableContent, action, value, presentation);
@@ -42,8 +47,6 @@ public class PresentationActionFactory extends PresentationFactory {
 			}
 
 		}
-		
-		
 
 		return component;
 	}
@@ -72,6 +75,13 @@ public class PresentationActionFactory extends PresentationFactory {
 			});
 			break;
 		}
+		case "audio": {
+			clickableContent.attachObserver(() -> {
+				playAudio(value);
+			});
+			break;
+		}
+		
 		case "open": {
 			clickableContent.attachObserver(() -> {
 				try {
@@ -118,13 +128,27 @@ public class PresentationActionFactory extends PresentationFactory {
 			return;
 		}
 	}
-	
+
+	private void playAudio(String value) {
+		try {
+			Clip clip = AudioSystem.getClip();
+			File audioFile = new File(value);
+			AudioInputStream inputStream = 
+					AudioSystem.getAudioInputStream(audioFile);
+        	clip.open(inputStream);
+		    clip.start(); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public void openWebPage(String url) {
 		Desktop desktop = Desktop.getDesktop();
-		
-		if(desktop == null)
+
+		if (desktop == null)
 			return;
-		
+
 		try {
 			desktop.browse(new URL(url).toURI());
 		} catch (IOException | URISyntaxException e) {
