@@ -36,7 +36,7 @@ public class Surface extends JComponent {
 	private static Rectangle area;
 
 	private Font labelFont = null; // het font voor labels
-	private Presentation presentation = null; // de presentatie
+//	private Presentation presentation = null; // de presentatie
 	private JFrame frame = null;
 
 	private static final long serialVersionUID = 227L;
@@ -49,16 +49,14 @@ public class Surface extends JComponent {
 	private static final int XPOS = 1100;
 	private static final int YPOS = 20;
 
-	public Surface(Presentation presentation, JFrame frame) {
+	public Surface(JFrame frame) {
 		surface = this;
 		setBackground(BGCOLOR);
 		this.frame = frame;
-		applyPresentation(presentation);
 		subject = Subject.createSubject();
 	}
 	
 	public void applyPresentation(Presentation presentation) {
-		this.presentation = presentation;
 		labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
 		frame.setTitle(presentation.getTitle());
 		surface.repaint();
@@ -94,6 +92,8 @@ public class Surface extends JComponent {
 	public void paintComponent(Graphics g) {
 		g.setColor(BGCOLOR);
 		g.fillRect(0, 0, getSize().width, getSize().height);
+		
+		Presentation presentation = Presentation.getPresentation();
 		if (presentation.getSlideshowComposite().getCurrentSlideNumber() < 0 || presentation.getSlideshowComposite().getCurrentSlide() == null) {
 			return;
 		}

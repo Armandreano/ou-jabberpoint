@@ -1,6 +1,7 @@
 package patterns.component.control;
 
 import java.awt.Cursor;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import patterns.command.Command;
 import patterns.command.Select;
@@ -50,7 +51,7 @@ public class MouseControl extends ControlComponent {
 		
 		SlideshowComposite slideshowComposite = presentation.getSlideshowComposite();
 		
-		if(slideshowComposite == null )
+		if(slideshowComposite == null || !slideshowComposite.isActive())
 			return null;
 		
 		SlideComposite currentSlide = slideshowComposite.getCurrentSlide();
@@ -62,6 +63,13 @@ public class MouseControl extends ControlComponent {
 		return currentSlide.getIterator();
 	}
 	
+	private boolean isActive() {
+		SlideshowComposite slideshowComposite = 
+				getControlService().getPresentation().getSlideshowComposite();
+		
+		return slideshowComposite.isActive();
+	}
+	
 	private void processClick(Command command) {
 		ClickData clickData = (ClickData)command.getData();
 		
@@ -71,13 +79,26 @@ public class MouseControl extends ControlComponent {
 			return;
 		
 		while (iterator.hasNext()) {
-			Component component = (Component)iterator.next();
+			if(!isActive())
+				return;
 			
-			if(ClickableContent.class.isAssignableFrom(component.getClass())) {
-				ClickableContent clickableContent = (ClickableContent)component;
+			// We are aware that this leads to a concurrent error, it's because we are clearing the slides while this is iterating
+			
+			try {
+				Component component = (Component)iterator.next();
 				
-				clickableContent.processClick(clickData.getX(), clickData.getY());
+				if(ClickableContent.class.isAssignableFrom(component.getClass())) {
+					ClickableContent clickableContent = (ClickableContent)component;
+					
+					clickableContent.processClick(clickData.getX(), clickData.getY());
+				}
+				
+			} catch (ConcurrentModificationException e) {
+				return;
+				// TODO: handle exception
 			}
+			
+		
 		}
 	}
 	
@@ -90,7 +111,7 @@ public class MouseControl extends ControlComponent {
 		if(iterator == null)
 			return;
 		
-		while (iterator.hasNext()) {
+		while (iterator.hasNext() && !isActive()) {
 			Component component = (Component)iterator.next();
 			
 			if(ClickableContent.class.isAssignableFrom(component.getClass())) {

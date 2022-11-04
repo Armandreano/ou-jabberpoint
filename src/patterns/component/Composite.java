@@ -14,6 +14,16 @@ import java.util.List;
 public class Composite extends Component {
 	protected ArrayList<Component> children = new ArrayList<Component>();
 	
+	private boolean active;
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean isActive) {
+		this.active = isActive;
+	}
+
 	public <T extends Component> T addComponent(T t){
 		if(t == null) // This object doesn't have creation rights
 			return null;

@@ -56,9 +56,9 @@ public class MenuController extends MenuBar {
 	protected static final String LOADERR = "Load Error";
 	protected static final String SAVEERR = "Save Error";
 
-	public MenuController(Frame frame, Presentation pres, ControlService controlService) {
+	public MenuController(Frame frame, ControlService controlService) {
 		parent = frame;
-		presentation = pres;
+		presentation = Presentation.getPresentation();
 		MenuItem menuItem;
 		Menu fileMenu = new Menu(FILE);
 		fileMenu.add(menuItem = mkMenuItem(OPEN));
@@ -86,7 +86,7 @@ public class MenuController extends MenuBar {
 		fileMenu.add(menuItem = mkMenuItem(NEW));
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
-				presentation.clear();
+				presentation.clear(false);
 				parent.repaint();
 			}
 		});

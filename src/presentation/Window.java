@@ -28,16 +28,16 @@ public class Window extends JFrame {
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	
-	public Window(String title, Presentation presentation, GUI gui, Presenter presenter, ControlService controlService) {
+	public Window(String title, GUI gui, Presenter presenter, ControlService controlService) {
 		super(title);
-		Surface surface = new Surface(presentation, this);
+		Surface surface = new Surface(this);
 //		presentation.setShowView(surface);
-		setupWindow(surface, presentation, gui, presenter, controlService);
+		setupWindow(surface, gui, presenter, controlService);
 	}
 
 // De GUI opzetten
 	public void setupWindow(Surface 
-			surface, Presentation presentation, GUI gui, Presenter presenter, ControlService controlService) {
+			surface, GUI gui, Presenter presenter, ControlService controlService) {
 		setTitle(JABTITLE);
 		addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -48,7 +48,7 @@ public class Window extends JFrame {
 		addMouseListener(gui);
 		addMouseMotionListener(gui);
 		addKeyListener(presenter); // een controller toevoegen
-		setMenuBar(new MenuController(this, presentation, controlService));	// nog een controller toevoegen
+		setMenuBar(new MenuController(this, controlService));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
 		setVisible(true);
 	}

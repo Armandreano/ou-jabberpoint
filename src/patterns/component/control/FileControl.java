@@ -32,16 +32,16 @@ public class FileControl extends ControlComponent {
 		try {
 			// Create the presentation
 			
-			Presentation oldPresentation = getControlService().getPresentation();
-			
-			if(oldPresentation != null) {
-				oldPresentation.clear();
-			}
+//			Presentation oldPresentation = getControlService().getPresentation();
+//			
+//			if(oldPresentation != null) {
+//				oldPresentation.clear();
+//			}
 			
 			Presentation presentation =  factory.createPresentation(fileData.getLocation());
 			
 			// Set presentation with the new presentation
-			getControlService().setPresentation(presentation);
+//			getControlService().setPresentation(presentation);
 			presentation.setSlideNumber(0);
 			
 		} catch (Exception e) {

@@ -12,7 +12,7 @@ import presentation.Surface;
  * @version 1.2 2022/11/02 Removed debug spam @Armando Gerard
 */
 public class ControlService extends Composite {
-	Presentation presentation;
+//	Presentation presentation;
 	
 	public void receiveCommand(Command command) {
 		for (Iterator<?> iterator = children.iterator(); iterator.hasNext();) {
@@ -23,11 +23,11 @@ public class ControlService extends Composite {
 	}
 	
 	public Presentation getPresentation() {
-		return presentation;
+		return Presentation.getPresentation();
 	}
 	
-	public void setPresentation(Presentation presentation) {
-		Surface.setPresentation(presentation);
-		this.presentation = presentation;
-	}
+//	public void setPresentation(Presentation presentation) {
+//		Surface.setPresentation(presentation);
+//		this.presentation = presentation;
+//	}
 }

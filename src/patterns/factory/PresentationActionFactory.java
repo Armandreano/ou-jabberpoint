@@ -1,6 +1,11 @@
 package patterns.factory;
 
+import java.awt.Desktop;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -103,8 +108,28 @@ public class PresentationActionFactory extends PresentationFactory {
 			});
 			break;
 		}
+		case "link": {
+			clickableContent.attachObserver(() -> {
+					openWebPage(value);
+			});
+			break;
+		}
 		default:
 			return;
+		}
+	}
+	
+	public void openWebPage(String url) {
+		Desktop desktop = Desktop.getDesktop();
+		
+		if(desktop == null)
+			return;
+		
+		try {
+			desktop.browse(new URL(url).toURI());
+		} catch (IOException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

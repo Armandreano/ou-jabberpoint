@@ -18,13 +18,21 @@ import patterns.component.SlideshowComposite;
 
 public class Presentation {
 	private String showTitle; // de titel van de presentatie
-//	private Surface slideViewComponent = null; // de viewcomponent voor de Slides
 	private SlideshowComposite slideshowComposite;
 	
-//	public Presentation(Surface slideViewerComponent) {
-//		this.slideViewComponent = slideViewerComponent;
-//		clear();
-//	}
+	private static Presentation presentation;
+	private boolean isLocked = true;
+	
+	public Presentation() {
+		if(presentation != null)
+			presentation.clear(true);
+		
+		presentation = this;
+	}
+	
+	public static Presentation getPresentation() {
+		return presentation;
+	}
 	
 	public void setSlideshowComposite(SlideshowComposite slideshowComposite) {
 		this.slideshowComposite = slideshowComposite;
@@ -38,25 +46,22 @@ public class Presentation {
 		showTitle = nt;
 	}
 
-//	public void setShowView(Surface slideViewerComponent) {
-//		this.slideViewComponent = slideViewerComponent;
-//	}
-	
 	public SlideshowComposite getSlideshowComposite() {
 		return this.slideshowComposite;
 	}
 	
 	public void setSlideNumber(int number) {
+		this.slideshowComposite.setActive(true);
 		this.slideshowComposite.setSlideNumber(number);
 	}
 
 	// Verwijder de presentatie, om klaar te zijn voor de volgende
-	public void clear() {
+	public void clear(boolean locked) {
 		if(slideshowComposite != null) {
+			isLocked = locked;
+			slideshowComposite.setActive(!isLocked);
 			slideshowComposite.removeAll();
 		}
-		//showList = new ArrayList<SlideComposite>();
-		//setSlideNumber(-1);
 	}
 
 	public void exit(int n) {
