@@ -98,7 +98,7 @@ public class PresentationActionFactory extends PresentationFactory {
 		case "goto": {
 			clickableContent.attachObserver(() -> {
 				try {
-					presentation.setSlideNumber(Integer.valueOf(value));
+					presentation.setSlideNumber(Integer.valueOf(value) - 1);
 				} catch (Exception e) {
 					// TODO: handle exception
 				}

@@ -12,6 +12,8 @@
 		<item kind="text" indent="0" leading="40" value="Open a new presentation (with a link on the second slide)">
 			<action name="open" value="showcase.xml"></action>
 		</item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Press the Up and Down arrow to navigate to the next and previous slides"></item>
+		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Press Q to close the presentation"></item>
 	</slide>
 	<slide strategy="linear">
 		<item kind="text"  color="blue" fontname="Helvetica" fontsize="40" indent="0" leading="40" value="Open een nieuwe presentatie">
