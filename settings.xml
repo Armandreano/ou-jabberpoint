@@ -15,8 +15,7 @@
 		<controlservice>patterns.component.control.MouseControl</controlservice>
 		<controlservice>patterns.component.control.PresentationControl</controlservice>
 	</controlservices>
-	<gui>presentation.GUI</gui>
-	<presenter>presentation.Presenter</presenter>
+	<presenter>presentation.MousePresenter</presenter>
 	<startcommands>
 		<command type="patterns.command.Change" 
 			data="patterns.command.wrappers.FileData" constructor1="test.xml" constructor1type="java.lang.String" constructor2="" constructor2type="java.lang.String" ></command>

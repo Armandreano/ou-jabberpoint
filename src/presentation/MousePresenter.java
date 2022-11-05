@@ -23,23 +23,19 @@ import patterns.observer.Subject;
  * @version 1.1 2022/10/02 Added MouseMotionListener @Armando Gerard
 */
 
-public class GUI implements MouseListener, MouseMotionListener{
+public class MousePresenter extends Presenter implements MouseListener, MouseMotionListener{
 	private Map<Integer, Subject> keyMap;
-	private static GUI gui;
 	Select currentSelect;
-	ControlService controlService;
 	ClickData clickData;
 	
-	public GUI(ControlService controlService) {
-		this.controlService = controlService;
-		
+	public MousePresenter() {
 		keyMap = new HashMap<Integer, Subject>();
-		gui = this;
-
-		// Depending on the context, either GUI or Presenter will apply the setting first
-		// TODO: Move to Settings
-
-		setupDefaultMouseControl();
+	}
+	
+	@Override
+	public void initialize(ControlService controlService) {
+		super.initialize(controlService);
+		Window.setupMouse(this, this);
 	}
 	
 	private void Click() {
@@ -48,7 +44,10 @@ public class GUI implements MouseListener, MouseMotionListener{
 		controlService.receiveCommand(select);
 	}
 	
-	private void setupDefaultMouseControl() {
+	@Override
+	public void defaultControlSetup() {
+		super.defaultControlSetup();
+		
 		registerMouseKey(MouseEvent.BUTTON1, null);
 		
 		bindMouseKey(MouseEvent.BUTTON1, ()->{ Click(); });
@@ -70,10 +69,6 @@ public class GUI implements MouseListener, MouseMotionListener{
 		if(subject != null)
 			subject.attach(observer);
 	}
-	
-	public static GUI getGui() {
-		return gui;
-	};
 	
 	public void mouseAction(int button) {
 		Subject subject = keyMap.get(button);

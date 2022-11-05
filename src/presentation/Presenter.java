@@ -49,11 +49,10 @@ public class Presenter extends KeyAdapter {
 	private Observer previousSlideObserver;
 	
 	private Observer quitPresentationObserver;
-	
-	public Presenter(ControlService controlService) {
+	ControlService controlService;
+
+	public Presenter() {
 		keyMap = new HashMap<Integer, Subject>();
-		
-		// Depending on the context, either GUI or Presenter will apply the setting first
 		
 		ChangeCommandFactory changeCommandFactory = CommandFactory.getFactory(ChangeCommandFactory.class);
 		nextSlide = (Change)changeCommandFactory.createCommand(new SlideChangeData(1));
@@ -61,17 +60,17 @@ public class Presenter extends KeyAdapter {
 		
 		AbortCommandFactory abortCommandFactory = CommandFactory.getFactory(AbortCommandFactory.class);
 		quitPresentation = (Abort)abortCommandFactory.createCommand(new QuitCommandData(true));
-		
+	}
+	
+	public void initialize(ControlService controlService) {
+		this.controlService = controlService;
+		 
 		nextSlideObserver =()->{ controlService.receiveCommand(nextSlide); };
 		previousSlideObserver =()->{ controlService.receiveCommand(previousSlide); };
 		quitPresentationObserver = ()->{ controlService.receiveCommand(quitPresentation); };
-		
+
 		defaultControlSetup();
 		System.out.println("Set up default controls");
-	}
-	
-	protected void finalize() {
-		System.out.println("Destructing");
 	}
 	
 	

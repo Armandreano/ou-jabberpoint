@@ -1,6 +1,8 @@
 package presentation;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowAdapter;
 import javax.swing.JFrame;
 import javax.swing.plaf.metal.MetalIconFactory.TreeControlIcon;
@@ -23,21 +25,22 @@ import patterns.component.ControlService;
 //WindowFrame
 public class Window extends JFrame {
 	private static final long serialVersionUID = 3227L;
+	private static Window window;
 	
 	private static final String JABTITLE = "Jabberpoint 1.6 - OU";
 	public final static int WIDTH = 1200;
 	public final static int HEIGHT = 800;
 	
-	public Window(String title, GUI gui, Presenter presenter, ControlService controlService) {
+	public Window(String title, Presenter presenter, ControlService controlService) {
 		super(title);
 		Surface surface = new Surface(this);
-//		presentation.setShowView(surface);
-		setupWindow(surface, gui, presenter, controlService);
+		setupWindow(surface, presenter, controlService);
+		
+		window = this;
 	}
 
 // De GUI opzetten
-	public void setupWindow(Surface 
-			surface, GUI gui, Presenter presenter, ControlService controlService) {
+	public void setupWindow(Surface surface, Presenter presenter, ControlService controlService) {
 		setTitle(JABTITLE);
 		addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -45,11 +48,15 @@ public class Window extends JFrame {
 				}
 			});
 		getContentPane().add(surface);
-		addMouseListener(gui);
-		addMouseMotionListener(gui);
+
 		addKeyListener(presenter); // een controller toevoegen
 		setMenuBar(new MenuController(this, controlService));	// nog een controller toevoegen
 		setSize(new Dimension(WIDTH, HEIGHT)); // Dezelfde maten als Slide hanteert.
 		setVisible(true);
+	}
+	
+	public static void setupMouse(MouseListener mouseListener, MouseMotionListener mouseMotionListener) {
+		window.addMouseListener(mouseListener);
+		window.addMouseMotionListener(mouseMotionListener);
 	}
 }

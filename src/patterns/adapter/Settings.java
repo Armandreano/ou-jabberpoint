@@ -16,7 +16,6 @@ import patterns.component.ControlService;
 import patterns.factory.CommandFactory;
 import patterns.factory.PresentationFactory;
 import patterns.adapter.FileAdapter;
-import presentation.GUI;
 import presentation.Presentation;
 import presentation.Presenter;
 import presentation.Window;
@@ -66,21 +65,18 @@ public class Settings {
 			ControlService controlService = (ControlService)controlServiceClass.getConstructor().newInstance();
 			createControlComponents(element.getElementsByTagName("controlservice"), controlService, presentationFactory, fileAdapters);
 			
-			NodeList guiList = element.getElementsByTagName("gui");
-			String guiString = guiList.item(0).getTextContent();
 			NodeList presenterList = element.getElementsByTagName("presenter");
 			String presenterString = presenterList.item(0).getTextContent();
 			
-			Class<?> guieClass = Class.forName(guiString);
-			GUI gui = (GUI)guieClass.getConstructor(ControlService.class).newInstance(controlService);
-			
 			Class<?> presenterClass = Class.forName(presenterString);
-			Presenter presenter = (Presenter)presenterClass.getConstructor(ControlService.class).newInstance(controlService);
+			Presenter presenter = (Presenter)presenterClass.getConstructor().newInstance();
 			
 			sendCommands(element.getElementsByTagName("command"), controlService);
 			
 			Presentation presentation = controlService.getPresentation();
-			new Window(JABVERSION, gui, presenter, controlService);
+			new Window(JABVERSION, presenter, controlService);
+			
+			presenter.initialize(controlService);
 			presentation.setSlideNumber(0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
