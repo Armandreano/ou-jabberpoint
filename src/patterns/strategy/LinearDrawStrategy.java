@@ -56,11 +56,11 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
 
 			if (!leaf.getClass().equals(ClickableContent.class)) {
 				if (leaf.getClass().equals(TextContent.class)) {
-					TextContent test = (TextContent) leaf;
-					if (test.getText() == null || test.getText().length() == 0) {
+					TextContent text = (TextContent) leaf;
+					if (text.getText() == null || text.getText().length() == 0) {
 						return;
 					}
-					List<TextLayout> layouts = test.getLayouts(graphics, leaf.getStyle(), scale);
+					List<TextLayout> layouts = text.getLayouts(graphics, leaf.getStyle(), scale);
 					Point pen = new Point(x + (int) (leaf.getIndent() * scale),
 							y + (int) (leaf.getStyle().getLeading() * scale));
 					Graphics2D g2d = (Graphics2D) graphics;
@@ -72,7 +72,7 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
 						pen.y += layout.getAscent();
 						layout.draw(g2d, pen.x, pen.y);
 						pen.y += layout.getDescent();
-						test.setCoordinates(pen.x, pen.y);
+						text.setCoordinates(pen.x, pen.y);
 					}
 				} else {
 					ImageContent imageContent = (ImageContent) leaf;
@@ -85,16 +85,7 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
 				}
 				y += leaf.calculateExtent(graphics, surface, scale, leaf.getStyle()).height;
 
-			} /*
-				 * else { ClickableContent content = (ClickableContent)leaf; Graphics2D g2d =
-				 * (Graphics2D) graphics; //double thickness = 2; //Stroke oldStroke =
-				 * g2d.getStroke(); //BasicStroke stroke = new BasicStroke(); Rectangle extent =
-				 * content.getContent().getExtent(); //stroke.createStrokedShape(extent);
-				 * //g2d.setStroke(stroke); g2d.drawRect((extent.x +
-				 * content.getContent().getX()), (extent.y + content.getContent().getY()),
-				 * (int)extent.getWidth(), (int)extent.getHeight()); //g2d.setStroke(oldStroke);
-				 * }
-				 */
+			} 
 		}
 	}
 
