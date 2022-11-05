@@ -38,7 +38,6 @@ public class SlideControl extends ControlComponent {
 				// Switch to the new slide
 				// TODO: Implement
 				presentation.setSlideNumber(slideNumber);
-//				System.out.println(String.format("Switching to slide %d", currentSlide));
 				return;
 			}
 			else {
@@ -50,20 +49,16 @@ public class SlideControl extends ControlComponent {
 				{
 					// Switch to previous slide
 					presentation.setSlideNumber(slideNumber);
-//					System.out.println(String.format("Switching to the previous slide (%d)", slideNumber));
 					return;
 				}
 				else if(newSlide == 1 && slideNumber == currentSlide + 1) {
 					// Switch to the next slide
 					presentation.setSlideNumber(slideNumber);
-//					System.out.println(String.format("Switching to the next slide (%d)", slideNumber));
 					return;
 				}
 			}
 			
 			slideNumber++;
 		}
-		
-//		System.err.println(String.format("Attempted to switch to non-existing slide: number %d out of  %d", newSlide, currentSlide));
 	}
 }

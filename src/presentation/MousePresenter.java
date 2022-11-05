@@ -79,7 +79,6 @@ public class MousePresenter extends Presenter implements MouseListener, MouseMot
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(String.format("Clicked at X: %d, Y: %d", e.getX(), e.getY()));
 		clickData = new ClickData(e.getX(), e.getY());
 		mouseAction(e.getButton());
 	}

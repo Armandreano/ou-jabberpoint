@@ -1,12 +1,18 @@
 package patterns.strategy;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.font.TextLayout;
+import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import patterns.component.Composite;
 import patterns.component.ContentLeaf;
@@ -78,10 +84,26 @@ public class LinearDrawStrategy extends Strategy implements Drawable {
 					ImageContent imageContent = (ImageContent) leaf;
 					int width = x + (int) (imageContent.getIndent() * scale);
 					int height = y + (int) (imageContent.getStyle().getLeading() * scale);
-					graphics.drawImage(imageContent.getBufferedImage(), width, height,
-							(int) (imageContent.getBufferedImage().getWidth(surface) * scale),
-							(int) (imageContent.getBufferedImage().getHeight(surface) * scale), surface);
+					
+					BufferedImage image = imageContent.getBufferedImage();
+							
+					if(imageContent.hasBorder()) {
+						Graphics2D g = (Graphics2D)graphics;
+						// There is a definite problem with keeping track of position
+						// Perhaps this existed in the old app too?
+						// Should call stroke thickness
+						g.setStroke(new BasicStroke(3));
+						g.setColor(Color.BLUE);
+						g.drawRect(x, y, 
+								image.getWidth(surface) - 2, 
+								image.getHeight(surface) - 2);
+					}
+					
+					graphics.drawImage(image, width, height,
+							(int) (image.getWidth(surface) * scale),
+							(int) (image.getHeight(surface) * scale), surface);
 					imageContent.setCoordinates(width, height);
+					
 				}
 				y += leaf.calculateExtent(graphics, surface, scale, leaf.getStyle()).height;
 

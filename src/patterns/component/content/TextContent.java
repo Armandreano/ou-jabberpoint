@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.accessibility.AccessibleState;
+
 import patterns.component.ContentLeaf;
 import patterns.component.Style;
 import patterns.component.TextStyle;
@@ -26,6 +28,7 @@ import patterns.component.TextStyle;
  */
 public class TextContent extends ContentLeaf {
 	private String text;
+	private boolean underlined;
 	
 	public TextContent(String text, Style style, int indent) {
 		this.text = text;
@@ -35,6 +38,10 @@ public class TextContent extends ContentLeaf {
 	
 	public String getText() {
 		return this.text;
+	}
+	
+	public void setUnderlined(boolean underlined) {
+		this.underlined = underlined;
 	}
 
 	@Override
@@ -86,6 +93,9 @@ public class TextContent extends ContentLeaf {
 	private AttributedString getAttributedString(float scale) {
 		AttributedString attrStr = new AttributedString(getText());
 		attrStr.addAttribute(TextAttribute.FONT, ((TextStyle) super.getStyle()).getFont(scale), 0, text.length());
+		
+		if(underlined)
+			attrStr.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		return attrStr;
 	}
 

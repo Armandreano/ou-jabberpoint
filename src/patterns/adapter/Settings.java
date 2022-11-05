@@ -212,7 +212,6 @@ public class Settings {
 					Command command = (Command)commandClass.getConstructor(CommandData.class).newInstance(data);
 					
 					controlService.receiveCommand(command);
-					System.out.println(command);
 					
 					break;
 				} // Can continue with constructor 3, 4 etc. not necessary for assignment

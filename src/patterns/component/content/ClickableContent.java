@@ -16,6 +16,15 @@ public class ClickableContent extends ContentLeaf {
 	public ClickableContent(ContentLeaf component) {
 		this.subject = Subject.createSubject();
 		this.content = component;
+		
+		if(TextContent.class.isAssignableFrom(component.getClass())) {
+			TextContent textContent = (TextContent)component;
+			textContent.setUnderlined(true);
+		} 
+		else if (ImageContent.class.isAssignableFrom(component.getClass())) {
+			ImageContent imageContent = (ImageContent) component;
+			imageContent.setBorder(true);
+		}
 	}
 	
 	public void attachObserver(Observer o) {
@@ -66,7 +75,6 @@ public class ClickableContent extends ContentLeaf {
 		contentRectangleCopy.setLocation((content.getExtent().x + content.getX()), (content.getExtent().y + content.getY()));
 
 		if(contentRectangleCopy.contains(x, y)) {
-			System.out.println("Wordt geklikt");
 			subject.notification();
 		}
 	}

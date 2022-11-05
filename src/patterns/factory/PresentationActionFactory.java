@@ -87,7 +87,6 @@ public class PresentationActionFactory extends PresentationFactory {
 				try {
 					Presentation newPresentation = createPresentation(value);
 					Surface.setPresentation(newPresentation);
-					System.out.println(newPresentation);
 				} catch (Exception e) {
 					// TODO: handle exception
 				}

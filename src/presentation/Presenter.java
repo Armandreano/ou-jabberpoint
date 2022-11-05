@@ -70,7 +70,6 @@ public class Presenter extends KeyAdapter {
 		quitPresentationObserver = ()->{ controlService.receiveCommand(quitPresentation); };
 
 		defaultControlSetup();
-		System.out.println("Set up default controls");
 	}
 	
 	
@@ -121,11 +120,9 @@ public class Presenter extends KeyAdapter {
 	public void keyPressed(KeyEvent keyEvent) {
 		
 		Subject subject = keyMap.get(keyEvent.getKeyCode());
-		System.out.println("Key pressed");
 		if(subject == null)
 			return;
 		
-		System.out.println("Notify presenter");
 		subject.notification();
 	}
 }

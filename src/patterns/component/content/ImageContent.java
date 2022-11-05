@@ -1,4 +1,5 @@
 package patterns.component.content;
+
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -13,38 +14,47 @@ import patterns.component.TextStyle;
 
 /**
  * 
- * @author ajainandunsing
- * The ImageContent class which contains images shown on a slide.
+ * @author ajainandunsing The ImageContent class which contains images shown on
+ *         a slide.
  *
  */
 public class ImageContent extends ContentLeaf {
-	  private BufferedImage bufferedImage;
-	  private String imageName;
-	  
-	  protected static final String FILE = "Bestand ";
-	  protected static final String NOTFOUND = " niet gevonden";
+	private BufferedImage bufferedImage;
+	private String imageName;
+
+	protected static final String FILE = "Bestand ";
+	protected static final String NOTFOUND = " niet gevonden";
 	
-	public ImageContent(String imageName , TextStyle style, int indent) {
+	private boolean hasBorder;
+
+	public ImageContent(String imageName, TextStyle style, int indent) {
 		try {
 			bufferedImage = ImageIO.read(new File(imageName));
-		}
-		catch (IOException e) {
-			System.err.println(FILE + imageName + NOTFOUND) ;
+		} catch (IOException e) {
+			System.err.println(FILE + imageName + NOTFOUND);
 		}
 		super.setStyle(style);
 		super.setIndent(indent);
 	}
-	
-	public BufferedImage getBufferedImage( ) {
+
+	public BufferedImage getBufferedImage() {
 		return this.bufferedImage;
 	}
-	
+
 	public String getImageName() {
 		return imageName;
 	}
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+	
+	public void setBorder(boolean hasBorder) {
+		this.hasBorder = hasBorder;
+	}
+	
+	public boolean hasBorder() {
+		return hasBorder;
 	}
 
 	@Override
@@ -55,15 +65,14 @@ public class ImageContent extends ContentLeaf {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public Rectangle calculateExtent(Graphics g, ImageObserver observer, float scale, Style myStyle) {
 		this.extent = new Rectangle((int) (this.getIndent() * scale), 0,
 				(int) (bufferedImage.getWidth(observer) * scale),
-				((int) (myStyle.getLeading() * scale)) + 
-				(int) (bufferedImage.getHeight(observer) * scale));
+				((int) (myStyle.getLeading() * scale)) + (int) (bufferedImage.getHeight(observer) * scale));
 		return extent;
 	}
 
